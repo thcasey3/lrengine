@@ -4,8 +4,6 @@ lrdata class
 
 import os
 import types
-from lrengine import intake
-
 
 class lrdata:
     """
@@ -88,11 +86,9 @@ class lrdata:
 
     def checks_passed(self):
 
-        intake.injectors(
-            {
+        return {
                 "directory": self.directory,
                 "patterns": self.patterns,
                 "skip": self.skip,
                 "function": self.function,
-            }
-        )
+               }
