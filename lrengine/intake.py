@@ -1,17 +1,10 @@
 """
 class for sending the lrdata object attriburtes to sparks
 """
+from . import tools
 
-import pandas as pd
-from . import sparks
 
 class injectors:
-    
     def __init__(self, input_dict):
-        
-        self.df = pd.DataFrame(input_dict)
 
-        sparks(self.df)
-
-
-
+        tools.tools(input_dict)

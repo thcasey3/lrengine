@@ -3,9 +3,10 @@ lrdata class
 """
 
 import os
-import types
+from . import intake
 
-class lrdata:
+
+class turn:
     """
     lrdata Class
 
@@ -22,7 +23,7 @@ class lrdata:
         self.directory = directory
         self.patterns = patterns
         self.skip = skip
-        self.function = function
+        self.function = function  # "." + os.sep + "toolbox" + os.sep + function + ".py"
 
         self.check_directory(self.directory)
 
@@ -42,53 +43,78 @@ class lrdata:
         ):
             raise TypeError("the directory must contain at least two files or folders")
 
+        print("Directory: " + directory)
+
         self.check_patterns(self.patterns)
 
     def check_patterns(self, patterns):
 
-        if not isinstance(patterns, list):
+        if not isinstance(patterns, list) and not isinstance(patterns, str):
             raise TypeError("patterns must be a list of strings")
 
-        for indx, items in enumerate(patterns):
-            if not isinstance(items, str):
-                raise TypeError(
-                    "all items in the patterns list must be strings, item ["
-                    + str(indx)
-                    + "] is not class 'str'"
-                )
+        if isinstance(patterns, list):
+            for indx, items in enumerate(patterns):
+                if not isinstance(items, str):
+                    raise TypeError(
+                        "all items in the patterns list must be strings, item ["
+                        + str(indx)
+                        + "] is not class 'str'"
+                    )
+
+        print("Patterns: " + patterns)
 
         self.check_skip(self.skip)
 
     def check_skip(self, skip):
 
-        if not isinstance(skip, list) and (skip is not None):
+        if (
+            not isinstance(skip, list)
+            and not isinstance(skip, str)
+            and (skip is not None)
+        ):
             raise TypeError("skip must be a list or None")
 
         if isinstance(skip, list):
-            for indx, items in enumerate(skip):
-                if not isinstance(items, str):
-                    raise TypeError(
-                        "all items in the skip list must be strings, item ["
-                        + str(indx)
-                        + "] is not class 'str'"
-                    )
+            if isinstance(skip, list):
+                for indx, items in enumerate(skip):
+                    if not isinstance(items, str):
+                        raise TypeError(
+                            "all items in the skip list must be strings, item ["
+                            + str(indx)
+                            + "] is not class 'str'"
+                        )
 
-        self.check_func(self.function)
+        if skip is None:
+            print("Skipping: None")
+        else:
+            print("Skipping: " + skip)
+
+        self.check_function(self.function)
 
     def check_function(self, function):
 
-        if not isinstance(function, types.FunctionType):
-            raise TypeError("this is not a function")
-        if function is None:
-            raise NameError("you must supply a function that returns a qualifier")
+        if not isinstance(function, str):
+            raise TypeError("the name of the script must be a string")
+
+        if not os.path.exists(function):
+            raise ValueError("this file does not exist")
+
+        if not os.path.isfile(function):
+            raise TypeError("this is not a file")
+
+        print("Function: " + function)
 
         self.checks_passed()
 
     def checks_passed(self):
 
-        return {
-                "directory": self.directory,
-                "patterns": self.patterns,
-                "skip": self.skip,
-                "function": self.function,
-               }
+        lrdata = {
+            "directory": self.directory,
+            "patterns": self.patterns,
+            "skip": self.skip,
+            "function": self.function,
+        }
+
+        intake.injectors(lrdata)
+
+        return lrdata
