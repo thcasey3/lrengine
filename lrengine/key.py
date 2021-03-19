@@ -3,6 +3,7 @@ lrdata class
 """
 
 import os
+import pandas as pd
 from . import intake
 
 
@@ -18,14 +19,33 @@ class turn:
 
     """
 
-    def __init__(self, directory, patterns, skip=None, function=None):
+    def __init__(self, directory=[], patterns=[], skip=None, function=None):
 
         self.directory = directory
         self.patterns = patterns
         self.skip = skip
-        self.function = function  # "." + os.sep + "toolbox" + os.sep + function + ".py"
+        self.function = function
+        self.data_frame = pd.DataFrame({})
 
         self.check_directory(self.directory)
+        self.check_patterns(self.patterns)
+        self.check_skip(self.skip)
+        # self.check_function(self.function)
+
+        self.checks_passed()
+
+    def checks_passed(self):
+
+        lrdata = {
+            "directory": self.directory,
+            "patterns": self.patterns,
+            "skip": self.skip,
+            "function": self.function,
+        }
+
+        intake.injectors(lrdata)
+
+        return lrdata
 
     def check_directory(self, directory):
 
@@ -45,12 +65,14 @@ class turn:
 
         print("Directory: " + directory)
 
-        self.check_patterns(self.patterns)
-
     def check_patterns(self, patterns):
 
-        if not isinstance(patterns, list) and not isinstance(patterns, str):
-            raise TypeError("patterns must be a list of strings")
+        if (
+            not isinstance(patterns, list)
+            and not isinstance(patterns, str)
+            and patterns is not None
+        ):
+            raise TypeError("patterns must be a list of strings, or None")
 
         if isinstance(patterns, list):
             for indx, items in enumerate(patterns):
@@ -62,8 +84,6 @@ class turn:
                     )
 
         print("Patterns: " + patterns)
-
-        self.check_skip(self.skip)
 
     def check_skip(self, skip):
 
@@ -89,8 +109,6 @@ class turn:
         else:
             print("Skipping: " + skip)
 
-        self.check_function(self.function)
-
     def check_function(self, function):
 
         if not isinstance(function, str):
@@ -103,18 +121,3 @@ class turn:
             raise TypeError("this is not a file")
 
         print("Function: " + function)
-
-        self.checks_passed()
-
-    def checks_passed(self):
-
-        lrdata = {
-            "directory": self.directory,
-            "patterns": self.patterns,
-            "skip": self.skip,
-            "function": self.function,
-        }
-
-        intake.injectors(lrdata)
-
-        return lrdata
