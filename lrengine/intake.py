@@ -1,65 +1,83 @@
 """
 class for sending the lrdata object attriburtes to sparks
 """
+
 from . import tools
-import os
-import time
+import datetime
+import dateutil
 import re
-import pandas as pd
 import numpy as np
 
 
 class injectors:
     def __init__(self, input_dict):
 
-        self.dir_index = os.listdir(input_dict["directory"])
-
-        input_dict["data_frame"] = pd.DataFrame({"Name": self.dir_index})
-
-        # self.look_for_times(input_dict)
+        input_dict = self.look_for_dates(input_dict)
         input_dict = self.look_for_patterns(input_dict)
 
-        tools.tools(input_dict)
+        tools_obj = tools.tools(input_dict)
 
-    def look_for_times(self, input_dict):
+        input_dict["frame"][tools_obj.col_name] = tools_obj.measure
 
-        print(time.time())
+    def look_for_dates(self, input_dict):
 
-    @staticmethod
-    def sum_the_dates(possible_date):
-        return (
-            int(possible_date[0:4]) + int(possible_date[4:6]) + int(possible_date[6:8])
-        )
+        date = list(np.zeros(len(input_dict["frame"])))
+        date_delta = list(np.zeros(len(input_dict["frame"])))
 
-    def look_for_patterns(self, input_dict):
-
-        dirs = os.listdir(input_dict["directory"])
-
-        date = list(np.zeros(len(input_dict["data_frame"])))
-        date_sum = list(np.zeros(len(input_dict["data_frame"])))
-
-        for indx, dir in enumerate(dirs):
-            sub_pat1 = re.sub("[^a-zA-Z0-9 \n\.]", "", dir)
-            sub_pat2 = re.split("[a-zA-Z]+", sub_pat1)
-            if len(sub_pat2) > 1:
-                for _, possible_date in enumerate(sub_pat2):
+        for indx, dir in enumerate(input_dict["frame"]["Names"]):
+            sub_patterns = re.split("[^a-zA-Z0-9 \n\.]", dir)
+            if len(sub_patterns) > 1:
+                for possible_date in sub_patterns:
                     if len(possible_date) == 8:
-                        date[indx] = possible_date
-                        date_sum[indx] = self.sum_the_dates(possible_date)
-            elif isinstance(sub_pat2, str) and len(sub_pat2) == 8:
-                date[indx] = sub_pat2
-                date_sum[indx] = self.sum_the_dates(sub_pat2)
-            elif isinstance(sub_pat2, list) and len(sub_pat2) == 1:
-                if isinstance(sub_pat2[0], str) and len(sub_pat2[0]) == 8:
-                    date[indx] = sub_pat2[0]
-                    date_sum[indx] = self.sum_the_dates(sub_pat2[0])
+                        try:
+                            date[indx] = dateutil.parser.isoparse(possible_date)
+                            date_delta[indx] = self.sum_the_dates(date[indx])
+                        except ValueError:
+                            continue
+            elif isinstance(sub_patterns, str) and len(sub_patterns) == 8:
+                try:
+                    date[indx] = dateutil.parser.isoparse(sub_patterns)
+                    date_delta[indx] = self.sum_the_dates(date[indx])
+                except ValueError:
+                    continue
+            elif isinstance(sub_patterns, list) and len(sub_patterns) == 1:
+                if isinstance(sub_patterns[0], str) and len(sub_patterns[0]) == 8:
+                    try:
+                        date[indx] = dateutil.parser.isoparse(sub_patterns[0])
+                        date_delta[indx] = self.sum_the_dates(date[indx])
+                    except ValueError:
+                        continue
             else:
                 print("NOTHING")
 
-        if date and len(date) == len(input_dict["data_frame"]):
-            input_dict["data_frame"]["date"] = date
+        input_dict["frame"]["date"] = date
+        input_dict["frame"]["date_delta"] = date_delta
 
-        if date_sum and len(date_sum) == len(input_dict["data_frame"]):
-            input_dict["data_frame"]["date_sum"] = date_sum
+        return input_dict
+
+    @staticmethod
+    def sum_the_dates(possible_date):
+        delta = datetime.date(
+            possible_date.year, possible_date.month, possible_date.day
+        ) - datetime.date(1900, 1, 1)
+        return int(delta.days)
+
+    def look_for_patterns(self, input_dict):
+
+        temp_dict = {}
+        for indx in input_dict["patterns"]:
+            temp_dict[indx] = []
+
+        for _, dir in enumerate(input_dict["frame"]["Names"]):
+            for _, patt in enumerate(temp_dict.keys()):
+                if patt in dir:
+                    temp_dict[patt].append(1)
+                else:
+                    temp_dict[patt].append(0)
+
+        for _, cols in enumerate(input_dict["frame"].columns):
+            for _, keys in enumerate(temp_dict.keys()):
+                if keys == cols:
+                    input_dict["frame"][cols] = temp_dict[keys]
 
         return input_dict

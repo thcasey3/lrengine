@@ -4,10 +4,11 @@ lrdata class
 
 import os
 import pandas as pd
+import numpy as np
 from . import intake
 
 
-class turn:
+class start:
     """
     lrdata Class
 
@@ -25,22 +26,30 @@ class turn:
         self.patterns = patterns
         self.skip = skip
         self.function = function
-        self.data_frame = pd.DataFrame({})
+        self.frame = pd.DataFrame({})
 
         self.check_directory(self.directory)
         self.check_patterns(self.patterns)
         self.check_skip(self.skip)
-        # self.check_function(self.function)
+        self.check_function(self.function)
 
         self.checks_passed()
 
     def checks_passed(self):
+
+        directs = os.listdir(self.directory)
+        df = {"Names": directs}
+        for indx in self.patterns:
+            df[indx] = np.zeros(len(directs))
+
+        self.frame = pd.DataFrame(df)
 
         lrdata = {
             "directory": self.directory,
             "patterns": self.patterns,
             "skip": self.skip,
             "function": self.function,
+            "frame": self.frame,
         }
 
         intake.injectors(lrdata)
@@ -63,8 +72,6 @@ class turn:
         ):
             raise TypeError("the directory must contain at least two files or folders")
 
-        print("Directory: " + directory)
-
     def check_patterns(self, patterns):
 
         if (
@@ -82,8 +89,6 @@ class turn:
                         + str(indx)
                         + "] is not class 'str'"
                     )
-
-        print("Patterns: " + patterns)
 
     def check_skip(self, skip):
 
@@ -104,11 +109,6 @@ class turn:
                             + "] is not class 'str'"
                         )
 
-        if skip is None:
-            print("Skipping: None")
-        else:
-            print("Skipping: " + skip)
-
     def check_function(self, function):
 
         if not isinstance(function, str):
@@ -119,5 +119,3 @@ class turn:
 
         if not os.path.isfile(function):
             raise TypeError("this is not a file")
-
-        print("Function: " + function)
