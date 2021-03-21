@@ -1,5 +1,5 @@
 """
-class for real-time monitoring progress
+class for real-time monitoring
 """
 
 import os

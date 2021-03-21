@@ -1,8 +1,8 @@
 """
-class for sending the lrdata object attriburtes to sparks
+class for checking and sending the data object to engine
 """
 
-from . import tools
+from . import engine
 import datetime
 import dateutil
 import re
@@ -10,74 +10,82 @@ import numpy as np
 
 
 class injectors:
-    def __init__(self, input_dict):
+    """
+    injectors class
 
-        input_dict = self.look_for_dates(input_dict)
-        input_dict = self.look_for_patterns(input_dict)
+    Attributes:
+        start object (start object): Data object from start class
+    """
 
-        tools_obj = tools.tools(input_dict)
+    def __init__(self, lrdata):
 
-        input_dict["frame"][tools_obj.col_name] = tools_obj.measure
+        lrdata = self.look_for_dates(lrdata)
 
-    def look_for_dates(self, input_dict):
+        if lrdata["patterns"]:
+            lrdata = self.look_for_patterns(lrdata)
 
-        date = list(np.zeros(len(input_dict["frame"])))
-        date_delta = list(np.zeros(len(input_dict["frame"])))
+        engine.cylinders(lrdata)
 
-        for indx, dir in enumerate(input_dict["frame"]["Names"]):
+    def look_for_dates(self, lrdata):
+
+        date = list(np.zeros(len(lrdata["frame"])))
+        date_delta = list(np.zeros(len(lrdata["frame"])))
+
+        for indx, dir in enumerate(lrdata["frame"]["Names"]):
             sub_patterns = re.split("[^a-zA-Z0-9 \n\.]", dir)
             if len(sub_patterns) > 1:
                 for possible_date in sub_patterns:
                     if len(possible_date) == 8:
                         try:
-                            date[indx] = dateutil.parser.isoparse(possible_date)
-                            date_delta[indx] = self.sum_the_dates(date[indx])
+                            date[indx] = dateutil.parser.isoparse(possible_date).date()
+                            date_delta[indx] = self.diff_dates(date[indx])
                         except ValueError:
                             continue
             elif isinstance(sub_patterns, str) and len(sub_patterns) == 8:
                 try:
-                    date[indx] = dateutil.parser.isoparse(sub_patterns)
-                    date_delta[indx] = self.sum_the_dates(date[indx])
+                    date[indx] = dateutil.parser.isoparse(sub_patterns).date()
+                    date_delta[indx] = self.diff_dates(date[indx])
                 except ValueError:
                     continue
             elif isinstance(sub_patterns, list) and len(sub_patterns) == 1:
                 if isinstance(sub_patterns[0], str) and len(sub_patterns[0]) == 8:
                     try:
-                        date[indx] = dateutil.parser.isoparse(sub_patterns[0])
-                        date_delta[indx] = self.sum_the_dates(date[indx])
+                        date[indx] = dateutil.parser.isoparse(sub_patterns[0]).date()
+                        date_delta[indx] = self.diff_dates(date[indx])
                     except ValueError:
                         continue
-            else:
-                print("NOTHING")
 
-        input_dict["frame"]["date"] = date
-        input_dict["frame"]["date_delta"] = date_delta
+        if date:
+            lrdata["frame"]["date"] = date
+            lrdata["frame"]["date_delta"] = date_delta
+        else:
+            print("No dates found in Names")
 
-        return input_dict
+        return lrdata
 
     @staticmethod
-    def sum_the_dates(possible_date):
-        delta = datetime.date(
+    def diff_dates(possible_date):
+        delta = datetime.date.today() - datetime.date(
             possible_date.year, possible_date.month, possible_date.day
-        ) - datetime.date(1900, 1, 1)
+        )
         return int(delta.days)
 
-    def look_for_patterns(self, input_dict):
+    def look_for_patterns(self, lrdata):
 
         temp_dict = {}
-        for indx in input_dict["patterns"]:
+        for indx in lrdata["patterns"]:
             temp_dict[indx] = []
 
-        for _, dir in enumerate(input_dict["frame"]["Names"]):
+        for _, dir in enumerate(lrdata["frame"]["Names"]):
             for _, patt in enumerate(temp_dict.keys()):
                 if patt in dir:
                     temp_dict[patt].append(1)
                 else:
                     temp_dict[patt].append(0)
 
-        for _, cols in enumerate(input_dict["frame"].columns):
+        for _, cols in enumerate(lrdata["frame"].columns):
             for _, keys in enumerate(temp_dict.keys()):
                 if keys == cols:
-                    input_dict["frame"][cols] = temp_dict[keys]
+                    lrdata["frame"][cols] = temp_dict[keys]
 
-        return input_dict
+        return lrdata

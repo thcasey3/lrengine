@@ -1,5 +1,5 @@
 """
-lrdata class
+start class, checks and packages the inputs and sends them to intake
 """
 
 import os
@@ -10,37 +10,69 @@ from . import intake
 
 class start:
     """
-    lrdata Class
+    start class
 
     Attributes:
         directory (str): The path to the parent directory
         patterns (list): List of patterns to recognize in file or folder names
         skip (list): List of patterns used to decide which elements to skip
-        func (function): User-defined function that returns classifier(s)
-
+        measures (list): User-defined classifier(s)
+        function (function): User-defined function that returns classifier values(s)
+        function_args (function-dependent): Arguments to user-defined function
     """
 
-    def __init__(self, directory=[], patterns=[], skip=None, function=None):
+    def __init__(
+        self,
+        directory=[],
+        patterns=[],
+        skip=None,
+        measures=None,
+        function=None,
+        function_args=None,
+    ):
 
         self.directory = directory
+        self.sub_directories = os.listdir(self.directory)
         self.patterns = patterns
         self.skip = skip
+        self.measures = measures
         self.function = function
+        self.function_args = function_args
         self.frame = pd.DataFrame({})
 
-        self.check_directory(self.directory)
+        self.check_directory(self.directory, self.sub_directories)
         self.check_patterns(self.patterns)
         self.check_skip(self.skip)
+        self.check_measures(self.measures)
         self.check_function(self.function)
 
         self.checks_passed()
 
     def checks_passed(self):
 
-        directs = os.listdir(self.directory)
-        df = {"Names": directs}
-        for indx in self.patterns:
-            df[indx] = np.zeros(len(directs))
+        if self.skip is not None:
+            if isinstance(self.sub_directories, list):
+                sub_dir = []
+                for _, subdir in enumerate(self.sub_directories):
+                    if not any(map(subdir.__contains__, self.skip)):
+                        sub_dir.append(subdir)
+                if not self.sub_directories:
+                    raise TypeError(
+                        "Your skip patterns removed all of your sub-directories!"
+                    )
+                else:
+                    self.sub_directories = sub_dir
+
+            elif isinstance(self.sub_directories, str):
+                if any(map(self.sub_directories.__contains__, self.skip)):
+                    raise TypeError("Your skip patterns removed your only directory!")
+            else:
+                raise TypeError("No directories to use")
+
+        df = {"Names": self.sub_directories}
+        if self.patterns:
+            for patts in self.patterns:
+                df[patts] = np.zeros(len(self.sub_directories))
 
         self.frame = pd.DataFrame(df)
 
@@ -48,15 +80,22 @@ class start:
             "directory": self.directory,
             "patterns": self.patterns,
             "skip": self.skip,
+            "measures": self.measures,
             "function": self.function,
+            "function_args": self.function_args,
             "frame": self.frame,
         }
 
         intake.injectors(lrdata)
 
-        return lrdata
+    def sea(self):
+        pass
 
-    def check_directory(self, directory):
+    def sk(self):
+        pass
+
+    @staticmethod
+    def check_directory(directory, sub_directories):
 
         if not isinstance(directory, str):
             raise TypeError("path to directory must be a string")
@@ -67,12 +106,11 @@ class start:
         if not os.path.isdir(directory):
             raise TypeError("this is a file, not a directory")
 
-        if not (len(os.listdir(directory)) > 1) or not isinstance(
-            os.listdir(directory), list
-        ):
+        if not (len(sub_directories) > 1) or not isinstance(sub_directories, list):
             raise TypeError("the directory must contain at least two files or folders")
 
-    def check_patterns(self, patterns):
+    @staticmethod
+    def check_patterns(patterns):
 
         if (
             not isinstance(patterns, list)
@@ -90,7 +128,8 @@ class start:
                         + "] is not class 'str'"
                     )
 
-    def check_skip(self, skip):
+    @staticmethod
+    def check_skip(skip):
 
         if (
             not isinstance(skip, list)
@@ -109,13 +148,28 @@ class start:
                             + "] is not class 'str'"
                         )
 
-    def check_function(self, function):
+    @staticmethod
+    def check_measures(measures):
 
-        if not isinstance(function, str):
-            raise TypeError("the name of the script must be a string")
+        if (
+            not isinstance(measures, list)
+            and not isinstance(measures, str)
+            and (measures is not None)
+        ):
+            raise TypeError("measures must be a list or None")
 
-        if not os.path.exists(function):
-            raise ValueError("this file does not exist")
+        if isinstance(measures, list):
+            if isinstance(measures, list):
+                for indx, items in enumerate(measures):
+                    if not isinstance(items, str):
+                        raise TypeError(
+                            "all items in the measures list must be strings, item ["
+                            + str(indx)
+                            + "] is not class 'str'"
+                        )
 
-        if not os.path.isfile(function):
-            raise TypeError("this is not a file")
+    @staticmethod
+    def check_function(function):
+
+        if not callable(function) and function is not None:
+            raise TypeError("this function is not callable")

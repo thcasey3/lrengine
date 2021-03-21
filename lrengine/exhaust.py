@@ -1,9 +1,8 @@
 """
-class for presenting or exporting the results of
+class for presenting or exporting results
 """
 
 import os
-import seaborn as sns
 
 
 class emissions:
