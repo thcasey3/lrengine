@@ -11,11 +11,11 @@ Thomas Casey
 # Requirements
 
   - Python 3.6 or Later
-  - numpy, scipy, matplotlib, pandas, sklearn, seaborn
+  - dateutils, numpy, scipy, matplotlib, pandas, sklearn, seaborn
 
 To install the required packages, perform:
 ```console
-pip install numpy scipy matplotlib pandas scikit-learn seaborn
+pip install dateutils numpy scipy matplotlib pandas scikit-learn seaborn
 ```
 
 # Installation

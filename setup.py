@@ -23,6 +23,7 @@ setup(
     keywords=["machine learning", "language recognition"],
     python_requires=">=3.6",
     install_requires=[
+        "dateutils>=0.6.12",
         "numpy>=1.20.0",
         "scipy>=1.6.1",
         "matplotlib>=3.3.4",
