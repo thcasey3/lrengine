@@ -17,18 +17,21 @@ class cylinders:
 
     def __init__(self, lrdata):
 
-        if (lrdata["function"] is not None) and (lrdata["measures"] is not None):
-            measures = self.run_function(lrdata)
-            measures = self.check_func_output(lrdata["measures"], measures)
-
-            for indx1, meas_col in enumerate(lrdata["measures"]):
-                lrdata["frame"][meas_col] = np.zeros(len(lrdata["frame"]))
-                for indx2, meas_val in enumerate(measures):
-                    lrdata["frame"].loc[indx2, meas_col] = meas_val[indx1]
+        if isinstance(lrdata["directory"], list):
+            pass
         else:
-            print(
-                "DataFrame will only classify by Names, dates if any exist in the Names, and patterns if any are given"
-            )
+            if (lrdata["function"] is not None) and (lrdata["measures"] is not None):
+                measures = self.run_function(lrdata)
+                measures = self.check_func_output(lrdata["measures"], measures)
+
+                for indx1, meas_col in enumerate(lrdata["measures"]):
+                    lrdata["frame"][meas_col] = np.zeros(len(lrdata["frame"]))
+                    for indx2, meas_val in enumerate(measures):
+                        lrdata["frame"].loc[indx2, meas_col] = meas_val[indx1]
+            else:
+                print(
+                    "DataFrame will only classify by Names, dates if any exist in the Names, and patterns if any are given"
+                )
 
     def run_function(self, lrdata):
 

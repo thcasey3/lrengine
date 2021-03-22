@@ -18,7 +18,7 @@ class start:
         skip (list): List of patterns used to decide which elements to skip
         measures (list): User-defined classifier(s)
         function (function): User-defined function that returns classifier values(s)
-        function_args (function-dependent): Arguments to user-defined function
+        function_args (dict): Dictionary of arguments for user-defined function
     """
 
     def __init__(
@@ -32,7 +32,6 @@ class start:
     ):
 
         self.directory = directory
-        self.sub_directories = os.listdir(self.directory)
         self.patterns = patterns
         self.skip = skip
         self.measures = measures
@@ -40,41 +39,53 @@ class start:
         self.function_args = function_args
         self.frame = pd.DataFrame({})
 
-        self.check_directory(self.directory, self.sub_directories)
-        self.check_patterns(self.patterns)
-        self.check_skip(self.skip)
-        self.check_measures(self.measures)
-        self.check_function(self.function)
+        if isinstance(directory, list):
+            self.check_file(self.directory)
+            self.sub_directories = []
+        else:
+            self.sub_directories = os.listdir(self.directory)
+
+            self.check_directory(self.directory, self.sub_directories)
+            self.check_patterns(self.patterns)
+            self.check_skip(self.skip)
+            self.check_measures(self.measures)
+            self.check_function(self.function)
 
         self.checks_passed()
 
     def checks_passed(self):
 
-        if self.skip is not None:
-            if isinstance(self.sub_directories, list):
-                sub_dir = []
-                for _, subdir in enumerate(self.sub_directories):
-                    if not any(map(subdir.__contains__, self.skip)):
-                        sub_dir.append(subdir)
-                if not self.sub_directories:
-                    raise TypeError(
-                        "Your skip patterns removed all of your sub-directories!"
-                    )
+        if isinstance(self.directory, list) and self.directory[1] == "csv":
+            self.frame = pd.read_csv(self.directory[0])
+        else:
+
+            if self.skip is not None:
+                if isinstance(self.sub_directories, list):
+                    sub_dir = []
+                    for _, subdir in enumerate(self.sub_directories):
+                        if not any(map(subdir.__contains__, self.skip)):
+                            sub_dir.append(subdir)
+                    if not self.sub_directories:
+                        raise TypeError(
+                            "Your skip patterns removed all of your sub-directories!"
+                        )
+                    else:
+                        self.sub_directories = sub_dir
+
+                elif isinstance(self.sub_directories, str):
+                    if any(map(self.sub_directories.__contains__, self.skip)):
+                        raise TypeError(
+                            "Your skip patterns removed your only directory!"
+                        )
                 else:
-                    self.sub_directories = sub_dir
+                    raise TypeError("No directories to use")
 
-            elif isinstance(self.sub_directories, str):
-                if any(map(self.sub_directories.__contains__, self.skip)):
-                    raise TypeError("Your skip patterns removed your only directory!")
-            else:
-                raise TypeError("No directories to use")
+            df = {"Names": self.sub_directories}
+            if self.patterns:
+                for patts in self.patterns:
+                    df[patts] = np.zeros(len(self.sub_directories))
 
-        df = {"Names": self.sub_directories}
-        if self.patterns:
-            for patts in self.patterns:
-                df[patts] = np.zeros(len(self.sub_directories))
-
-        self.frame = pd.DataFrame(df)
+            self.frame = pd.DataFrame(df)
 
         lrdata = {
             "directory": self.directory,
@@ -88,9 +99,9 @@ class start:
 
         intake.injectors(lrdata)
 
-    def sea(self, df, kind="replot", options={}):
+    def sea(self, kind="replot", options={}):
 
-        tools.sea_born.sea(df, kind, options)
+        tools.sea_born.sea(self.frame, kind, options)
 
     def skl(self, df, kind="RandomForestClassifier", options={}):
 
@@ -123,6 +134,21 @@ class start:
                 raise TypeError(
                     "the directory must contain at least two files or folders"
                 )
+
+    @staticmethod
+    def check_file(dir_list):
+
+        if (
+            not isinstance(dir_list[0], str)
+            or not isinstance(dir_list[1], str)
+            or not os.path.isfile(dir_list[0])
+        ):
+            raise TypeError(
+                "you must give a list of strings, [0]='path to file', [1]='file ext'"
+            )
+
+        if not dir_list[1] == "csv":
+            raise TypeError("file type not supported, only .csv files at this time")
 
     @staticmethod
     def check_patterns(patterns):

@@ -19,10 +19,13 @@ class injectors:
 
     def __init__(self, lrdata):
 
-        lrdata = self.look_for_dates(lrdata)
+        if isinstance(lrdata["directory"], list):
+            lrdata = lrdata
+        else:
+            lrdata = self.look_for_dates(lrdata)
 
-        if lrdata["patterns"]:
-            lrdata = self.look_for_patterns(lrdata)
+            if lrdata["patterns"]:
+                lrdata = self.look_for_patterns(lrdata)
 
         engine.cylinders(lrdata)
 

@@ -7,6 +7,7 @@ class sea:
         if kind == "replot":
             self.plt_replot(df, options)
 
-    def plt_replot(self):
+    def plt_replot(self, df, options):
 
-        print("REPLOT")
+        print(df.shape)
+        print("REPLOT ", options["test"])
