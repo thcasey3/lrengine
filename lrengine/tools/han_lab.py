@@ -138,8 +138,9 @@ def optWidth(ws, starting_width, center, phase):
         return center, max(max_x) - min(min_x)
 
 
-def calc_odnp(path, hyd):
+def calc_odnp(path, in_dict):
 
+    hyd = in_dict["hyd"]
     print("Working on: " + path)
 
     folder_structure_p0 = 5

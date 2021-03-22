@@ -3,8 +3,8 @@ class for checking and sending the data object to engine
 """
 
 from . import engine
-import datetime
-import dateutil
+from datetime import date
+from dateutil import parser
 import re
 import numpy as np
 
@@ -37,20 +37,20 @@ class injectors:
                 for possible_date in sub_patterns:
                     if len(possible_date) == 8:
                         try:
-                            date[indx] = dateutil.parser.isoparse(possible_date).date()
+                            date[indx] = parser.isoparse(possible_date).date()
                             date_delta[indx] = self.diff_dates(date[indx])
                         except ValueError:
                             continue
             elif isinstance(sub_patterns, str) and len(sub_patterns) == 8:
                 try:
-                    date[indx] = dateutil.parser.isoparse(sub_patterns).date()
+                    date[indx] = parser.isoparse(sub_patterns).date()
                     date_delta[indx] = self.diff_dates(date[indx])
                 except ValueError:
                     continue
             elif isinstance(sub_patterns, list) and len(sub_patterns) == 1:
                 if isinstance(sub_patterns[0], str) and len(sub_patterns[0]) == 8:
                     try:
-                        date[indx] = dateutil.parser.isoparse(sub_patterns[0]).date()
+                        date[indx] = parser.isoparse(sub_patterns[0]).date()
                         date_delta[indx] = self.diff_dates(date[indx])
                     except ValueError:
                         continue
@@ -65,7 +65,7 @@ class injectors:
 
     @staticmethod
     def diff_dates(possible_date):
-        delta = datetime.date.today() - datetime.date(
+        delta = date.today() - date(
             possible_date.year, possible_date.month, possible_date.day
         )
         return int(delta.days)

@@ -35,8 +35,7 @@ class cylinders:
         measures = list(np.zeros(len(lrdata["frame"]["Names"])))
         for indx, name in enumerate(lrdata["frame"]["Names"]):
             measures[indx] = lrdata["function"](
-                os.path.join(lrdata["directory"], lrdata["frame"]["Names"][indx]),
-                lrdata["function_args"],
+                os.path.join(lrdata["directory"], name), lrdata["function_args"]
             )
 
         return measures

@@ -5,7 +5,7 @@ start class, checks and packages the inputs and sends them to intake
 import os
 import pandas as pd
 import numpy as np
-from . import intake
+from . import intake, tools
 
 
 class start:
@@ -88,11 +88,21 @@ class start:
 
         intake.injectors(lrdata)
 
-    def sea(self):
-        pass
+    def sea(self, df, kind="replot", options={}):
 
-    def sk(self):
-        pass
+        tools.sea_born.sea(df, kind, options)
+
+    def skl(self, df, kind="RandomForestClassifier", options={}):
+
+        tools.sk_learn.learn(df, kind, options)
+
+    def tensor(self, df, kind="Sequential", options={}):
+
+        tools.tensor_flow.flow(df, kind, options)
+
+    def sql(self, df, url=""):
+
+        tools.sq_lite.sql(df, url)
 
     @staticmethod
     def check_directory(directory, sub_directories):
@@ -103,11 +113,16 @@ class start:
         if not os.path.exists(directory):
             raise ValueError("this directory does not exist")
 
-        if not os.path.isdir(directory):
-            raise TypeError("this is a file, not a directory")
+        if "nmr_odnp_data/odnp_data.csv" in directory:
+            pass
+        else:
+            if not os.path.isdir(directory):
+                raise TypeError("this is a file, not a directory")
 
-        if not (len(sub_directories) > 1) or not isinstance(sub_directories, list):
-            raise TypeError("the directory must contain at least two files or folders")
+            if not (len(sub_directories) > 1) or not isinstance(sub_directories, list):
+                raise TypeError(
+                    "the directory must contain at least two files or folders"
+                )
 
     @staticmethod
     def check_patterns(patterns):
