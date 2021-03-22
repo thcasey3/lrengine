@@ -258,7 +258,14 @@ def calc_odnp(path, in_dict):
     try:
         hydration_results = dnp.dnpHydration.hydration(hydra)
     except:
-        hydration_results = {"ksigma": 0, "tcorr": 0}
+        print("errored")
+        try:
+            hydra["hydration_inputs"]["T1"] = hyd["T1"][1:]
+            hydra["hydration_inputs"]["T1_power"] = hyd["T1_power"][1:]
+            hydration_results = dnp.dnpHydration.hydration(hydra)
+        except:
+            print("errored again")
+            hydration_results = {"ksigma": 0, "tcorr": 0}
 
     print("Found ksigma = " + str(hydration_results["ksigma"]))
     print("Found tcorr = " + str(hydration_results["tcorr"]))
