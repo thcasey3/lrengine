@@ -99,21 +99,25 @@ class start:
 
         intake.injectors(lrdata)
 
-    def sea(self, kind="replot", options={}):
+    def sea(self, type="replot", options={}):
+
+        return tools.sea_born.sea(self.frame, type, options)
+
+    def skl(self, kind="", options={}):
+
+        tools.sk_learn.learn(self.frame, kind, options)
+
+    def tensor(self, kind="", options={}):
+
+        tools.tensor_flow.flow(self.frame, kind, options)
+
+    def spark(self, kind="", options={}):
 
         tools.sea_born.sea(self.frame, kind, options)
 
-    def skl(self, df, kind="RandomForestClassifier", options={}):
+    def sql(self, url="", options={}):
 
-        tools.sk_learn.learn(df, kind, options)
-
-    def tensor(self, df, kind="Sequential", options={}):
-
-        tools.tensor_flow.flow(df, kind, options)
-
-    def sql(self, df, url=""):
-
-        tools.sq_lite.sql(df, url)
+        tools.sq_lite.sql(self.frame, url, options)
 
     @staticmethod
     def check_directory(directory, sub_directories):
