@@ -117,16 +117,16 @@ class start:
         else:
             return engine.cylinders(self)
 
-    def sea(self, options={}):
+    def sea(self, kind="relplot", options={}):
 
         if not all(map(options.keys().__contains__, ["x", "y"])):
             raise KeyError(
                 "you must specify at least 'x', 'y', and 'hue' in your options dictionary. see seaborn documentation"
             )
         else:
-            return tools.sea_born.sea(df=self.frame, type="relplot", options=options)
+            return tools.sea_born.sea(df=self.frame, kind=kind, options=options)
 
-    def skl(self, kind="", options={}):
+    def skl(self, kind="KNN", options={}):
 
         tools.sk_learn.learn(self.frame, kind, options)
 

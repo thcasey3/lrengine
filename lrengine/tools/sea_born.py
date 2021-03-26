@@ -10,13 +10,13 @@ class sea:
 
     Attributes:
         df (DataFrame): "frame" from start object
-        type (str): type of plot
+        kind (str): type of plot
         options (dict): dictionary of plot options
     """
 
-    def __init__(self, df, type, options):
+    def __init__(self, df, kind, options):
 
-        if type == "relplot":
+        if kind == "relplot":
             self.plt_relplot(df, options)
         else:
             raise ValueError("only relplot is currently supported")
