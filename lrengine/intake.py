@@ -19,50 +19,80 @@ class injectors:
 
     def __init__(self, lrdata):
 
-        if isinstance(lrdata["directory"], list):
-            lrdata = lrdata
-        else:
+        if "date_format" in lrdata.keys() and lrdata["date_format"]:
+            print("in date search")
             lrdata = self.look_for_dates(lrdata)
 
-            if lrdata["patterns"]:
-                lrdata = self.look_for_patterns(lrdata)
-
-        engine.cylinders(lrdata)
+        if "patterns" in lrdata.keys() and lrdata["patterns"]:
+            lrdata = self.look_for_patterns(lrdata)
 
     def look_for_dates(self, lrdata):
 
-        date = list(np.zeros(len(lrdata["frame"])))
-        date_delta = list(np.zeros(len(lrdata["frame"])))
+        date_list = list(np.zeros(len(lrdata["frame"])))
+        date_delta_list = list(np.zeros(len(lrdata["frame"])))
 
-        for indx, dir in enumerate(lrdata["frame"]["Names"]):
+        for indx, dir in enumerate(lrdata["frame"]["names"]):
             sub_patterns = re.split("[^a-zA-Z0-9 \n\.]", dir)
-            if len(sub_patterns) > 1:
-                for possible_date in sub_patterns:
+            for possible_date in sub_patterns:
+                if possible_date.isdigit():
                     if len(possible_date) == 8:
-                        try:
-                            date[indx] = parser.isoparse(possible_date).date()
-                            date_delta[indx] = self.diff_dates(date[indx])
-                        except ValueError:
-                            continue
-            elif isinstance(sub_patterns, str) and len(sub_patterns) == 8:
-                try:
-                    date[indx] = parser.isoparse(sub_patterns).date()
-                    date_delta[indx] = self.diff_dates(date[indx])
-                except ValueError:
-                    continue
-            elif isinstance(sub_patterns, list) and len(sub_patterns) == 1:
-                if isinstance(sub_patterns[0], str) and len(sub_patterns[0]) == 8:
-                    try:
-                        date[indx] = parser.isoparse(sub_patterns[0]).date()
-                        date_delta[indx] = self.diff_dates(date[indx])
-                    except ValueError:
-                        continue
+                        if lrdata["date_format"] == "YYYYMMDD":
+                            pass
+                        elif lrdata["date_format"] == "DDMMYYYY":
+                            possible_date = (
+                                possible_date[5:8]
+                                + possible_date[3:5]
+                                + possible_date[0:3]
+                            )
+                        elif lrdata["date_format"] == "MMDDYYYY":
+                            possible_date = possible_date[5:8] + possible_date[0:5]
 
-        if date:
-            lrdata["frame"]["date"] = date
-            lrdata["frame"]["date_delta"] = date_delta
+                    if len(possible_date) == 6:
+                        if lrdata["date_format"] == "MMDDYY":
+                            d = possible_date[5:6] + possible_date[0:5]
+                            if int(possible_date[5:6]) > 0 and int(
+                                possible_date[5:6]
+                            ) <= (date.today().year - 2000):
+                                possible_date = "20" + d
+                            else:
+                                possible_date = "19" + d
+                        elif lrdata["date_format"] == "DDMMYY":
+                            d = (
+                                possible_date[5:6]
+                                + possible_date[3:5]
+                                + possible_date[0:3]
+                            )
+                            if int(possible_date[5:6]) > 0 and int(
+                                possible_date[5:6]
+                            ) <= (date.today().year - 2000):
+                                possible_date = "20" + d
+                            else:
+                                possible_date = "19" + d
+
+                    if (
+                        (
+                            int(possible_date[0:4]) > 1900
+                            and int(possible_date[0:4]) <= date.today().year
+                        )
+                        and (
+                            int(possible_date[4:6]) > 0
+                            and int(possible_date[4:6]) <= 12
+                        )
+                        and (
+                            int(possible_date[6:8]) > 0
+                            and int(possible_date[6:8]) <= 31
+                        )
+                    ):
+                        date_list[indx] = self.parse_dates(possible_date)
+                        date_delta_list[indx] = self.diff_dates(date_list[indx])
+                        print(date_list[indx])
+                        print(date_delta_list[indx])
+
+        if sum(date_delta_list) != 0:
+            lrdata["frame"]["date"] = date_list
+            lrdata["frame"]["date_delta"] = date_delta_list
         else:
-            print("No dates found in Names")
+            print("No dates of format " + lrdata["date_format"] + " found in names")
 
         return lrdata
 
@@ -73,13 +103,17 @@ class injectors:
         )
         return int(delta.days)
 
+    @staticmethod
+    def parse_dates(possible_date):
+        return parser.isoparse(possible_date).date()
+
     def look_for_patterns(self, lrdata):
 
         temp_dict = {}
         for indx in lrdata["patterns"]:
             temp_dict[indx] = []
 
-        for _, dir in enumerate(lrdata["frame"]["Names"]):
+        for _, dir in enumerate(lrdata["frame"]["names"]):
             for _, patt in enumerate(temp_dict.keys()):
                 if patt in dir:
                     temp_dict[patt].append(1)
