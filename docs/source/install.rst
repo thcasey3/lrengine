@@ -24,12 +24,6 @@ The following packages are required in order to run all features of lrengine:
      - 0.6.12+
    * - seaborn
      - 0.11.1+
-   * - sci-kit learn
-     - 0.24+
-   * - TensorFlow
-     - 2.4.1+
-   * - PySpark
-     - 3.1.1+
 
 
 .. _installing:

@@ -16,6 +16,7 @@ class start:
         directory (str): The path to the parent directory
         patterns (list): List of patterns to recognize in file or folder names
         skip (list): List of patterns used to decide which elements to skip
+        date_format (str): format of date string to search for
         measures (list): User-defined classifier(s)
         function (function): User-defined function that returns classifier values(s)
         function_args (dict): Dictionary of arguments for user-defined function
@@ -163,22 +164,6 @@ class start:
             )
         else:
             return tools.sea_born.sea(df=self.frame, kind=kind, options=options)
-
-    def skl(self, kind="KNN", options={}):
-
-        tools.sk_learn.learn(self.frame, kind, options)
-
-    def tensor(self, kind="", options={}):
-
-        tools.tensor_flow.flow(self.frame, kind, options)
-
-    def spark(self, kind="", options={}):
-
-        tools.sea_born.sea(self.frame, kind, options)
-
-    def sql(self, url="", options={}):
-
-        tools.sq_lite.sql(self.frame, url, options)
 
     @staticmethod
     def check_directory(directory):
