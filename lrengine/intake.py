@@ -20,7 +20,6 @@ class injectors:
     def __init__(self, lrdata):
 
         if "date_format" in lrdata.keys() and lrdata["date_format"]:
-            print("in date search")
             lrdata = self.look_for_dates(lrdata)
 
         if "patterns" in lrdata.keys() and lrdata["patterns"]:
@@ -85,8 +84,6 @@ class injectors:
                     ):
                         date_list[indx] = self.parse_dates(possible_date)
                         date_delta_list[indx] = self.diff_dates(date_list[indx])
-                        print(date_list[indx])
-                        print(date_delta_list[indx])
 
         if sum(date_delta_list) != 0:
             lrdata["frame"]["date"] = date_list

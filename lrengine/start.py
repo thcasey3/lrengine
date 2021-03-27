@@ -46,7 +46,6 @@ class start:
             self.sub_directories = []
         else:
             self.sub_directories = os.listdir(self.directory)
-
             self.check_directory(self.directory)
             self.check_lists(self.patterns, "patterns")
             self.check_lists(self.skip, "skip")
@@ -108,7 +107,7 @@ class start:
 
         intake.injectors(lrdata)
 
-    def run(self):
+    def drive(self):
 
         if not self.function and self.function is not None:
             raise TypeError(
@@ -116,6 +115,48 @@ class start:
             )
         else:
             return engine.cylinders(self)
+
+    def map_directory(
+        self,
+        skip=[],
+        skip_empty=True,
+        skip_hidden=True,
+        only_hidden=False,
+        walk_topdown=True,
+    ):
+
+        if only_hidden and skip_hidden:
+            skip_hidden = False
+
+        if os.path.isdir(self.directory):
+            self.directory_map = {}
+            for root, dirs, files in os.walk(self.directory, topdown=walk_topdown):
+                self.directory_map[root.replace(self.directory, "")] = files
+
+            if skip_hidden:
+                self.directory_map.pop("")
+
+            skip_list = []
+            if only_hidden:
+                for ky in self.directory_map.keys():
+                    if not ky == "":
+                        skip_list.append(ky)
+            else:
+                for ky in self.directory_map.keys():
+                    if skip_empty:
+                        if len(self.directory_map[ky]) == 0:
+                            skip_list.append(ky)
+                    if skip:
+                        if any(map(ky.__contains__, skip)):
+                            skip_list.append(ky)
+
+            skip_list = set(skip_list)
+
+            for sl in skip_list:
+                self.directory_map.pop(sl)
+
+        else:
+            raise TypeError("This is not a path to a directory")
 
     def sea(self, kind="relplot", options={}):
 
