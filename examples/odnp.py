@@ -1,7 +1,7 @@
 # %% [markdown]
 """
-lrengine example with pre-defined tools function and sample data
-======================
+lrengine example
+================
 
 This example demonstrates how lrengine makes a pandas DataFrame using a parent directory with sub-directories, some user-defined patterns, and a user-defined function that operates on the sub-directories. This can be applied with any combination of sub-files or sub-directories with a user-supplied function that operates on them to returns numerical measures. For example,
 

@@ -23,7 +23,7 @@ class start:
 
     def __init__(
         self,
-        directory=[],
+        directory="",
         patterns=[],
         skip=None,
         date_format=None,
