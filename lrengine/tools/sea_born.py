@@ -60,6 +60,7 @@ class sea:
             x=opts["x"],
             y=opts["y"],
             hue=opts["hue"],
+            s=opts["s"],
             size=opts["size"],
             style=opts["style"],
             row=opts["row"],

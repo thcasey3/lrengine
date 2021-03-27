@@ -18,7 +18,7 @@
 Welcome to lrengine
 ===================
 
-lrengine is an Open Source Python package for mapping a directory and correlating specific language with function outputs.
+lrengine is an open-source Python package for mapping a parent directory and correlating specific language patterns within the file and folder names either with each other or with outputs of a user supplied function.
 
 Authors: Thomas Casey
     
@@ -47,9 +47,9 @@ Features
 .. toctree::
    :maxdepth: 2
 
-   introduction
    install
-   quick-start
+   introduction
+   sea
    auto_examples/index
 
 
