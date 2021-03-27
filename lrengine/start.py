@@ -125,16 +125,10 @@ class start:
         walk_topdown=True,
     ):
 
-        if only_hidden and skip_hidden:
-            skip_hidden = False
-
         if os.path.isdir(self.directory):
             self.directory_map = {}
             for root, dirs, files in os.walk(self.directory, topdown=walk_topdown):
                 self.directory_map[root.replace(self.directory, "")] = files
-
-            if skip_hidden:
-                self.directory_map.pop("")
 
             skip_list = []
             if only_hidden:
@@ -142,6 +136,9 @@ class start:
                     if not ky == "":
                         skip_list.append(ky)
             else:
+                if skip_hidden:
+                    self.directory_map.pop("")
+
                 for ky in self.directory_map.keys():
                     if skip_empty:
                         if len(self.directory_map[ky]) == 0:
