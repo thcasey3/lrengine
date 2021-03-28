@@ -13,12 +13,12 @@ class start:
     start class
 
     Attributes:
-        directory (str): The path to the parent directory
+        directory (str): The path to the parent directory, or .csv that can be made into a Pandas DataFrame
         patterns (list): List of patterns to recognize in file or folder names
         skip (list): List of patterns used to decide which elements to skip
         date_format (str): format of date string to search for
         measures (list): User-defined classifier(s)
-        function (function): User-defined function that returns classifier values(s)
+        function (function): User-defined function that returns classifier value(s)
         function_args (dict): Dictionary of arguments for user-defined function
     """
 
@@ -129,16 +129,24 @@ class start:
         if os.path.isdir(self.directory):
             self.directory_map = {}
             for root, dirs, files in os.walk(self.directory, topdown=walk_topdown):
-                self.directory_map[root.replace(self.directory, "")] = files
+                if root == self.directory:
+                    self.directory_map[root] = files
+                else:
+                    self.directory_map[root.replace(self.directory, "")] = files
 
             skip_list = []
             if only_hidden:
                 for ky in self.directory_map.keys():
                     if not ky == "":
                         skip_list.append(ky)
+                if len(skip_list) == len(self.directory_map.keys()):
+                    raise ValueError("No hidden directories were found")
             else:
                 if skip_hidden:
-                    self.directory_map.pop("")
+                    try:
+                        self.directory_map.pop("")
+                    except KeyError:
+                        pass
 
                 for ky in self.directory_map.keys():
                     if skip_empty:
@@ -156,14 +164,16 @@ class start:
         else:
             raise TypeError("This is not a path to a directory")
 
-    def sea(self, kind="relplot", options={}):
+    def sea(self, kind="relplot", seaborn_args={}):
 
-        if not all(map(options.keys().__contains__, ["x", "y"])):
+        if not all(map(seaborn_args.keys().__contains__, ["x", "y"])):
             raise KeyError(
                 "you must specify at least 'x', 'y', and 'hue' in your options dictionary. see seaborn documentation"
             )
         else:
-            return tools.sea_born.sea(df=self.frame, kind=kind, options=options)
+            return tools.sea_born.sea(
+                df=self.frame, kind=kind, seaborn_args=seaborn_args
+            )
 
     @staticmethod
     def check_directory(directory):

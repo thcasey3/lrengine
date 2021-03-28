@@ -2,7 +2,7 @@
 Make a scatterplot from lrdata.frame
 ====================================
 
-With the **sea()** method use seaborn to make a scatterplot using the lrobject.frame. Use the same argument names used in **seaborn.scatterplot()** as dictionary keys and pass this dictionary to **sea()**,
+With the **sea()** method a scatterplot is made using the lrobject.frame. Use the same argument names used in **seaborn.scatterplot()** as dictionary keys with their corresponding values being any allowed values according to the **seaborn.scatterplot()** docs,
 
 .. figure:: _static/images/sea_df.png
     :width: 700

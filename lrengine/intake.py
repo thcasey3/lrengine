@@ -14,7 +14,7 @@ class injectors:
     injectors class
 
     Attributes:
-        start object (start object): Data object from start class
+        lrdata (start object): Data object from start class
     """
 
     def __init__(self, lrdata):

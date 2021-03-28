@@ -2,7 +2,7 @@
 Introduction to lrengine
 ========================
 
-The aim of lrengine is to provide a simple mechanism for building and interacting with a DataFrame that has 'classifiers' that are extracted from file and/or folder names. Users can define a function that operates on those files and/or folders and define additional 'classifiers' that are the outputs returned from the function. This provides an easy way to interact with directories of common data types and search for correlations between the file and/or folder names and outputs of the function's operations on those files and/or folders.
+The aim of lrengine is to provide a simple mechanism for building and interacting with a DataFrame that has 'classifiers' that are extracted from file and/or folder names. Users can also define a function that operates on those files and/or folders and returns additional 'classifiers'. This provides an easy way to interact with directories of common data types and search for correlations between text in the file and/or folder names and any outputs of a user-defined function's operations on those files and/or folders. See the examples for a template script.
 
 How to use lrengine
 ===================
@@ -16,7 +16,7 @@ Imagine a directory of data folders having in them a common type of data,
 
     Example parent directory
 
-Define a function that operates on the files or sub-directories of the parent directory and returns a list of observables,
+Define a function that operates on the files or sub-directories of the parent directory and returns a list of observables. In this example they would be "output1" and "output2",
 
 .. figure:: _static/images/example_func.png
     :width: 500
@@ -25,32 +25,32 @@ Define a function that operates on the files or sub-directories of the parent di
 
     Example function
 
-Create an object that contains the parent directory's file and sub-directory names, a function handle, and the identities of **measures=** output from the function,
+Create an object that lrengine populates with attributes from the arguments,
 
 .. figure:: _static/images/example_call.png
     :width: 500
     :alt: lrengine concept
     :align: center
 
-    Example `start` object creation
+    Example **start** object creation
 
-Use the **drive()** method to apply the function to each file or sub-directory of the parent directory,
+Use the **drive()** method to apply the user-defined function to each file or sub-directory of the parent directory,
 
 .. figure:: _static/images/drive_call.png
     :width: 500
     :alt: lrengine concept
     :align: center
 
-    Call to `drive()` method
+    Call to **drive()** method
 
-The **start** **object** now contains a **.frame** that is a Pandas DataFrame of classifiers pulled from the file or sub-directory names using **patterns=** and also those returned from the function,
+The **start** **object** now contains a **.frame** that is a Pandas DataFrame of classifiers pulled from the file or sub-directory names using **patterns=** and also those returned from the user-defined function,
 
 .. figure:: _static/images/df_head.png
     :width: 500
     :alt: lrengine concept
     :align: center
 
-    Head of `frame` created by lrengine
+    Head of **.frame** created by lrengine
 
 
 .. figure:: _static/images/start_obj.png
@@ -58,24 +58,24 @@ The **start** **object** now contains a **.frame** that is a Pandas DataFrame of
     :alt: lrengine concept
     :align: center
 
-    General structure of the `start` object
+    General structure of the **start** object
 
 
 Skipping names by defining 'skip' patterns
 ------------------------------------------
-Define **skip=** patterns, any names having these patterns in their name will be ignored,
+Define **skip=** patterns, any files or sub-directories having these patterns in their name will be ignored,
 
 .. figure:: _static/images/example_call_skip.png
     :width: 500
     :alt: lrengine concept
     :align: center
 
-    Added `skip=` argument
+    Added **skip=** argument
 
 
 Looking for Dates in file or sub-directory names
 ------------------------------------------------
-Add the argument **date_format=** and if dates of this format are found in the names they will be added as a classifier, along with a number of days elapsed since the date, **date_delta**
+Add the argument **date_format=** and if dates of this format are found in the file or sub-directory names they will be added as a classifier along with a number of days elapsed, **date_delta**, since the found date,
 
 .. figure:: _static/images/dir_dates.png
     :width: 400
@@ -96,11 +96,11 @@ Add the argument **date_format=** and if dates of this format are found in the n
     :alt: lrengine concept
     :align: center
 
-    **frame** now has date and date_delta classifiers
+    **.frame** now has date and date_delta classifiers
 
 Map the parent directory
 ------------------------
-Use the **map_directory()** method to add **directory_map** to the **start** object. This is a dictionary with keys that are the directories, values are lists of filenames in the directory,
+Use the **map_directory()** method to add **.directory_map** to the **start** object. This is a dictionary with keys that are the directories and values that are lists of filenames found in the directories,
 
 .. figure:: _static/images/map_call.png
     :width: 500
@@ -114,5 +114,5 @@ Use the **map_directory()** method to add **directory_map** to the **start** obj
     :alt: lrengine concept
     :align: center
 
-    directory_map
+    .directory_map
 

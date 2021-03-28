@@ -1,5 +1,5 @@
 """
-class for plotting with seaborn
+class for making a scatterplot with seaborn
 """
 import seaborn as sns
 
@@ -10,23 +10,23 @@ class sea:
 
     Attributes:
         df (DataFrame): "frame" from start object
-        kind (str): type of plot
-        options (dict): dictionary of plot options
+        kind (str): type of plot (currently only relplot is allowed)
+        seaborn_args (dict): dictionary, keys are seaborn.scatterplot arguments values are allowed values according to seaborn docs
     """
 
-    def __init__(self, df, kind, options):
+    def __init__(self, df, kind, seaborn_args):
 
         if kind == "relplot":
-            self.plt_relplot(df, options)
+            self.plt_relplot(df, seaborn_args)
         else:
             raise ValueError("only relplot is currently supported")
 
     def plt_relplot(
         self,
         df,
-        options={},
+        seaborn_args={},
     ):
-        opts = {
+        sea_args = {
             "theme": "darkgrid",
             "hue": None,
             "size": None,
@@ -52,43 +52,43 @@ class sea:
             "facet_kws": None,
             "units": None,
         }
-        opts = self.update_opts(opts, options)
-        sns.set_theme(style=opts["theme"])
+        sea_args = self.update_sea_args(sea_args, seaborn_args)
+        sns.set_theme(style=sea_args["theme"])
 
         sns.relplot(
             data=df,
-            x=opts["x"],
-            y=opts["y"],
-            hue=opts["hue"],
-            s=opts["s"],
-            size=opts["size"],
-            style=opts["style"],
-            row=opts["row"],
-            col=opts["col"],
-            col_wrap=opts["col_wrap"],
-            row_order=opts["row_order"],
-            col_order=opts["col_order"],
-            palette=opts["palette"],
-            hue_order=opts["hue_order"],
-            hue_norm=opts["hue_norm"],
-            sizes=opts["sizes"],
-            size_order=opts["size_order"],
-            size_norm=opts["size_norm"],
-            markers=opts["markers"],
-            dashes=opts["dashes"],
-            style_order=opts["style_order"],
+            x=sea_args["x"],
+            y=sea_args["y"],
+            hue=sea_args["hue"],
+            s=sea_args["s"],
+            size=sea_args["size"],
+            style=sea_args["style"],
+            row=sea_args["row"],
+            col=sea_args["col"],
+            col_wrap=sea_args["col_wrap"],
+            row_order=sea_args["row_order"],
+            col_order=sea_args["col_order"],
+            palette=sea_args["palette"],
+            hue_order=sea_args["hue_order"],
+            hue_norm=sea_args["hue_norm"],
+            sizes=sea_args["sizes"],
+            size_order=sea_args["size_order"],
+            size_norm=sea_args["size_norm"],
+            markers=sea_args["markers"],
+            dashes=sea_args["dashes"],
+            style_order=sea_args["style_order"],
             legend="auto",
             kind="scatter",
             height=5,
             aspect=1,
-            facet_kws=opts["facet_kws"],
-            units=opts["units"],
+            facet_kws=sea_args["facet_kws"],
+            units=sea_args["units"],
         )
 
     @staticmethod
-    def update_opts(opts, options):
+    def update_sea_args(sea_args, seaborn_args):
 
-        for ky in options.keys():
-            opts[ky] = options[ky]
+        for ky in seaborn_args.keys():
+            sea_args[ky] = seaborn_args[ky]
 
-        return opts
+        return sea_args

@@ -18,7 +18,7 @@
 Welcome to lrengine
 ===================
 
-lrengine is an open-source Python package for mapping a parent directory and correlating specific language patterns within the file and folder names either with each other or with outputs of a user supplied function.
+lrengine is an open-source Python package for correlating specific language patterns within file and folder names either with each other or with outputs of a user supplied function. 
 
 Authors: Thomas Casey
     
@@ -40,9 +40,8 @@ Please report all issues using the: |IssuesTracker|
 Features
 ========
 * Organize DataFrames using specific language in file and folder names 
-* Call functions for processing entire directories
-* Visualize correlations between function outputs and specific language in file and folder names 
-* Interact easily with common ML and SQL packages
+* Construct DataFrames from a function that performs processing of files or sub-directories of a parent directory
+* Visualize correlations between function outputs and specific language in file and folder names
 
 .. toctree::
    :maxdepth: 2

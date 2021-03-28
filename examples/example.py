@@ -1,39 +1,54 @@
+import os
+
+path = "/Users/thomascasey/lrengine/data"
+dir = {}
+for root, dirs, files in os.walk(path):
+    if root == path:
+        dir[root] = files
+    else:
+        dir[root.replace(path, "")] = files
+
+"""skips = []
+for ky in dir.keys():
+    if any(map(ky.__contains__, path)):
+        skips.append(ky)
+
+print(skips)"""
+# dir.pop(skips[0])
+breakpoint()
+
 # %% [markdown]
 """
-lrengine example
-================
+lrengine Template
+=================
 
-This example demonstrates creating and manipulating a DataFrame from a directory. The data loaded from 'example.csv' is
-an example of a frame that could be created with lrengine. Since we are using pre-defined data and not an actual
-directory, this example also demonstrates how to load and use an existing DataFrame that has been saved in csv format.
+This Template serves as an example layout for a script using lrengine.
 
 """
 # %%
 
 # %% [markdown]
-# Import lrengine and any other packages that may be needed,
+# Import lrengine and any other packages that may be needed for your function,
 import lrengine as lr
 
+# import numpy as np
+# etc.
 # %%
 
 # %% [markdown]
-# Next, set the path to a parent directory. For this example we will load "example.csv" and take the list of
-# sub-directories from the column called "names".
-path = "./data/example.csv"
+# Set the path to a parent directory,
+path = "../path to parent directory"
 # %%
 
 # %% [markdown]
-# Define a function that accepts a parent directory and any additional arguments in the form of a dictionary,
-# and returns a list of outputs. For this example, the function will simply take from the loaded data but in a real
-# application of lrengine the function should operate on the individual files or sub-directories of the parent
-# directory and return "measures" to be correlated with certain language or dates found in the names.
-
-
+# Define a function that accepts the parent directory and any additional arguments in the form of a dictionary and
+# returns a list of outputs. The list must have a single value for each member of the list and have a **'len()'**
+# equal to the list of **'measures'** given during the instantiation of the object below.
 def function_handle(directory, args_dict):
 
-    data = pd.read_csv(directory)
-    output1 = data[args_dict["par1"]]
-    output2 = data[args_dict["par2"]]
+    # insert code that acts on each file or sub-directory of directory and makes two floats or ints
+    # output1 =
+    # output2 =
 
     return [output1, output2]
 
@@ -41,30 +56,37 @@ def function_handle(directory, args_dict):
 # %%
 
 # %% [markdown]
-# Create the lrobject with the path to the directory and,
-# 1. patterns = a list of patterns in file or sub-directory names to be used as classifiers.
-# 2. skip = a list of patterns in the file or sub-directory names to be used to decide which to skip.
-# 3. measures = a list of measures that will be classifiers. This corresponds to the function outputs.
-# 4. function = handle to a function that returns a list of outputs corresponding to the defined measures.
-# 5. function_args = dictionary of arguments for the function.
-# 6. date_format = format of date pattern that may be in the file or sub-directory names
-
+# Instantiate the **'lrobject'**,
 lrobject = lr.start(
     path,
-    patterns=["sample1", "sample2", "sample3", "sample4", "sample5"],
-    skip=["DS_Store"],
-    measures=["output1", "output2"],
-    function=function_handle,
-    function_args={"par1": "measure1", "par2": "measure2"},
-    date_format="YYYYMMDD",
+    patterns=[],  # enter any patterns in the file or folder names to use as classifiers, e.g. ["sample1", "sample2"]
+    skip=[],  # enter any sub-strings in the names of file folders that should be skipped, e.g. ["blank_run"]
+    measures=[
+        "output1",
+        "output2",
+    ],  # these are the column names corresponding to the function outputs
+    function=function_handle,  # complete the function above
+    function_args={},  # enter any arguments required by function_handle, e.g. {"skiprows": 0}
+    date_format="YYYYMMDD",  # (optional) give the format of any date strings in the file or folder names
 )
-
 # %%
 
+# %% [markdown]
+# Pass the **'lrobject'** to the user defined function to add **'frame'** to the **'lrobject'**,
+# then print the **'head()'** of **'frame'**,
 lrobject.drive()
-
-lrobject.map_directory()
-
-lrobject.sea(options={"x": "output1", "y": "output2", "hue": "date_delta", "s": 100})
-
 print(lrobject.frame.head())
+# %%
+
+# %% [markdown]
+# Add to **'lrobject'** a dictionary that is a map of the parent directory,
+lrobject.map_directory()
+# %%
+
+# %% [markdown]
+# Create a seaborn.scatterplot correlating the two outputs. Replace **'None'** for hue with date_delta if it exists in
+# your **'frame'**, or maybe with a third output if you have more than two. The **'seaborn_args'** dictionary should have
+# keys that are the arguments that would be given to **seaborn.scatterplot** and any allowed values according to seaborn
+# docs,
+lrobject.sea(seaborn_args={"x": "output1", "y": "output2", "hue": None, "s": 100})
+# %%

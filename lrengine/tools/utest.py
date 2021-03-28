@@ -1,3 +1,3 @@
-def example1(path):
-
-    return [[1, 2], [3, 4]]
+def utest(path, args):
+    path = path
+    return [args["key"], args["key"]]

@@ -12,10 +12,13 @@ class cylinders:
     cylinders class
 
     Attributes:
-        start object (start object): Data object from start class
+        lrdata (start object): Data object from start class
     """
 
     def __init__(self, lrdata):
+
+        if not isinstance(lrdata.function_args, dict):
+            raise TypeError("function_args must be a dictionary")
 
         if (lrdata.function is not None) and (lrdata.measures is not None):
             measures = self.run_function(lrdata)
@@ -58,7 +61,7 @@ class cylinders:
 
         for indx, _ in enumerate(measures):
             if len(measures[indx]) != len(lrdata_measures):
-                raise TypeError(
+                raise ValueError(
                     "len of measures returned != len of measures given, this is not allowed"
                 )
 

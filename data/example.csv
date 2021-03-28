@@ -1,4 +1,4 @@
-,name,sample1,sample2,sample3,sample4,sample5,date,date_delta,measure1,measure2
+,names,sample1,sample2,sample3,sample4,sample5,date,date_delta,measure1,measure2
 0,20170924_sample2,0.0,1.0,0.0,0.0,0.0,2017-09-24,1280,37.5,150.0
 1,20050404_sample4,0.0,0.0,0.0,1.0,0.0,2005-04-04,5836,22.0,225.0
 2,20020428_sample3,0.0,0.0,1.0,0.0,0.0,2002-04-28,6908,22.5,110.0

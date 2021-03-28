@@ -9,7 +9,7 @@ Installing lrengine
 
 Required Packages
 =================
-The following packages are required in order to run all features of lrengine:
+The following packages are required in order to use all features of lrengine:
 
 .. list-table::
    :widths: 40 60
@@ -24,6 +24,13 @@ The following packages are required in order to run all features of lrengine:
      - 0.6.12+
    * - seaborn
      - 0.11.1+
+
+
+To install the required packages with pip use the command:
+
+.. code-block:: bash
+
+   $ python -m pip install pandas numpy dateutils seaborn
 
 
 .. _installing:
