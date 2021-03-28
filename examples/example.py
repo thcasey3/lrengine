@@ -1,22 +1,3 @@
-import os
-
-path = "/Users/thomascasey/lrengine/data"
-dir = {}
-for root, dirs, files in os.walk(path):
-    if root == path:
-        dir[root] = files
-    else:
-        dir[root.replace(path, "")] = files
-
-"""skips = []
-for ky in dir.keys():
-    if any(map(ky.__contains__, path)):
-        skips.append(ky)
-
-print(skips)"""
-# dir.pop(skips[0])
-breakpoint()
-
 # %% [markdown]
 """
 lrengine Template

@@ -1,5 +1,5 @@
 # lrengine
- lrengine is a language recognition engine for correlating file or folder names to data attributes
+ lrengine - correlating file or folder names to data attributes
 
 Author:
 Thomas Casey
