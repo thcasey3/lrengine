@@ -33,8 +33,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
     ],
-    entry_points=dict(
-        console_scripts=[
-        ]
-    ),
+    entry_points=dict(console_scripts=[]),
 )
