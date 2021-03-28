@@ -1,31 +1,69 @@
-# This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://help.github.com/en/actions/language-and-framework-guides/using-python-with-github-actions#publishing-to-package-registries
+# This workflow automatically publish to both Test PyPI when a pull-request to master is both tagged and merged.
+# See: https://packaging.python.org/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/
 
-name: Upload Python Package
+name: Publish Python Package to Test PyPI
 
 on:
-  release:
-    types: [created]
+  pull_request:
+    branches: [ master ]
+    types: [ closed ]
+    paths: [ 'lrengine/**.py' ]
 
 jobs:
-  deploy:
-
-    runs-on: ubuntu-latest
-
+  build-n-publish:
+    if: github.event.pull_request.merged == true && contains( github.event.pull_request.labels.*.name, 'release')
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: true
+      matrix:
+        python-version: [ 3.6 ]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+    
+      - uses: actions/checkout@v2.3.3
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2.1.4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 black pytest
+          pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          # flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Test with pytest  # pytest is compatible with unittest
+        run: |
+          python -m pytest
+
+      - name: Check PEP-8 format for code consistency
+        run: |
+          black . --check
+
+      - name: Build a binary wheel and a source tarball
+        # Following https://packaging.python.org/tutorials/packaging-projects/#generating-distribution-archives
+        run: |
+          python3 -m pip install --upgrade setuptools wheel
+          python3 setup.py sdist bdist_wheel
+
+      - name: Publish distribution 📦 to Test PyPI
+        uses: pypa/gh-action-pypi-publish@v1.4.1
+        with:
+          password: ${{ secrets.test_pypi_password }}
+          repository_url: https://test.pypi.org/legacy/
+          verbose: true
+
+  #     - name: Publish distribution 📦 to PyPI
+  #       uses: pypa/gh-action-pypi-publish@v1.4.1
+  #       with:
+  #         password: ${{ secrets.pypi_password }}
