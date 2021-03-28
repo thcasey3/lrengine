@@ -20,7 +20,7 @@ setup(
     url="",
     download_url="",
     project_urls={},
-    keywords=["machine learning", "language recognition"],
+    keywords=["language recognition"],
     python_requires=">=3.6",
     install_requires=[
         "dateutils>=0.6.12",
@@ -35,7 +35,6 @@ setup(
     ],
     entry_points=dict(
         console_scripts=[
-            # "hydrationGUI=dnplab.hydrationGUI:main_func",
         ]
     ),
 )
