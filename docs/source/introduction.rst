@@ -16,7 +16,7 @@ Imagine a directory of data folders having in them a common type of data,
 
     Example parent directory
 
-Define a function that operates on the members of the parent directory and returns a list of observables,
+Define a function that operates on the files or sub-directories of the parent directory and returns a list of observables,
 
 .. figure:: _static/images/example_func.png
     :width: 500
@@ -25,7 +25,7 @@ Define a function that operates on the members of the parent directory and retur
 
     Example function
 
-Create an object that characterizes the parent directory in terms of the member folder and file names, specifies a function to use, and specifies the names of **measures=** output from the function,
+Create an object that contains the parent directory's file and sub-directory names, a function handle, and the identities of **measures=** output from the function,
 
 .. figure:: _static/images/example_call.png
     :width: 500
@@ -34,7 +34,7 @@ Create an object that characterizes the parent directory in terms of the member 
 
     Example `start` object creation
 
-Use the **drive()** method to apply the function to each member of the parent directory,
+Use the **drive()** method to apply the function to each file or sub-directory of the parent directory,
 
 .. figure:: _static/images/drive_call.png
     :width: 500
@@ -43,7 +43,7 @@ Use the **drive()** method to apply the function to each member of the parent di
 
     Call to `drive()` method
 
-The **start** **object** now contains a **.frame** that is a Pandas DataFrame of classifiers pulled from the member names using **patterns=** and also those returned from the function,
+The **start** **object** now contains a **.frame** that is a Pandas DataFrame of classifiers pulled from the file or sub-directory names using **patterns=** and also those returned from the function,
 
 .. figure:: _static/images/df_head.png
     :width: 500
@@ -61,9 +61,9 @@ The **start** **object** now contains a **.frame** that is a Pandas DataFrame of
     General structure of the `start` object
 
 
-Skipping members by defining 'skip' patterns
---------------------------------------------
-Define **skip=** patterns, any members having these patterns in their name will be ignored,
+Skipping names by defining 'skip' patterns
+------------------------------------------
+Define **skip=** patterns, any names having these patterns in their name will be ignored,
 
 .. figure:: _static/images/example_call_skip.png
     :width: 500
@@ -73,16 +73,16 @@ Define **skip=** patterns, any members having these patterns in their name will 
     Added `skip=` argument
 
 
-Looking for Dates in member names
----------------------------------
-Add the argument **date_format=** and if dates of this format are found in the member names they will be added as a classifier, along with a number of days elapsed since the date, **date_delta**
+Looking for Dates in file or sub-directory names
+------------------------------------------------
+Add the argument **date_format=** and if dates of this format are found in the names they will be added as a classifier, along with a number of days elapsed since the date, **date_delta**
 
 .. figure:: _static/images/dir_dates.png
     :width: 400
     :alt: lrengine concept
     :align: center
 
-    Example directory of members with dates in the names
+    Example directory of folders with dates in the names
 
 .. figure:: _static/images/example_call_dates.png
     :width: 500
