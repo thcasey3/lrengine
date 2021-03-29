@@ -20,22 +20,18 @@ setup(
     url="",
     download_url="",
     project_urls={},
-    keywords=["machine learning", "language recognition"],
+    keywords=["language recognition"],
     python_requires=">=3.6",
     install_requires=[
-        "dateutils>=0.6.12",
-        "numpy>=1.20.0",
-        "pandas>=1.2.3",
-        "seaborn>=0.11.1",
+        "python-dateutil>=2.6.1",
+        "numpy>=1.13.3",
+        "pandas>=1.0.4",
+        "seaborn>=0.10",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
     ],
-    entry_points=dict(
-        console_scripts=[
-            # "hydrationGUI=dnplab.hydrationGUI:main_func",
-        ]
-    ),
+    entry_points=dict(console_scripts=[]),
 )

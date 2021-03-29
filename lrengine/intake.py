@@ -31,7 +31,7 @@ class injectors:
         date_delta_list = list(np.zeros(len(lrdata["frame"])))
 
         for indx, dir in enumerate(lrdata["frame"]["names"]):
-            sub_patterns = re.split("[^a-zA-Z0-9 \n\.]", dir)
+            sub_patterns = re.split("[^a-zA-Z0-9 \n]", dir)
             for possible_date in sub_patterns:
                 if possible_date.isdigit():
                     if len(possible_date) == 8:
