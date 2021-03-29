@@ -10,7 +10,6 @@ class startTester(unittest.TestCase):
     def setUp(self):
         self.path = "./data/"
         self.subd = os.listdir(self.path)
-        self.csv_file = os.path.join(self.path, "example_short.csv/")
         self.meas = ["meas1", "meas2"]
         self.patt = ["patt1", "patt2"]
         self.skip = ["skip1", "skip2"]

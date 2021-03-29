@@ -31,14 +31,9 @@ class injectors:
         date_delta_list = list(np.zeros(len(lrdata["frame"])))
 
         for indx, dir in enumerate(lrdata["frame"]["names"]):
-            possible_date = None
-            if lrdata["date_format"] == "YYYYMMDD":
-                possible_date = self.look_for_YYYYMMDD(dir)
-            if lrdata["date_format"] == "YYYY_MM_DD":
-                possible_date = self.look_for_YYYY_MM_DD(dir)
-
+            possible_date = self.look_for_date_strings(dir, lrdata["date_format"])
             if possible_date:
-                date_list[indx] = self.parse_dates(possible_date[0])
+                date_list[indx] = self.parse_dates(possible_date)
                 if date_list[indx]:
                     date_delta_list[indx] = self.diff_dates(date_list[indx])
 
@@ -51,12 +46,55 @@ class injectors:
         return lrdata
 
     @staticmethod
-    def look_for_YYYY_MM_DD(dir):
-        return re.findall(r"[0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}", dir)
+    def look_for_date_strings(dir, date_format):
 
-    @staticmethod
-    def look_for_YYYYMMDD(dir):
-        return re.findall(r"[0-9]{8}", dir)
+        if date_format == "YYYY-MM-DD" or date_format == "YYYY-DD-MM":
+            date_string = re.findall(
+                r"[0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}", dir
+            )
+            if date_string and isinstance(date_string, list):
+                date_string = date_string[0]
+
+            if date_format == "YYYY-DD-MM":
+                date_string = (
+                    date_string[0:5] + "-" + +date_string[8:] + "-" + +date_string[5:7]
+                )
+
+        if date_format == "DD-MM-YYYY" or date_format == "MM-DD-YYYY":
+            date_string = re.findall(
+                r"[0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}", dir
+            )
+            if date_string and isinstance(date_string, list):
+                date_string = date_string[0]
+
+            if date_format == "DD-MM-YYYY":
+                date_string = (
+                    date_string[6:] + "-" + +date_string[3:5] + "-" + +date_string[0:3]
+                )
+
+            if date_format == "MM-DD-YYYY":
+                date_string = (
+                    date_string[6:] + "-" + +date_string[0:3] + "-" + +date_string[3:5]
+                )
+
+        if (
+            date_format == "YYYYMMDD"
+            or date_format == "DDMMYYYY"
+            or date_format == "MMDDYYYY"
+            or date_format == "YYYYDDMM"
+        ):
+            date_string = re.findall(r"[0-9]{8}", dir)
+            if date_string and isinstance(date_string, list):
+                date_string = date_string[0]
+
+            if date_format == "DDMMYYYY":
+                date_string = date_string[5:] + date_string[3:5] + date_string[0:3]
+            if date_format == "MMDDYYYY":
+                date_string = date_string[5:] + date_string[0:5]
+            if date_format == "YYYYDDMM":
+                date_string = date_string[0:5] + date_string[7:] + date_string[5:7]
+
+        return date_string
 
     @staticmethod
     def parse_dates(possible_date):

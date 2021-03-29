@@ -241,7 +241,16 @@ class start:
     @staticmethod
     def check_date_format(date_format):
 
-        if not date_format in ["YYYYMMDD", "MMDDYY", "MMDDYYYY", "DDMMYY", "DDMMYYYY"]:
+        if not date_format in [
+            "YYYYMMDD",
+            "YYYYDDMM",
+            "MMDDYYYY",
+            "DDMMYYYY",
+            "YYYY-MM-DD",
+            "YYYY-DD-MM",
+            "MM-DD-YYYY",
+            "DD-MM-YYYY",
+        ]:
             raise ValueError(
-                "Allowed values for date_format are None, 'YYYYMMDD', 'MMDDYY', 'MMDDYYYY', 'DDMMYY', or 'DDMMYYYY'"
+                "Allowed values for date_format are None, 'YYYYMMDD', 'YYYYDDMM', 'MMDDYYYY', 'DDMMYYYY', 'YYYY-MM-DD', 'YYYY-DD-MM', 'MM-DD-YYYY', 'DD-MM-YYYY'"
             )
