@@ -75,18 +75,25 @@ class startTester(unittest.TestCase):
         if "utest.csv" in os.listdir(self.path):
             os.remove(self.path + "utest.csv")
 
-        self.start_result.save(filename="utest")
+        self.start_result.save(filename=os.path.join(self.path, "utest"))
         self.assertTrue("utest.csv" in os.listdir(self.path))
 
         os.remove(self.path + "utest.csv")
 
-        self.start_result.save(filename="utest.csv")
+        self.start_result.save(filename=os.path.join(self.path, "utest.csv"))
         self.assertTrue("utest.csv" in os.listdir(self.path))
         self.assertFalse("utest.csv.csv" in os.listdir(self.path))
-
         os.remove(self.path + "utest.csv")
+
         if "utest.csv.csv" in os.listdir(self.path):
             os.remove(self.path + "utest.csv.csv")
+
+        if str(date.today()) + "_DataFrame.csv" in os.listdir(self.path):
+            os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
+
+        self.start_result.save()
+        self.assertTrue(str(date.today()) + "_DataFrame.csv" in os.listdir(self.path))
+        os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
 
     def test_b_drive_method(self):
 

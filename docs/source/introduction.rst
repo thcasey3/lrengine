@@ -11,7 +11,6 @@ Imagine a directory of data folders having in them a common type of data,
 
 .. figure:: _static/images/dir.png
     :width: 400
-    :alt: lrengine concept
     :align: center
 
     Example parent directory
@@ -20,7 +19,6 @@ Define a function that operates on the files or sub-directories of the parent di
 
 .. figure:: _static/images/example_func.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Example function
@@ -29,7 +27,6 @@ Create an object that lrengine populates with attributes from the arguments,
 
 .. figure:: _static/images/example_call.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Example **start** object creation
@@ -38,7 +35,6 @@ Use the **drive()** method to apply the user-defined function to each file or su
 
 .. figure:: _static/images/drive_call.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Call to **drive()** method
@@ -47,7 +43,6 @@ The **start** **object** now contains a **.frame** that is a Pandas DataFrame of
 
 .. figure:: _static/images/df_head.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Head of **.frame** created by lrengine
@@ -55,7 +50,6 @@ The **start** **object** now contains a **.frame** that is a Pandas DataFrame of
 
 .. figure:: _static/images/start_obj.png
     :width: 600
-    :alt: lrengine concept
     :align: center
 
     General structure of the **start** object
@@ -67,7 +61,6 @@ Define **skip=** patterns, any files or sub-directories having these patterns in
 
 .. figure:: _static/images/example_call_skip.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Added **skip=** argument
@@ -79,21 +72,18 @@ Add the argument **date_format=** and if dates of this format are found in the f
 
 .. figure:: _static/images/dir_dates.png
     :width: 400
-    :alt: lrengine concept
     :align: center
 
     Example directory of folders with dates in the names
 
 .. figure:: _static/images/example_call_dates.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Added **date_format=** argument to look for dates
 
 .. figure:: _static/images/df_dates.png
     :width: 700
-    :alt: lrengine concept
     :align: center
 
     **.frame** now has date and date_delta classifiers
@@ -104,15 +94,23 @@ Use the **map_directory()** method to add **.directory_map** to the **start** ob
 
 .. figure:: _static/images/map_call.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Call the **map_directory()** method
 
 .. figure:: _static/images/dir_map.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     .directory_map
 
+
+Saving the DataFrame
+--------------------
+Use the **save()** method to save the **.frame** as a .csv using pandas.to_csv(). Specify the path and filename using **filename=** and set **header=True** or **header=False**. Default is **header=True**, and if a filename is not specified the **.frame** will be saved to the parent directory with a name that is the date followed by "_DataFrame.csv".
+
+.. figure:: _static/images/save_call.png
+    :width: 500
+    :align: center
+
+    Call the **save()** method

@@ -186,9 +186,11 @@ class start:
             if ".csv" not in filename:
                 filename = filename + ".csv"
         else:
-            filename = str(date.today()) + "_DataFrame.csv"
+            filename = os.path.join(
+                self.directory, str(date.today()) + "_DataFrame.csv"
+            )
 
-        self.frame.to_csv(os.path.join(self.directory, filename), header=header)
+        self.frame.to_csv(filename, header=header)
 
     @staticmethod
     def check_directory(directory):

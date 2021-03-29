@@ -31,59 +31,16 @@ class injectors:
         date_delta_list = list(np.zeros(len(lrdata["frame"])))
 
         for indx, dir in enumerate(lrdata["frame"]["names"]):
-            sub_patterns = re.split("[^a-zA-Z0-9 \n]", dir)
-            for possible_date in sub_patterns:
-                if possible_date.isdigit():
-                    if len(possible_date) == 8:
-                        if lrdata["date_format"] == "YYYYMMDD":
-                            pass
-                        elif lrdata["date_format"] == "DDMMYYYY":
-                            possible_date = (
-                                possible_date[5:8]
-                                + possible_date[3:5]
-                                + possible_date[0:3]
-                            )
-                        elif lrdata["date_format"] == "MMDDYYYY":
-                            possible_date = possible_date[5:8] + possible_date[0:5]
+            possible_date = None
+            if lrdata["date_format"] == "YYYYMMDD":
+                possible_date = self.look_for_YYYYMMDD(dir)
+            if lrdata["date_format"] == "YYYY_MM_DD":
+                possible_date = self.look_for_YYYY_MM_DD(dir)
 
-                    if len(possible_date) == 6:
-                        if lrdata["date_format"] == "MMDDYY":
-                            d = possible_date[5:6] + possible_date[0:5]
-                            if int(possible_date[5:6]) > 0 and int(
-                                possible_date[5:6]
-                            ) <= (date.today().year - 2000):
-                                possible_date = "20" + d
-                            else:
-                                possible_date = "19" + d
-                        elif lrdata["date_format"] == "DDMMYY":
-                            d = (
-                                possible_date[5:6]
-                                + possible_date[3:5]
-                                + possible_date[0:3]
-                            )
-                            if int(possible_date[5:6]) > 0 and int(
-                                possible_date[5:6]
-                            ) <= (date.today().year - 2000):
-                                possible_date = "20" + d
-                            else:
-                                possible_date = "19" + d
-
-                    if (
-                        (
-                            int(possible_date[0:4]) > 1900
-                            and int(possible_date[0:4]) <= date.today().year
-                        )
-                        and (
-                            int(possible_date[4:6]) > 0
-                            and int(possible_date[4:6]) <= 12
-                        )
-                        and (
-                            int(possible_date[6:8]) > 0
-                            and int(possible_date[6:8]) <= 31
-                        )
-                    ):
-                        date_list[indx] = self.parse_dates(possible_date)
-                        date_delta_list[indx] = self.diff_dates(date_list[indx])
+            if possible_date:
+                date_list[indx] = self.parse_dates(possible_date[0])
+                if date_list[indx]:
+                    date_delta_list[indx] = self.diff_dates(date_list[indx])
 
         if sum(date_delta_list) != 0:
             lrdata["frame"]["date"] = date_list
@@ -94,15 +51,23 @@ class injectors:
         return lrdata
 
     @staticmethod
+    def look_for_YYYY_MM_DD(dir):
+        return re.findall(r"[0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}", dir)
+
+    @staticmethod
+    def look_for_YYYYMMDD(dir):
+        return re.findall(r"[0-9]{8}", dir)
+
+    @staticmethod
+    def parse_dates(possible_date):
+        return parser.isoparse(possible_date).date()
+
+    @staticmethod
     def diff_dates(possible_date):
         delta = date.today() - date(
             possible_date.year, possible_date.month, possible_date.day
         )
         return int(delta.days)
-
-    @staticmethod
-    def parse_dates(possible_date):
-        return parser.isoparse(possible_date).date()
 
     def look_for_patterns(self, lrdata):
 
