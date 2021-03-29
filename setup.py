@@ -23,9 +23,9 @@ setup(
     keywords=["language recognition"],
     python_requires=">=3.6",
     install_requires=[
-        "python-dateutil>=2.7",
-        "numpy>=1.19",
-        "pandas>=1.19",
+        "python-dateutil>=2.6.1",
+        "numpy>=1.13.3",
+        "pandas>=1.0.4",
         "seaborn>=0.10",
     ],
     classifiers=[
