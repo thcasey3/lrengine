@@ -23,10 +23,10 @@ setup(
     keywords=["language recognition"],
     python_requires=">=3.6",
     install_requires=[
-        "dateutils>=0.6.12",
-        "numpy>=1.20.0",
-        "pandas>=1.2.3",
-        "seaborn>=0.11.1",
+        "python-dateutil>=2.8",
+        "numpy>=1.20",
+        "pandas>=1.2",
+        "seaborn>=0.11",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

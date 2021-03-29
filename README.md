@@ -15,7 +15,7 @@ Thomas Casey
 
 To install the required packages, perform:
 ```console
-pip install dateutils numpy scipy matplotlib pandas scikit-learn seaborn
+pip install pandas numpy python-dateutil seaborn
 ```
 
 # Installation
