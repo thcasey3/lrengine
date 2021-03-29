@@ -5,6 +5,7 @@ start class, checks and packages the inputs and sends them to intake
 import os
 import pandas as pd
 import numpy as np
+from datetime import date
 from . import intake, engine, tools
 
 
@@ -174,6 +175,20 @@ class start:
             return tools.sea_born.sea(
                 df=self.frame, kind=kind, seaborn_args=seaborn_args
             )
+
+    def save(self, filename=None, header=True):
+
+        if filename:
+            if not isinstance(filename, str):
+                raise TypeError(
+                    "Filename must be a string, make sure to add .csv to the end"
+                )
+            if ".csv" not in filename:
+                filename = filename + ".csv"
+        else:
+            filename = str(date.today()) + "_DataFrame.csv"
+
+        self.frame.to_csv(os.path.join(self.directory, filename), header=header)
 
     @staticmethod
     def check_directory(directory):

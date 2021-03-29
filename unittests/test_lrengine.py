@@ -69,6 +69,25 @@ class startTester(unittest.TestCase):
         with self.assertRaises(ValueError):
             result = start(self.path, date_format="YearMonthDay")
 
+        with self.assertRaises(TypeError):
+            self.start_result.save(filename=100)
+
+        if "utest.csv" in os.listdir(self.path):
+            os.remove(self.path + "utest.csv")
+
+        self.start_result.save(filename="utest")
+        self.assertTrue("utest.csv" in os.listdir(self.path))
+
+        os.remove(self.path + "utest.csv")
+
+        self.start_result.save(filename="utest.csv")
+        self.assertTrue("utest.csv" in os.listdir(self.path))
+        self.assertFalse("utest.csv.csv" in os.listdir(self.path))
+
+        os.remove(self.path + "utest.csv")
+        if "utest.csv.csv" in os.listdir(self.path):
+            os.remove(self.path + "utest.csv.csv")
+
     def test_b_drive_method(self):
 
         self.start_result.drive()
