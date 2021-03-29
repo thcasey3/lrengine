@@ -78,10 +78,17 @@ class startTester(unittest.TestCase):
         self.assertEqual(self.start_result.frame.columns[2], "patt2")
         self.assertEqual(self.start_result.frame.columns[3], "date")
         self.assertEqual(self.start_result.frame.columns[4], "date_delta")
-        #self.assertEqual(self.start_result.frame.loc[0, "date_delta"], 0)
-        #self.assertEqual(self.start_result.frame.loc[1, "date_delta"], 0)
-        #self.assertEqual(self.start_result.frame.loc[2, "date"], date(1985, 8, 2))
-        #self.assertNotEqual(self.start_result.frame.loc[2, "date_delta"], 0)
+        find_loc = self.start_result.frame[
+            self.start_result.frame["names"] == "example.csv"
+        ].index[0]
+        self.assertEqual(self.start_result.frame.loc[find_loc, "date_delta"], 0)
+        find_loc = self.start_result.frame[
+            self.start_result.frame["names"] == "19850802_example_short.csv"
+        ].index[0]
+        self.assertEqual(
+            self.start_result.frame.loc[find_loc, "date"], date(1985, 8, 2)
+        )
+        self.assertNotEqual(self.start_result.frame.loc[find_loc, "date_delta"], 0)
         self.assertEqual(self.start_result.frame.columns[5], "meas1")
         self.assertEqual(self.start_result.frame.columns[6], "meas2")
 
