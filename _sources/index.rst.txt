@@ -58,3 +58,9 @@ Features
    Planned features
 
 
+Index
+=====
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
