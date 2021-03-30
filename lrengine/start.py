@@ -232,9 +232,6 @@ class start:
             self.frame["date_format"] = new_formats
             self.frame["date"] = new_dates
             self.frame["date_delta"] = new_deltas
-            # self.frame = self.frame.assign(date_format=new_formats)
-            # self.frame = self.frame.assign(date=new_dates)
-            # self.frame = self.frame.assign(date_delta=new_deltas)
 
             return self.frame[["date", "date_format", "date_delta"]]
 
