@@ -1,0 +1,328 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introduction to lrengine &mdash; lrengine 0.0.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Create a start object" href="create%20start%20object.html" />
+    <link rel="prev" title="Installing lrengine" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+          
+
+          
+            
+            <img src="_static/web_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to lrengine</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-use-lrengine">How to use lrengine</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#skipping-names-by-defining-skip-patterns">Skipping names by defining 'skip' patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#looking-for-dates-in-file-or-sub-directory-names">Looking for Dates in file or sub-directory names</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="create%20start%20object.html">Create a start object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drive%28%29%20method.html">Call a user defined function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_directory%28%29%20method.html">Map a directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find_dates%28%29%20method.html">Find dates in file or folder names</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates%28%29%20method.html">Reduce the date lists to one format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save%28%29%20method.html">Save the DateFrame to csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea%28%29%20method.html">seaborn scatterplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Planned%20features.html">Planned Features</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lrengine</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Introduction to lrengine</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduction-to-lrengine">
+<h1>Introduction to lrengine<a class="headerlink" href="#introduction-to-lrengine" title="Permalink to this headline">¶</a></h1>
+<p>The aim of lrengine is to provide a simple mechanism for building and interacting with a DataFrame that has 'classifiers' that are extracted from file and/or folder names. Users can also define a function that operates on those files and/or folders and returns additional 'classifiers'. This provides an easy way to interact with directories of common data types and search for correlations between text in the file and/or folder names and any outputs of a user-defined function's operations on those files and/or folders. See the examples for a template script.</p>
+<div class="section" id="how-to-use-lrengine">
+<h2>How to use lrengine<a class="headerlink" href="#how-to-use-lrengine" title="Permalink to this headline">¶</a></h2>
+<p>Imagine the directory,</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/dir.png"><img alt="_images/dir.png" src="_images/dir.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Example parent directory</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>Import the lrengine package,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+</pre></div>
+</div>
+<p>Create an object that classifies the members of the directory using patterns in the names,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;example&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/df_example_head.png"><img alt="_images/df_example_head.png" src="_images/df_example_head.png" style="width: 300px;" /></a>
+<p class="caption"><span class="caption-text">Head of <strong>.frame</strong> created by lrengine</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>If the members of the directory are a common type, define a function that operates on each member and returns classifiers. In this example the classifiers are called &quot;output1&quot; and &quot;output2&quot; but you may use whatever you would like for the names of the classifiers,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
+
+    <span class="n">use_directory</span> <span class="o">=</span> <span class="n">directory</span>
+    <span class="n">output1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">])</span>
+    <span class="n">output2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">],</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par2&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Add some additional arguments to the start object,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sample1&quot;</span><span class="p">,</span> <span class="s2">&quot;sample2&quot;</span><span class="p">,</span> <span class="s2">&quot;sample3&quot;</span><span class="p">],</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;output2&quot;</span><span class="p">],</span>
+                    <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
+                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;par1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s2">&quot;par2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Use the <strong>drive()</strong> method to apply the function to each file or sub-directory of the parent directory,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <strong>start</strong> <strong>object</strong> now contains a <strong>.frame</strong> that is a Pandas DataFrame of classifiers pulled from the file or sub-directory names using <strong>patterns=</strong> and also those returned from the user-defined function,</p>
+<div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="_images/df_head.png"><img alt="_images/df_head.png" src="_images/df_head.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-text">Head of <strong>.frame</strong> created by lrengine</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<div class="section" id="skipping-names-by-defining-skip-patterns">
+<h3>Skipping names by defining 'skip' patterns<a class="headerlink" href="#skipping-names-by-defining-skip-patterns" title="Permalink to this headline">¶</a></h3>
+<p>Define <strong>skip=</strong> patterns, any files or sub-directories having these patterns in their name will be ignored,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sample1&quot;</span><span class="p">,</span> <span class="s2">&quot;sample2&quot;</span><span class="p">,</span> <span class="s2">&quot;sample3&quot;</span><span class="p">],</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;DS_Store&quot;</span><span class="p">],</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;output2&quot;</span><span class="p">],</span>
+                    <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
+                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;par1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s2">&quot;par2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="looking-for-dates-in-file-or-sub-directory-names">
+<h3>Looking for Dates in file or sub-directory names<a class="headerlink" href="#looking-for-dates-in-file-or-sub-directory-names" title="Permalink to this headline">¶</a></h3>
+<p>Add the argument <strong>date_format=</strong> and if dates of this format are found in the file or sub-directory names they will be added as a classifier along with a number of days elapsed, <strong>date_delta</strong>, since the found date,</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/dir_dates.png"><img alt="_images/dir_dates.png" src="_images/dir_dates.png" style="width: 400px;" /></a>
+<p class="caption"><span class="caption-text">Example directory of folders with dates in the names</span><a class="headerlink" href="#id4" title="Permalink to this image">¶</a></p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sample1&quot;</span><span class="p">,</span> <span class="s2">&quot;sample2&quot;</span><span class="p">,</span> <span class="s2">&quot;sample3&quot;</span><span class="p">],</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;DS_Store&quot;</span><span class="p">],</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;output2&quot;</span><span class="p">],</span>
+                    <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
+                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;par1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s2">&quot;par2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="_images/df_dates.png"><img alt="_images/df_dates.png" src="_images/df_dates.png" style="width: 700px;" /></a>
+<p class="caption"><span class="caption-text"><strong>.frame</strong> now has date and date_delta classifiers</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="create%20start%20object.html" class="btn btn-neutral float-right" title="Create a start object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral float-left" title="Installing lrengine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, lrengine
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
