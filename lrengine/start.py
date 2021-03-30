@@ -257,6 +257,7 @@ class start:
     def check_date_format(date_format):
 
         if not date_format in [
+            "any",
             "YYYYMMDD",
             "YYYYDDMM",
             "MMDDYYYY",
@@ -265,6 +266,14 @@ class start:
             "YYYY-DD-MM",
             "MM-DD-YYYY",
             "DD-MM-YYYY",
+            "YYMMDD",
+            "YYDDMM",
+            "MMDDYY",
+            "DDMMYY",
+            "YY-MM-DD",
+            "YY-DD-MM",
+            "MM-DD-YY",
+            "DD-MM-YY",
         ]:
             raise ValueError(
                 "Allowed values for date_format are None, 'YYYYMMDD', 'YYYYDDMM', 'MMDDYYYY', 'DDMMYYYY', 'YYYY-MM-DD', 'YYYY-DD-MM', 'MM-DD-YYYY', 'DD-MM-YYYY'"
