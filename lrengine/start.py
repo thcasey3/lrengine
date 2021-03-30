@@ -229,9 +229,9 @@ class start:
                         new_dates.append(self.frame.loc[indx, "date"])
                         new_deltas.append(self.frame.loc[indx, "date_delta"])
 
-            self.frame.at[:, "date_format"] = new_formats
-            self.frame.at[:, "date"] = new_dates
-            self.frame.at[:, "date_delta"] = new_deltas
+            self.frame.at[0 : len(self.frame), "date_format"] = new_formats
+            self.frame.at[0 : len(self.frame), "date"] = new_dates
+            self.frame.at[0 : len(self.frame), "date_delta"] = new_deltas
 
             return self.frame[["date", "date_format", "date_delta"]]
 
