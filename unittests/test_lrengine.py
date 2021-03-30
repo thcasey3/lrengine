@@ -68,32 +68,6 @@ class startTester(unittest.TestCase):
         with self.assertRaises(ValueError):
             result = start(self.path, date_format="YearMonthDay")
 
-        with self.assertRaises(TypeError):
-            self.start_result.save(filename=100)
-
-        if "utest.csv" in os.listdir(self.path):
-            os.remove(self.path + "utest.csv")
-
-        self.start_result.save(filename=os.path.join(self.path, "utest"))
-        self.assertTrue("utest.csv" in os.listdir(self.path))
-
-        os.remove(self.path + "utest.csv")
-
-        self.start_result.save(filename=os.path.join(self.path, "utest.csv"))
-        self.assertTrue("utest.csv" in os.listdir(self.path))
-        self.assertFalse("utest.csv.csv" in os.listdir(self.path))
-        os.remove(self.path + "utest.csv")
-
-        if "utest.csv.csv" in os.listdir(self.path):
-            os.remove(self.path + "utest.csv.csv")
-
-        if str(date.today()) + "_DataFrame.csv" in os.listdir(self.path):
-            os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
-
-        self.start_result.save()
-        self.assertTrue(str(date.today()) + "_DataFrame.csv" in os.listdir(self.path))
-        os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
-
     def test_b_drive_method(self):
 
         self.start_result.drive()
@@ -139,7 +113,19 @@ class startTester(unittest.TestCase):
         with self.assertRaises(TypeError):
             result.drive()
 
-    def test_c_map_directory_method(self):
+    def test_c_dates_methods(self):
+
+        self.start_result.date_format = "any"
+        self.start_result.find_dates()
+        find_loc = self.start_result.frame[
+            self.start_result.frame["names"] == "19850802_example_short.csv"
+        ].index[0]
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
+
+        self.start_result.reduce_dates(format="YYYYMMDD")
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], date))
+
+    def test_d_map_directory_method(self):
 
         self.start_result.map_directory()
         self.assertTrue(
@@ -150,7 +136,7 @@ class startTester(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
 
-    def test_d_sea_method(self):
+    def test_e_sea_method(self):
 
         with self.assertRaises(KeyError):
             self.start_result.sea(seaborn_args={})
@@ -159,6 +145,34 @@ class startTester(unittest.TestCase):
             self.start_result.sea(
                 kind="scatterplot", seaborn_args={"x": 0, "y": 0, "hue": 1}
             )
+
+    def test_f_save_method(self):
+
+        with self.assertRaises(TypeError):
+            self.start_result.save(filename=100)
+
+        if "utest.csv" in os.listdir(self.path):
+            os.remove(self.path + "utest.csv")
+
+        self.start_result.save(filename=os.path.join(self.path, "utest"))
+        self.assertTrue("utest.csv" in os.listdir(self.path))
+
+        os.remove(self.path + "utest.csv")
+
+        self.start_result.save(filename=os.path.join(self.path, "utest.csv"))
+        self.assertTrue("utest.csv" in os.listdir(self.path))
+        self.assertFalse("utest.csv.csv" in os.listdir(self.path))
+        os.remove(self.path + "utest.csv")
+
+        if "utest.csv.csv" in os.listdir(self.path):
+            os.remove(self.path + "utest.csv.csv")
+
+        if str(date.today()) + "_DataFrame.csv" in os.listdir(self.path):
+            os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
+
+        self.start_result.save()
+        self.assertTrue(str(date.today()) + "_DataFrame.csv" in os.listdir(self.path))
+        os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
 
 
 if __name__ == "__main__":
