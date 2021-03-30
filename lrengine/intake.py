@@ -71,14 +71,18 @@ class date_injectors:
                     except ValueError:
                         continue
 
-            if (
-                (isinstance(possible_date, list) and len(possible_date) == 1)
-                and (isinstance(possible_delta, list) and len(possible_delta) == 1)
-                and (isinstance(possible_patt, list) and len(possible_patt) == 1)
-            ):
-                possible_date = possible_date[0]
-                possible_delta = possible_delta[0]
-                possible_patt = possible_patt[0]
+            if isinstance(possible_date, list):
+                possible_date = list(set(possible_date))
+                if len(possible_date) == 1:
+                    possible_date = possible_date[0]
+            if isinstance(possible_delta, list):
+                possible_delta = list(set(possible_delta))
+                if len(possible_delta) == 1:
+                    possible_delta = possible_delta[0]
+            if isinstance(possible_patt, list):
+                possible_patt = list(set(possible_patt))
+                if len(possible_patt) == 1:
+                    possible_patt = possible_patt[0]
 
             if possible_date:
                 date_list[indx] = possible_date

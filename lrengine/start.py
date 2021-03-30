@@ -207,6 +207,34 @@ class start:
         else:
             return self.frame
 
+    def reduce_dates(self, format=None):
+
+        if format and "date_format" in self.frame.columns:
+            new_formats = []
+            new_dates = []
+            new_deltas = []
+            for indx, names in enumerate(self.frame["date_format"]):
+                if isinstance(names, list):
+                    for indx2, forms in enumerate(names):
+                        if forms == format:
+                            new_formats.append(
+                                self.frame.loc[indx, "date_format"][indx2]
+                            )
+                            new_dates.append(self.frame.loc[indx, "date"][indx2])
+                            new_deltas.append(self.frame.loc[indx, "date_delta"][indx2])
+
+                elif isinstance(names, str):
+                    if names == format:
+                        new_formats.append(self.frame.loc[indx, "date_format"])
+                        new_dates.append(self.frame.loc[indx, "date"])
+                        new_deltas.append(self.frame.loc[indx, "date_delta"])
+
+            self.frame.at[:, "date_format"] = new_formats
+            self.frame.at[:, "date"] = new_dates
+            self.frame.at[:, "date_delta"] = new_deltas
+
+            return self.frame[["date", "date_format", "date_delta"]]
+
     @staticmethod
     def check_directory(directory):
 
@@ -275,6 +303,4 @@ class start:
             "MM-DD-YY",
             "DD-MM-YY",
         ]:
-            raise ValueError(
-                "Allowed values for date_format are None, 'YYYYMMDD', 'YYYYDDMM', 'MMDDYYYY', 'DDMMYYYY', 'YYYY-MM-DD', 'YYYY-DD-MM', 'MM-DD-YYYY', 'DD-MM-YYYY'"
-            )
+            raise ValueError("This date format is not allowed, see documentation")
