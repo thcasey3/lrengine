@@ -1,0 +1,12 @@
+# How to build?
+
+```
+cd ../docs
+sphinx-build -b html source build
+```
+
+After building, use the following to access doc
+
+```
+open build/index.html
+```
