@@ -210,28 +210,31 @@ class start:
     def reduce_dates(self, format=None):
 
         if format and "date_format" in self.frame.columns:
-            new_formats = []
-            new_dates = []
-            new_deltas = []
+            new_formats = list(np.zeros(len(self.frame)))
+            new_dates = list(np.zeros(len(self.frame)))
+            new_deltas = list(np.zeros(len(self.frame)))
             for indx, names in enumerate(self.frame["date_format"]):
                 if isinstance(names, list):
                     for indx2, forms in enumerate(names):
                         if forms == format:
-                            new_formats.append(
-                                self.frame.loc[indx, "date_format"][indx2]
-                            )
-                            new_dates.append(self.frame.loc[indx, "date"][indx2])
-                            new_deltas.append(self.frame.loc[indx, "date_delta"][indx2])
+                            new_formats[indx] = self.frame.loc[indx, "date_format"][
+                                indx2
+                            ]
+                            new_dates[indx] = self.frame.loc[indx, "date"][indx2]
+                            new_deltas[indx] = self.frame.loc[indx, "date_delta"][indx2]
 
                 elif isinstance(names, str):
                     if names == format:
-                        new_formats.append(self.frame.loc[indx, "date_format"])
-                        new_dates.append(self.frame.loc[indx, "date"])
-                        new_deltas.append(self.frame.loc[indx, "date_delta"])
+                        new_formats[indx] = self.frame.loc[indx, "date_format"]
+                        new_dates[indx] = self.frame.loc[indx, "date"]
+                        new_deltas[indx] = self.frame.loc[indx, "date_delta"]
 
-            self.frame.at[0 : len(self.frame), "date_format"] = new_formats
-            self.frame.at[0 : len(self.frame), "date"] = new_dates
-            self.frame.at[0 : len(self.frame), "date_delta"] = new_deltas
+            self.frame["date_format"] = new_formats
+            self.frame["date"] = new_dates
+            self.frame["date_delta"] = new_deltas
+            # self.frame = self.frame.assign(date_format=new_formats)
+            # self.frame = self.frame.assign(date=new_dates)
+            # self.frame = self.frame.assign(date_delta=new_deltas)
 
             return self.frame[["date", "date_format", "date_delta"]]
 
