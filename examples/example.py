@@ -24,7 +24,7 @@ path = "../path to parent directory"
 # %% [markdown]
 # Define a function that accepts the parent directory and any additional arguments in the form of a dictionary and
 # returns a list of outputs. The list must have a single value for each member of the list and have a **'len()'**
-# equal to the list of **'measures'** given during the instantiation of the object below.
+# equal to the list of **'classifiers'** given during the instantiation of the object below.
 def function_handle(directory, args_dict):
 
     # insert code that acts on each file or sub-directory of directory and makes two floats or ints
@@ -42,7 +42,7 @@ lrobject = lr.start(
     path,
     patterns=[],  # enter any patterns in the file or folder names to use as classifiers, e.g. ["sample1", "sample2"]
     skip=[],  # enter any sub-strings in the names of file folders that should be skipped, e.g. ["blank_run"]
-    measures=[
+    classifiers=[
         "output1",
         "output2",
     ],  # these are the column names corresponding to the function outputs

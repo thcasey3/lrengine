@@ -1,6 +1,4 @@
-
-lrengine/__pycache__/version.cpython-38.pyc
-lrengine/tools/__pycache__/
 docs/build/
 docs/source/auto_examples/
+docs/source/_static/images/
 *.pyc

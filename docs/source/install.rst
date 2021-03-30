@@ -15,15 +15,10 @@ The following packages are required in order to use all features of lrengine:
    :widths: 40 60
 
    * - **Package**
-     - **Version**
-   * - Pandas
-     - 1.2+
-   * - NumPy
-     - 1.20+
-   * - python-dateutil
-     - 2.8+
-   * - seaborn
-     - 0.11+
+   * - pandas>=1.0.4
+   * - numpy>=1.13.3
+   * - python-dateutil>=2.6.1
+   * - seaborn>=0.10
 
 
 To install the required packages with pip use the command:

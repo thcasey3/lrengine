@@ -10,7 +10,6 @@ class startTester(unittest.TestCase):
     def setUp(self):
         self.path = "./data/"
         self.subd = os.listdir(self.path)
-        self.csv_file = os.path.join(self.path, "example_short.csv/")
         self.meas = ["meas1", "meas2"]
         self.patt = ["patt1", "patt2"]
         self.skip = ["skip1", "skip2"]
@@ -22,7 +21,7 @@ class startTester(unittest.TestCase):
             self.path,
             patterns=self.patt,
             skip=self.skip,
-            measures=self.meas,
+            classifiers=self.meas,
             function=self.func,
             function_args=self.farg,
             date_format=self.date_format,
@@ -32,7 +31,7 @@ class startTester(unittest.TestCase):
 
         self.assertEqual(self.path, self.start_result.directory)
         self.assertEqual(self.subd, os.listdir(self.start_result.directory))
-        self.assertEqual(self.meas, self.start_result.measures)
+        self.assertEqual(self.meas, self.start_result.classifiers)
         self.assertEqual(self.patt, self.start_result.patterns)
         self.assertEqual(self.skip, self.start_result.skip)
         self.assertEqual(self.func, self.start_result.function)
@@ -42,7 +41,7 @@ class startTester(unittest.TestCase):
         with self.assertRaises(TypeError):
             result = start(
                 self.path,
-                measures=("one", "two"),
+                classifiers=("one", "two"),
                 function=self.func,
                 function_args=self.farg,
             )
@@ -93,13 +92,19 @@ class startTester(unittest.TestCase):
         self.assertEqual(self.start_result.frame.columns[6], "meas2")
 
         result = start(
-            self.path, measures=["justone"], function=self.func, function_args=self.farg
+            self.path,
+            classifiers=["justone"],
+            function=self.func,
+            function_args=self.farg,
         )
         with self.assertRaises(ValueError):
             result.drive()
 
         result = start(
-            self.path, measures="justone", function=self.func, function_args=self.farg
+            self.path,
+            classifiers="justone",
+            function=self.func,
+            function_args=self.farg,
         )
         with self.assertRaises(ValueError):
             result.drive()
@@ -108,7 +113,19 @@ class startTester(unittest.TestCase):
         with self.assertRaises(TypeError):
             result.drive()
 
-    def test_c_map_directory_method(self):
+    def test_c_dates_methods(self):
+
+        self.start_result.date_format = "any"
+        self.start_result.find_dates()
+        find_loc = self.start_result.frame[
+            self.start_result.frame["names"] == "19850802_example_short.csv"
+        ].index[0]
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
+
+        self.start_result.reduce_dates(format="YYYYMMDD")
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], date))
+
+    def test_d_map_directory_method(self):
 
         self.start_result.map_directory()
         self.assertTrue(
@@ -119,7 +136,7 @@ class startTester(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
 
-    def test_d_sea_method(self):
+    def test_e_sea_method(self):
 
         with self.assertRaises(KeyError):
             self.start_result.sea(seaborn_args={})
@@ -128,6 +145,34 @@ class startTester(unittest.TestCase):
             self.start_result.sea(
                 kind="scatterplot", seaborn_args={"x": 0, "y": 0, "hue": 1}
             )
+
+    def test_f_save_method(self):
+
+        with self.assertRaises(TypeError):
+            self.start_result.save(filename=100)
+
+        if "utest.csv" in os.listdir(self.path):
+            os.remove(self.path + "utest.csv")
+
+        self.start_result.save(filename=os.path.join(self.path, "utest"))
+        self.assertTrue("utest.csv" in os.listdir(self.path))
+
+        os.remove(self.path + "utest.csv")
+
+        self.start_result.save(filename=os.path.join(self.path, "utest.csv"))
+        self.assertTrue("utest.csv" in os.listdir(self.path))
+        self.assertFalse("utest.csv.csv" in os.listdir(self.path))
+        os.remove(self.path + "utest.csv")
+
+        if "utest.csv.csv" in os.listdir(self.path):
+            os.remove(self.path + "utest.csv.csv")
+
+        if str(date.today()) + "_DataFrame.csv" in os.listdir(self.path):
+            os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
+
+        self.start_result.save()
+        self.assertTrue(str(date.today()) + "_DataFrame.csv" in os.listdir(self.path))
+        os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
 
 
 if __name__ == "__main__":
