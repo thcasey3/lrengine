@@ -17,9 +17,12 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Thomas Casey",
-    url="",
-    download_url="",
-    project_urls={},
+    url="https://github.com/thcasey3/lrengine",
+    download_url="https://github.com/thcasey3/lrengine/tree/development",
+    project_urls={
+        "Documentation": "https://thcasey3.github.io/lrengine/",
+        "Source": "https://github.com/thcasey3/lrengine/tree/development",
+    },
     keywords=["language recognition"],
     python_requires=">=3.6",
     install_requires=[
