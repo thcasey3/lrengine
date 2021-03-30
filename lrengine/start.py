@@ -202,8 +202,10 @@ class start:
     def look_for_dates(self):
 
         intake.date_injectors(self)
-
-        return self.frame[["date", "date_delta"]]
+        if "date" in self.frame.keys():
+            return self.frame[["date", "date_delta"]]
+        else:
+            return self.frame
 
     @staticmethod
     def check_directory(directory):

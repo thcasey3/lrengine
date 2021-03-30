@@ -20,9 +20,35 @@ class date_injectors:
     def __init__(self, lrdata):
 
         if lrdata.date_format:
-            lrdata = self.look_for_date(lrdata)
+            if lrdata.date_format == "any":
+                lrdata = self._smart_search_dates(lrdata)
+            else:
+                lrdata = self._look_for_date(lrdata)
 
-    def look_for_date(self, lrdata):
+    def _smart_search_dates(self, lrdata):
+
+        date_list = list(np.zeros(len(lrdata.frame)))
+        date_format_list = list(np.zeros(len(lrdata.frame)))
+        date_delta_list = list(np.zeros(len(lrdata.frame)))
+
+        for indx, dir in enumerate(lrdata.frame.names):
+            possible_date = self.look_for_date_string(dir, "YYYYMMDD")
+            if possible_date:
+                date_list[indx] = self.parse_dates(possible_date)
+                if date_list[indx]:
+                    date_delta_list[indx] = self.diff_dates(date_list[indx])
+                    date_format_list[indx] = lrdata.date_format
+
+        if sum(date_delta_list) != 0:
+            lrdata.frame["date"] = date_list
+            lrdata.frame["date_format"] = date_format_list
+            lrdata.frame["date_delta"] = date_delta_list
+        else:
+            print("No dates of format " + lrdata.date_format + " found in names")
+
+        return lrdata
+
+    def _look_for_date(self, lrdata):
 
         date_list = list(np.zeros(len(lrdata.frame)))
         date_delta_list = list(np.zeros(len(lrdata.frame)))
