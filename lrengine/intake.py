@@ -62,7 +62,7 @@ class date_injectors:
                         found_delta = self.diff_dates(found_date)
                         if (
                             found_delta >= 0
-                            and found_date.year > 1970
+                            and found_date.year > 1900
                             and found_date.year < date.today().year
                         ):
                             possible_date.append(found_date)
@@ -122,7 +122,7 @@ class date_injectors:
     @staticmethod
     def look_for_date_string(dir, date_format):
 
-        if date_format == "YYYY-MM-DD" or date_format == "YYYY-DD-MM":
+        if date_format in ["YYYY-MM-DD", "YYYY-DD-MM"]:
             date_string = re.findall(
                 r"[0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}", dir
             )
@@ -148,7 +148,7 @@ class date_injectors:
                         + date_string[5:7]
                     )
 
-        if date_format == "DD-MM-YYYY" or date_format == "MM-DD-YYYY":
+        if date_format in ["DD-MM-YYYY", "MM-DD-YYYY"]:
             date_string = re.findall(
                 r"[0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}", dir
             )
@@ -174,12 +174,7 @@ class date_injectors:
                         + date_string[3:5]
                     )
 
-        if (
-            date_format == "YYYYMMDD"
-            or date_format == "YYYYDDMM"
-            or date_format == "DDMMYYYY"
-            or date_format == "MMDDYYYY"
-        ):
+        if date_format in ["YYYYMMDD", "YYYYDDMM", "DDMMYYYY", "MMDDYYYY"]:
             date_string = re.findall(r"[0-9]{8}", dir)
             if date_string and isinstance(date_string, list):
                 date_string = date_string[0]
@@ -196,12 +191,7 @@ class date_injectors:
                 if date_format == "MMDDYYYY":
                     date_string = date_string[4:] + date_string[0:4]
 
-        if (
-            date_format == "YY-MM-DD"
-            or date_format == "YY-DD-MM"
-            or date_format == "DD-MM-YY"
-            or date_format == "MM-DD-YY"
-        ):
+        if date_format in ["YY-MM-DD", "YY-DD-MM", "DD-MM-YY", "MM-DD-YY"]:
             date_string = re.findall(
                 r"[0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}", dir
             )
@@ -289,12 +279,7 @@ class date_injectors:
                             + date_string[3:5]
                         )
 
-        if (
-            date_format == "YYMMDD"
-            or date_format == "YYDDMM"
-            or date_format == "DDMMYY"
-            or date_format == "MMDDYY"
-        ):
+        if date_format in ["YYMMDD", "YYDDMM", "DDMMYY", "MMDDYY"]:
             date_string = re.findall(r"[0-9]{6}", dir)
             if date_string and isinstance(date_string, list):
                 date_string = date_string[0]

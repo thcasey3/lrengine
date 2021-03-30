@@ -20,13 +20,13 @@ class cylinders:
         if not isinstance(lrdata.function_args, dict):
             raise TypeError("function_args must be a dictionary")
 
-        if (lrdata.function is not None) and (lrdata.measures is not None):
-            measures = self.run_function(lrdata)
-            measures = self.check_func_output(lrdata.measures, measures)
+        if (lrdata.function is not None) and (lrdata.classifiers is not None):
+            classifiers = self.run_function(lrdata)
+            classifiers = self.check_func_output(lrdata.classifiers, classifiers)
 
-            for indx1, meas_col in enumerate(lrdata.measures):
+            for indx1, meas_col in enumerate(lrdata.classifiers):
                 lrdata.frame[meas_col] = np.zeros(len(lrdata.frame))
-                for indx2, meas_val in enumerate(measures):
+                for indx2, meas_val in enumerate(classifiers):
                     lrdata.frame.loc[indx2, meas_col] = meas_val[indx1]
         else:
             print(
@@ -35,34 +35,35 @@ class cylinders:
 
     def run_function(self, lrdata):
 
-        measures = list(np.zeros(len(lrdata.frame.names)))
+        classifiers = list(np.zeros(len(lrdata.frame.names)))
         for indx, name in enumerate(lrdata.frame.names):
-            measures[indx] = lrdata.function(
+            classifiers[indx] = lrdata.function(
                 os.path.join(lrdata.directory, name), lrdata.function_args
             )
 
-        return measures
+        return classifiers
 
     @staticmethod
-    def check_func_output(lrdata_measures, measures):
+    def check_func_output(lrdata_measures, classifiers):
 
-        if not isinstance(measures, list):
-            if len(measures) == 1:
-                measures = list(measures)
+        if not isinstance(classifiers, list):
+            if len(classifiers) == 1:
+                classifiers = list(classifiers)
             else:
-                raise TypeError("the measures are not in a list")
+                raise TypeError("the classifiers are not in a list")
 
-        elif isinstance(measures, list) and (
-            isinstance(any(measures), list) and not isinstance(all(measures), list)
+        elif isinstance(classifiers, list) and (
+            isinstance(any(classifiers), list)
+            and not isinstance(all(classifiers), list)
         ):
             raise TypeError(
-                "measures is a mixture of lists and non-lists, this is not allowed"
+                "classifiers is a mixture of lists and non-lists, this is not allowed"
             )
 
-        for indx, _ in enumerate(measures):
-            if len(measures[indx]) != len(lrdata_measures):
+        for indx, _ in enumerate(classifiers):
+            if len(classifiers[indx]) != len(lrdata_measures):
                 raise ValueError(
-                    "len of measures returned != len of measures given, this is not allowed"
+                    "len of classifiers returned != len of classifiers given, this is not allowed"
                 )
 
-        return measures
+        return classifiers

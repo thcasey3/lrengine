@@ -18,7 +18,7 @@ class start:
         patterns (list): List of patterns to recognize in file or folder names
         skip (list): List of patterns used to decide which elements to skip
         date_format (str): format of date string to search for
-        measures (list): User-defined classifier(s)
+        classifiers (list): User-defined classifier(s)
         function (function): User-defined function that returns classifier value(s)
         function_args (dict): Dictionary of arguments for user-defined function
     """
@@ -29,7 +29,7 @@ class start:
         patterns=None,
         skip=None,
         date_format=None,
-        measures=None,
+        classifiers=None,
         function=None,
         function_args=None,
     ):
@@ -38,7 +38,7 @@ class start:
         self.patterns = patterns
         self.skip = skip
         self.date_format = date_format
-        self.measures = measures
+        self.classifiers = classifiers
         self.function = function
         self.function_args = function_args
         self.frame = pd.DataFrame({})
@@ -51,7 +51,7 @@ class start:
             self.check_directory(self.directory)
             self.check_lists(self.patterns, "patterns")
             self.check_lists(self.skip, "skip")
-            self.check_lists(self.measures, "measures")
+            self.check_lists(self.classifiers, "classifiers")
             self.check_function(self.function)
 
         if date_format:
@@ -106,7 +106,7 @@ class start:
                 "patterns": self.patterns,
                 "skip": self.skip,
                 "date_format": self.date_format,
-                "measures": self.measures,
+                "classifiers": self.classifiers,
                 "function": self.function,
                 "function_args": self.function_args,
                 "frame": self.frame,
@@ -199,7 +199,7 @@ class start:
 
         self.frame.to_csv(filename, header=header)
 
-    def look_for_dates(self):
+    def find_dates(self):
 
         intake.date_injectors(self)
         if "date" in self.frame.keys():
@@ -290,17 +290,33 @@ class start:
             "YYYYDDMM",
             "MMDDYYYY",
             "DDMMYYYY",
-            "YYYY-MM-DD",
-            "YYYY-DD-MM",
-            "MM-DD-YYYY",
-            "DD-MM-YYYY",
             "YYMMDD",
             "YYDDMM",
             "MMDDYY",
             "DDMMYY",
+            "YYYY-MM-DD",
+            "YYYY-DD-MM",
+            "MM-DD-YYYY",
+            "DD-MM-YYYY",
             "YY-MM-DD",
             "YY-DD-MM",
             "MM-DD-YY",
             "DD-MM-YY",
+            "YYYY_MM_DD",
+            "YYYY_DD_MM",
+            "MM_DD_YYYY",
+            "DD_MM_YYYY",
+            "YY_MM_DD",
+            "YY_DD_MM",
+            "MM_DD_YY",
+            "DD_MM_YY",
+            "YYYY/MM/DD",
+            "YYYY/DD/MM",
+            "MM/DD/YYYY",
+            "DD/MM/YYYY",
+            "YY/MM/DD",
+            "YY/DD/MM",
+            "MM/DD/YY",
+            "DD/MM/YY",
         ]:
             raise ValueError("This date format is not allowed, see documentation")

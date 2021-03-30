@@ -21,7 +21,7 @@ class startTester(unittest.TestCase):
             self.path,
             patterns=self.patt,
             skip=self.skip,
-            measures=self.meas,
+            classifiers=self.meas,
             function=self.func,
             function_args=self.farg,
             date_format=self.date_format,
@@ -31,7 +31,7 @@ class startTester(unittest.TestCase):
 
         self.assertEqual(self.path, self.start_result.directory)
         self.assertEqual(self.subd, os.listdir(self.start_result.directory))
-        self.assertEqual(self.meas, self.start_result.measures)
+        self.assertEqual(self.meas, self.start_result.classifiers)
         self.assertEqual(self.patt, self.start_result.patterns)
         self.assertEqual(self.skip, self.start_result.skip)
         self.assertEqual(self.func, self.start_result.function)
@@ -41,7 +41,7 @@ class startTester(unittest.TestCase):
         with self.assertRaises(TypeError):
             result = start(
                 self.path,
-                measures=("one", "two"),
+                classifiers=("one", "two"),
                 function=self.func,
                 function_args=self.farg,
             )
@@ -118,13 +118,19 @@ class startTester(unittest.TestCase):
         self.assertEqual(self.start_result.frame.columns[6], "meas2")
 
         result = start(
-            self.path, measures=["justone"], function=self.func, function_args=self.farg
+            self.path,
+            classifiers=["justone"],
+            function=self.func,
+            function_args=self.farg,
         )
         with self.assertRaises(ValueError):
             result.drive()
 
         result = start(
-            self.path, measures="justone", function=self.func, function_args=self.farg
+            self.path,
+            classifiers="justone",
+            function=self.func,
+            function_args=self.farg,
         )
         with self.assertRaises(ValueError):
             result.drive()

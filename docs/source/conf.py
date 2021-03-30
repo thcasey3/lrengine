@@ -154,7 +154,7 @@ def setup(app):
 #
 # html_sidebars = {}
 
-html_logo = "_static/images/logo-orange.png"
+html_logo = "_static/images/web_logo.png"
 
 
 # -- Options for HTMLHelp output ---------------------------------------------
