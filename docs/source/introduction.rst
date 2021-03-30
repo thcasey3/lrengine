@@ -7,70 +7,86 @@ The aim of lrengine is to provide a simple mechanism for building and interactin
 How to use lrengine
 ===================
 
-Imagine a directory of data folders having in them a common type of data,
+Imagine the directory,
 
 .. figure:: _static/images/dir.png
     :width: 400
-    :alt: lrengine concept
     :align: center
 
     Example parent directory
 
-Define a function that operates on the files or sub-directories of the parent directory and returns a list of observables. In this example they would be "output1" and "output2",
 
-.. figure:: _static/images/example_func.png
-    :width: 500
-    :alt: lrengine concept
+Import the lrengine package,
+
+.. code-block:: python
+
+    import lrengine as lr
+
+
+Create an object that classifies the members of the directory using patterns in the names,
+
+.. code-block:: python
+
+    lrobject = lr.start(path, patterns=["example"])
+
+.. figure:: _static/images/df_example_head.png
+    :width: 300
     :align: center
 
-    Example function
+    Head of **.frame** created by lrengine
 
-Create an object that lrengine populates with attributes from the arguments,
+If the members of the directory are a common type, define a function that operates on each member and returns classifiers. In this example the classifiers are called "output1" and "output2" but you may use whatever you would like for the names of the classifiers,
 
-.. figure:: _static/images/example_call.png
-    :width: 500
-    :alt: lrengine concept
-    :align: center
+.. code-block:: python
 
-    Example **start** object creation
+    def function_handle(directory, args_dict):
 
-Use the **drive()** method to apply the user-defined function to each file or sub-directory of the parent directory,
+        use_directory = directory
+        output1 = random.randint(0, args_dict["par1"])
+        output2 = random.randint(args_dict["par1"], args_dict["par2"])
 
-.. figure:: _static/images/drive_call.png
-    :width: 500
-    :alt: lrengine concept
-    :align: center
+        return [output1, output2]
 
-    Call to **drive()** method
+Add some additional arguments to the start object,
+
+.. code-block:: python
+
+    lrobject = lr.start(path,
+                        patterns=["sample1", "sample2", "sample3"],
+                        classifiers=["output1", "output2"],
+                        function=function_handle,
+                        function_args={"par1": 1,
+                                       "par2": 2}
+                        )
+
+Use the **drive()** method to apply the function to each file or sub-directory of the parent directory,
+
+.. code-block:: python
+
+    lrobject.drive()
 
 The **start** **object** now contains a **.frame** that is a Pandas DataFrame of classifiers pulled from the file or sub-directory names using **patterns=** and also those returned from the user-defined function,
 
 .. figure:: _static/images/df_head.png
     :width: 500
-    :alt: lrengine concept
     :align: center
 
     Head of **.frame** created by lrengine
-
-
-.. figure:: _static/images/start_obj.png
-    :width: 600
-    :alt: lrengine concept
-    :align: center
-
-    General structure of the **start** object
-
 
 Skipping names by defining 'skip' patterns
 ------------------------------------------
 Define **skip=** patterns, any files or sub-directories having these patterns in their name will be ignored,
 
-.. figure:: _static/images/example_call_skip.png
-    :width: 500
-    :alt: lrengine concept
-    :align: center
+.. code-block:: python
 
-    Added **skip=** argument
+    lrobject = lr.start(path,
+                        patterns=["sample1", "sample2", "sample3"],
+                        skip=["DS_Store"],
+                        classifiers=["output1", "output2"],
+                        function=function_handle,
+                        function_args={"par1": 1,
+                                       "par2": 2}
+                        )
 
 
 Looking for Dates in file or sub-directory names
@@ -79,40 +95,25 @@ Add the argument **date_format=** and if dates of this format are found in the f
 
 .. figure:: _static/images/dir_dates.png
     :width: 400
-    :alt: lrengine concept
     :align: center
 
     Example directory of folders with dates in the names
 
-.. figure:: _static/images/example_call_dates.png
-    :width: 500
-    :alt: lrengine concept
-    :align: center
+.. code-block:: python
 
-    Added **date_format=** argument to look for dates
+    lrobject = lr.start(path,
+                        patterns=["sample1", "sample2", "sample3"],
+                        skip=["DS_Store"],
+                        classifiers=["output1", "output2"],
+                        function=function_handle,
+                        function_args={"par1": 1,
+                                       "par2": 2}
+                        date_format="YYYYMMDD"
+                        )
 
 .. figure:: _static/images/df_dates.png
     :width: 700
-    :alt: lrengine concept
     :align: center
 
     **.frame** now has date and date_delta classifiers
-
-Map the parent directory
-------------------------
-Use the **map_directory()** method to add **.directory_map** to the **start** object. This is a dictionary with keys that are the directories and values that are lists of filenames found in the directories,
-
-.. figure:: _static/images/map_call.png
-    :width: 500
-    :alt: lrengine concept
-    :align: center
-
-    Call the **map_directory()** method
-
-.. figure:: _static/images/dir_map.png
-    :width: 500
-    :alt: lrengine concept
-    :align: center
-
-    .directory_map
 

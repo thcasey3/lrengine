@@ -1,21 +1,24 @@
 # lrengine
- lrengine - correlating file or folder names to data attributes
+lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names either with each other or with outputs of a user supplied function. 
 
 Author:
 Thomas Casey
 
 # Features
 
-  - pass a directory, search patterns, and user-defined function and recieve statistical correlations of the patterns to the return of the user-defined function
+- Organize DataFrames using dates and specific language in file and folder names
+- Find specific format date strings, or look for possible date strings, in file or folder names 
+- Construct DataFrames from a function that processes files or sub-directories of a parent directory
+- Visualize correlations between function outputs, and dates or specific language in file and folder names
 
 # Requirements
 
   - Python 3.6 or Later
-  - dateutils, numpy, scipy, matplotlib, pandas, sklearn, seaborn
+  - pandas, numpy, python-dateutil, seaborn
 
 To install the required packages, perform:
 ```console
-pip install dateutils numpy scipy matplotlib pandas scikit-learn seaborn
+pip install pandas numpy python-dateutil seaborn
 ```
 
 # Installation
@@ -31,4 +34,4 @@ pip install lrengine
 
 # Developement 
 
-  - Clone the git repository from https://github.com/thcasey3/lrengine
+  - Clone the git repository from https://github.com/thcasey3/lrengine/tree/development

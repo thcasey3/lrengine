@@ -5,6 +5,7 @@ start class, checks and packages the inputs and sends them to intake
 import os
 import pandas as pd
 import numpy as np
+from datetime import date
 from . import intake, engine, tools
 
 
@@ -17,18 +18,18 @@ class start:
         patterns (list): List of patterns to recognize in file or folder names
         skip (list): List of patterns used to decide which elements to skip
         date_format (str): format of date string to search for
-        measures (list): User-defined classifier(s)
+        classifiers (list): User-defined classifier(s)
         function (function): User-defined function that returns classifier value(s)
         function_args (dict): Dictionary of arguments for user-defined function
     """
 
     def __init__(
         self,
-        directory="",
-        patterns=[],
+        directory=None,
+        patterns=None,
         skip=None,
         date_format=None,
-        measures=None,
+        classifiers=None,
         function=None,
         function_args=None,
     ):
@@ -37,7 +38,7 @@ class start:
         self.patterns = patterns
         self.skip = skip
         self.date_format = date_format
-        self.measures = measures
+        self.classifiers = classifiers
         self.function = function
         self.function_args = function_args
         self.frame = pd.DataFrame({})
@@ -50,15 +51,20 @@ class start:
             self.check_directory(self.directory)
             self.check_lists(self.patterns, "patterns")
             self.check_lists(self.skip, "skip")
-            self.check_lists(self.measures, "measures")
+            self.check_lists(self.classifiers, "classifiers")
             self.check_function(self.function)
 
-        if date_format is not None:
+        if date_format:
             self.check_date_format(date_format)
 
-        self.checks_passed()
+        self._checks_passed()
 
-    def checks_passed(self):
+        if self.date_format:
+            intake.date_injectors(self)
+        if self.patterns:
+            intake.pattern_injectors(self)
+
+    def _checks_passed(self):
 
         if os.path.isfile(self.directory) and ".csv" in self.directory:
             self.frame = pd.read_csv(self.directory)
@@ -100,17 +106,17 @@ class start:
                 "patterns": self.patterns,
                 "skip": self.skip,
                 "date_format": self.date_format,
-                "measures": self.measures,
+                "classifiers": self.classifiers,
                 "function": self.function,
                 "function_args": self.function_args,
                 "frame": self.frame,
             }
 
-        intake.injectors(lrdata)
+        return lrdata
 
     def drive(self):
 
-        if not self.function and self.function is not None:
+        if not self.function:
             raise TypeError(
                 "this object was created from a csv, the .run() method is not allowed"
             )
@@ -161,6 +167,8 @@ class start:
             for sl in skip_list:
                 self.directory_map.pop(sl)
 
+            return self.directory_map
+
         else:
             raise TypeError("This is not a path to a directory")
 
@@ -174,6 +182,58 @@ class start:
             return tools.sea_born.sea(
                 df=self.frame, kind=kind, seaborn_args=seaborn_args
             )
+
+    def save(self, filename=None, header=True):
+
+        if filename:
+            if not isinstance(filename, str):
+                raise TypeError(
+                    "Filename must be a string, make sure to add .csv to the end"
+                )
+            if ".csv" not in filename:
+                filename = filename + ".csv"
+        else:
+            filename = os.path.join(
+                self.directory, str(date.today()) + "_DataFrame.csv"
+            )
+
+        self.frame.to_csv(filename, header=header)
+
+    def find_dates(self):
+
+        intake.date_injectors(self)
+        if "date" in self.frame.keys():
+            return self.frame[["date", "date_delta"]]
+        else:
+            return self.frame
+
+    def reduce_dates(self, format=None):
+
+        if format and "date_format" in self.frame.columns:
+            new_formats = list(np.zeros(len(self.frame)))
+            new_dates = list(np.zeros(len(self.frame)))
+            new_deltas = list(np.zeros(len(self.frame)))
+            for indx, names in enumerate(self.frame["date_format"]):
+                if isinstance(names, list):
+                    for indx2, forms in enumerate(names):
+                        if forms == format:
+                            new_formats[indx] = self.frame.loc[indx, "date_format"][
+                                indx2
+                            ]
+                            new_dates[indx] = self.frame.loc[indx, "date"][indx2]
+                            new_deltas[indx] = self.frame.loc[indx, "date_delta"][indx2]
+
+                elif isinstance(names, str):
+                    if names == format:
+                        new_formats[indx] = self.frame.loc[indx, "date_format"]
+                        new_dates[indx] = self.frame.loc[indx, "date"]
+                        new_deltas[indx] = self.frame.loc[indx, "date_delta"]
+
+            self.frame["date_format"] = new_formats
+            self.frame["date"] = new_dates
+            self.frame["date_delta"] = new_deltas
+
+            return self.frame[["date", "date_format", "date_delta"]]
 
     @staticmethod
     def check_directory(directory):
@@ -224,7 +284,39 @@ class start:
     @staticmethod
     def check_date_format(date_format):
 
-        if not date_format in ["YYYYMMDD", "MMDDYY", "MMDDYYYY", "DDMMYY", "DDMMYYYY"]:
-            raise ValueError(
-                "Allowed values for date_format are None, 'YYYYMMDD', 'MMDDYY', 'MMDDYYYY', 'DDMMYY', or 'DDMMYYYY'"
-            )
+        if not date_format in [
+            "any",
+            "YYYYMMDD",
+            "YYYYDDMM",
+            "MMDDYYYY",
+            "DDMMYYYY",
+            "YYMMDD",
+            "YYDDMM",
+            "MMDDYY",
+            "DDMMYY",
+            "YYYY-MM-DD",
+            "YYYY-DD-MM",
+            "MM-DD-YYYY",
+            "DD-MM-YYYY",
+            "YY-MM-DD",
+            "YY-DD-MM",
+            "MM-DD-YY",
+            "DD-MM-YY",
+            "YYYY_MM_DD",
+            "YYYY_DD_MM",
+            "MM_DD_YYYY",
+            "DD_MM_YYYY",
+            "YY_MM_DD",
+            "YY_DD_MM",
+            "MM_DD_YY",
+            "DD_MM_YY",
+            "YYYY/MM/DD",
+            "YYYY/DD/MM",
+            "MM/DD/YYYY",
+            "DD/MM/YYYY",
+            "YY/MM/DD",
+            "YY/DD/MM",
+            "MM/DD/YY",
+            "DD/MM/YY",
+        ]:
+            raise ValueError("This date format is not allowed, see documentation")
