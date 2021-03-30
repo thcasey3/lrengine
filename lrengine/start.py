@@ -25,8 +25,8 @@ class start:
 
     def __init__(
         self,
-        directory="",
-        patterns=[],
+        directory=None,
+        patterns=None,
         skip=None,
         date_format=None,
         measures=None,
@@ -54,12 +54,17 @@ class start:
             self.check_lists(self.measures, "measures")
             self.check_function(self.function)
 
-        if date_format is not None:
+        if date_format:
             self.check_date_format(date_format)
 
-        self.checks_passed()
+        self._checks_passed()
 
-    def checks_passed(self):
+        if self.date_format:
+            intake.date_injectors(self)
+        if self.patterns:
+            intake.pattern_injectors(self)
+
+    def _checks_passed(self):
 
         if os.path.isfile(self.directory) and ".csv" in self.directory:
             self.frame = pd.read_csv(self.directory)
@@ -107,11 +112,11 @@ class start:
                 "frame": self.frame,
             }
 
-        intake.injectors(lrdata)
+        return lrdata
 
     def drive(self):
 
-        if not self.function and self.function is not None:
+        if not self.function:
             raise TypeError(
                 "this object was created from a csv, the .run() method is not allowed"
             )
@@ -162,6 +167,8 @@ class start:
             for sl in skip_list:
                 self.directory_map.pop(sl)
 
+            return self.directory_map
+
         else:
             raise TypeError("This is not a path to a directory")
 
@@ -191,6 +198,12 @@ class start:
             )
 
         self.frame.to_csv(filename, header=header)
+
+    def look_for_dates(self):
+
+        intake.date_injectors(self)
+
+        return self.frame[["date", "date_delta"]]
 
     @staticmethod
     def check_directory(directory):

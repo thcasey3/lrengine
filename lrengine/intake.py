@@ -1,5 +1,5 @@
 """
-class for checking and sending the data object to engine
+classes for finding dates and patterns
 """
 
 from . import engine
@@ -9,7 +9,7 @@ import re
 import numpy as np
 
 
-class injectors:
+class date_injectors:
     """
     injectors class
 
@@ -19,34 +19,31 @@ class injectors:
 
     def __init__(self, lrdata):
 
-        if "date_format" in lrdata.keys() and lrdata["date_format"]:
-            lrdata = self.look_for_dates(lrdata)
+        if lrdata.date_format:
+            lrdata = self.look_for_date(lrdata)
 
-        if "patterns" in lrdata.keys() and lrdata["patterns"]:
-            lrdata = self.look_for_patterns(lrdata)
+    def look_for_date(self, lrdata):
 
-    def look_for_dates(self, lrdata):
+        date_list = list(np.zeros(len(lrdata.frame)))
+        date_delta_list = list(np.zeros(len(lrdata.frame)))
 
-        date_list = list(np.zeros(len(lrdata["frame"])))
-        date_delta_list = list(np.zeros(len(lrdata["frame"])))
-
-        for indx, dir in enumerate(lrdata["frame"]["names"]):
-            possible_date = self.look_for_date_strings(dir, lrdata["date_format"])
+        for indx, dir in enumerate(lrdata.frame.names):
+            possible_date = self.look_for_date_string(dir, lrdata.date_format)
             if possible_date:
                 date_list[indx] = self.parse_dates(possible_date)
                 if date_list[indx]:
                     date_delta_list[indx] = self.diff_dates(date_list[indx])
 
         if sum(date_delta_list) != 0:
-            lrdata["frame"]["date"] = date_list
-            lrdata["frame"]["date_delta"] = date_delta_list
+            lrdata.frame["date"] = date_list
+            lrdata.frame["date_delta"] = date_delta_list
         else:
-            print("No dates of format " + lrdata["date_format"] + " found in names")
+            print("No dates of format " + lrdata.date_format + " found in names")
 
         return lrdata
 
     @staticmethod
-    def look_for_date_strings(dir, date_format):
+    def look_for_date_string(dir, date_format):
 
         if date_format == "YYYY-MM-DD" or date_format == "YYYY-DD-MM":
             date_string = re.findall(
@@ -107,22 +104,36 @@ class injectors:
         )
         return int(delta.days)
 
+
+class pattern_injectors:
+    """
+    injectors class
+
+    Attributes:
+        lrdata (start object): Data object from start class
+    """
+
+    def __init__(self, lrdata):
+
+        if lrdata.patterns:
+            lrdata = self.look_for_patterns(lrdata)
+
     def look_for_patterns(self, lrdata):
 
         temp_dict = {}
-        for indx in lrdata["patterns"]:
+        for indx in lrdata.patterns:
             temp_dict[indx] = []
 
-        for _, dir in enumerate(lrdata["frame"]["names"]):
+        for _, dir in enumerate(lrdata.frame.names):
             for _, patt in enumerate(temp_dict.keys()):
                 if patt in dir:
                     temp_dict[patt].append(1)
                 else:
                     temp_dict[patt].append(0)
 
-        for _, cols in enumerate(lrdata["frame"].columns):
+        for _, cols in enumerate(lrdata.frame.columns):
             for _, keys in enumerate(temp_dict.keys()):
                 if keys == cols:
-                    lrdata["frame"][cols] = temp_dict[keys]
+                    lrdata.frame[cols] = temp_dict[keys]
 
         return lrdata
