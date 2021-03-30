@@ -18,9 +18,7 @@
 Welcome to lrengine
 ===================
 
-lrengine is an open-source Python package for correlating specific language patterns within file and folder names either with each other or with outputs of a user supplied function. 
-
-Authors: Thomas Casey
+lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names either with each other or with outputs of a user supplied function. 
     
 The source code for the project is published here: |GitHub|
 
@@ -39,10 +37,10 @@ Please report all issues using the: |IssuesTracker|
 
 Features
 ========
-* Organize DataFrames using specific language in file and folder names
+* Organize DataFrames using dates and specific language in file and folder names
 * Find specific format date strings, or look for possible date strings, in file or folder names 
-* Construct DataFrames from a function that performs processing of files or sub-directories of a parent directory
-* Visualize correlations between dates, function outputs, and specific language in file and folder names
+* Construct DataFrames from a function that processes files or sub-directories of a parent directory
+* Visualize correlations between function outputs, and dates or specific language in file and folder names
 
 .. toctree::
    :maxdepth: 2
@@ -57,5 +55,6 @@ Features
    save() method
    sea() method
    auto_examples/index
+   Planned features
 
 
