@@ -57,10 +57,3 @@ Features
    auto_examples/index
    Planned features
 
-
-Index
-=====
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
