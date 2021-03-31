@@ -12,16 +12,16 @@ a:active{color: var(--lr-orange);}
 
 /* Side Panel  */
 .wy-side-nav-search{background-color:var(--lr-orange);}
-.wy-side-nav-search a{color: white;}
+.wy-side-nav-search a{color: var(--lr-orange);}
 
 .wy-nav-top{background: var(--lr-orange);}
 .wy-nav-side{background:var(--lr-orange;}
 
 .wy-menu-vertical p.caption {
-    color: black;
+    color: var(--lr-orange);
     font-weight: bold;
 }
-.wy-menu-vertical a{color: black;}
+.wy-menu-vertical a{color: var(--lr-orange);}
 .wy-menu-vertical  a:active{background: var(--lr-orange);}
 
 /* Note and warning top and backround */
