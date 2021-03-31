@@ -1,3 +1,4 @@
+# sphinx_gallery_thumbnail_path = '_static/logo-white.png'
 # %% [markdown]
 """
 lrengine Template

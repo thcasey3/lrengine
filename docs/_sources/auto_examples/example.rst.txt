@@ -23,11 +23,11 @@ lrengine Template
 
 This Template serves as an example layout for a script using lrengine.
 
-.. GENERATED FROM PYTHON SOURCE LINES 12-13
+.. GENERATED FROM PYTHON SOURCE LINES 13-14
 
 Import lrengine and any other packages that may be needed for your function,
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-17
+.. GENERATED FROM PYTHON SOURCE LINES 14-18
 
 .. code-block:: default
 
@@ -36,23 +36,23 @@ Import lrengine and any other packages that may be needed for your function,
     # import numpy as np
     # etc.
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-21
+.. GENERATED FROM PYTHON SOURCE LINES 21-22
 
 Set the path to a parent directory,
 
-.. GENERATED FROM PYTHON SOURCE LINES 21-22
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
 
 .. code-block:: default
 
     path = "../path to parent directory"
 
-.. GENERATED FROM PYTHON SOURCE LINES 25-28
+.. GENERATED FROM PYTHON SOURCE LINES 26-29
 
 Define a function that accepts the parent directory and any additional arguments in the form of a dictionary and
 returns a list of outputs. The list must have a single value for each member of the list and have a **'len()'**
 equal to the list of **'classifiers'** given during the instantiation of the object below.
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-37
+.. GENERATED FROM PYTHON SOURCE LINES 29-38
 
 .. code-block:: default
 
@@ -66,11 +66,11 @@ equal to the list of **'classifiers'** given during the instantiation of the obj
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-41
+.. GENERATED FROM PYTHON SOURCE LINES 41-42
 
 Instantiate the **'lrobject'**,
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-53
+.. GENERATED FROM PYTHON SOURCE LINES 42-54
 
 .. code-block:: default
 
@@ -87,36 +87,36 @@ Instantiate the **'lrobject'**,
         date_format="YYYYMMDD",  # (optional) give the format of any date strings in the file or folder names
     )
 
-.. GENERATED FROM PYTHON SOURCE LINES 56-58
+.. GENERATED FROM PYTHON SOURCE LINES 57-59
 
 Pass the **'lrobject'** to the user defined function to add **'frame'** to the **'lrobject'**,
 then print the **'head()'** of **'frame'**,
 
-.. GENERATED FROM PYTHON SOURCE LINES 58-60
+.. GENERATED FROM PYTHON SOURCE LINES 59-61
 
 .. code-block:: default
 
     lrobject.drive()
     print(lrobject.frame.head())
 
-.. GENERATED FROM PYTHON SOURCE LINES 63-64
+.. GENERATED FROM PYTHON SOURCE LINES 64-65
 
 Add to **'lrobject'** a dictionary that is a map of the parent directory,
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 .. code-block:: default
 
     lrobject.map_directory()
 
-.. GENERATED FROM PYTHON SOURCE LINES 68-72
+.. GENERATED FROM PYTHON SOURCE LINES 69-73
 
 Create a seaborn.scatterplot correlating the two outputs. Replace **'None'** for hue with date_delta if it exists in
 your **'frame'**, or maybe with a third output if you have more than two. The **'seaborn_args'** dictionary should have
 keys that are the arguments that would be given to **seaborn.scatterplot** and any allowed values according to seaborn
 docs,
 
-.. GENERATED FROM PYTHON SOURCE LINES 72-73
+.. GENERATED FROM PYTHON SOURCE LINES 73-74
 
 .. code-block:: default
 
