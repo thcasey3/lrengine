@@ -7,7 +7,7 @@
 
 .. |GitHub| raw:: html
 
-   <a href="https://github.com/thcasey3/lrengine/tree/development" target="_blank"> GitHub development branch</a>
+   <a href="https://github.com/thcasey3/lrengine/" target="_blank"> GitHub</a>
 
 .. |IssuesTracker| raw:: html
 

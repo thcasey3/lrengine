@@ -58,7 +58,7 @@ Confirm the output is similar to:
     Name: lrengine
     Version: 0.0.1
     Summary: lrengine
-    Home-page: http://github.com/thcasey3/lrengine
+    Homepage: https://thcasey3.github.io/lrengine/
     Author: Thomas Casey
     Author-email: None
     License: MIT
