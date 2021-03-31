@@ -1,3 +1,4 @@
+# sphinx_gallery_thumbnail_path = '_static/logo-white.png'
 # %% [markdown]
 """
 lrengine Template
@@ -18,7 +19,7 @@ import lrengine as lr
 
 # %% [markdown]
 # Set the path to a parent directory,
-path = "../path to parent directory"
+path = "../path/to/parent/directory"
 # %%
 
 # %% [markdown]

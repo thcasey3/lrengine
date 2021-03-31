@@ -1,8 +1,5 @@
-# lrengine
+# lrengine - classify by dates and names
 lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names either with each other or with outputs of a user supplied function. 
-
-Author:
-Thomas Casey
 
 # Features
 
@@ -16,14 +13,14 @@ Thomas Casey
   - Python 3.6 or Later
   - pandas, numpy, python-dateutil, seaborn
 
-To install the required packages, perform:
+Install the required packages using pip:
 ```console
 pip install pandas numpy python-dateutil seaborn
 ```
 
 # Installation
 
-lrengine can be installed via pip:
+Install lrengine using pip:
 
 ```console
 pip install lrengine

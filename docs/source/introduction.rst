@@ -27,6 +27,7 @@ Create an object that classifies the members of the directory using patterns in 
 
 .. code-block:: python
 
+    path = "/path/to/directory/"    
     lrobject = lr.start(path, patterns=["example"])
 
 .. figure:: _static/images/df_example_head.png
