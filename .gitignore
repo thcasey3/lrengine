@@ -13,9 +13,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-docs/html/
-docs/build/
-docs/source/auto_examples/
 bin/
 build/
 develop-eggs/
@@ -58,6 +55,16 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+docs/_downloads/
+docs/_images/
+docs/_sources/
+docs/_static/
+docs/auto-examples
+docs/source/auto_examples/
+docs/build
+*.html
+*.js
+*.inv
 
 # OSX and Windows related
 .DS_Store
