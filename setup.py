@@ -20,10 +20,11 @@ setup(
     url="https://github.com/thcasey3/lrengine",
     download_url="https://github.com/thcasey3/lrengine/tree/development",
     project_urls={
+        "Homepage": "https://thcasey3.github.io/lrengine/",
         "Documentation": "https://thcasey3.github.io/lrengine/",
         "Source": "https://github.com/thcasey3/lrengine/tree/development",
     },
-    keywords=["language recognition"],
+    keywords=["classify language recognition"],
     python_requires=">=3.6",
     install_requires=[
         "python-dateutil>=2.6.1",

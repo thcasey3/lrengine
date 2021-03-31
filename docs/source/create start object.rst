@@ -6,6 +6,7 @@ Create an object that lrengine populates with attributes according to the argume
 
 .. code-block:: python
 
+    path = "/path/to/directory/"
     lrobject = lr.start(path, patterns=["samp2"])
 
 
