@@ -18,10 +18,10 @@ a:active{color: var(--lr-orange);}
 .wy-nav-side{background:var(--lr-orange;}
 
 .wy-menu-vertical p.caption {
-    color: var(--lr-orange);
+    color: white;
     font-weight: bold;
 }
-.wy-menu-vertical a{color: var(--lr-orange);}
+.wy-menu-vertical a{color: white;}
 .wy-menu-vertical  a:active{background: var(--lr-orange);}
 
 /* Note and warning top and backround */
