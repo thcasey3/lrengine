@@ -5,7 +5,7 @@
 }
 
 /* General Settings */
-a{color: white;}
+a{color: var(--lr-orange);}
 a:visited{color: var(--lr-orange);}
 a:hover{color: var(--lr-orange);}
 a:active{color: var(--lr-orange);}
