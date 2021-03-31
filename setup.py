@@ -18,11 +18,11 @@ setup(
     long_description_content_type="text/markdown",
     author="Thomas Casey",
     url="https://github.com/thcasey3/lrengine",
-    download_url="https://github.com/thcasey3/lrengine/tree/development",
+    download_url="https://github.com/thcasey3/lrengine/",
     project_urls={
         "Homepage": "https://thcasey3.github.io/lrengine/",
         "Documentation": "https://thcasey3.github.io/lrengine/",
-        "Source": "https://github.com/thcasey3/lrengine/tree/development",
+        "Source": "https://github.com/thcasey3/lrengine/",
     },
     keywords=["classify language recognition"],
     python_requires=">=3.6",
