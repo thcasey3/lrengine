@@ -31,6 +31,7 @@ pip install lrengine
 
 # Documenation
 
+- Online documentation: https://thcasey3.github.io/lrengine/
 
 # Developement 
 
