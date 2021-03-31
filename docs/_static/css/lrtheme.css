@@ -5,9 +5,9 @@
 }
 
 /* General Settings */
-a{color: var(--lr-orange);}
+a{color: white;}
 a:visited{color: var(--lr-orange);}
-a:hover{color: white;}
+a:hover{color: var(--lr-orange);}
 a:active{color: var(--lr-orange);}
 
 /* Side Panel  */
