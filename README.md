@@ -20,7 +20,7 @@ pip install pandas numpy python-dateutil seaborn
 
 # Installation
 
-lrengine can be installed via pip:
+Install lrengine using pip:
 
 ```console
 pip install lrengine
