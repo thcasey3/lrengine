@@ -123,7 +123,7 @@ Make sure you are requesting to merge to `lrengine/development` from
 `your-github-username/yourname-gh-##`.
 
 Your changes will trigger multiple automatic checks to ensure it
-won't break the package. Then I will accept or provide revising comments.
+won't break the package. Please always add a unittest when a feature is added, or adjust the current unittest accordingly if a feature is changed. I will accept or provide revising comments.
 
 ## Contributing to documentation
 Same general guidlines as above.
