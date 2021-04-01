@@ -1,29 +1,8 @@
-========================
-Introduction to lrengine
-========================
+=====================
+Create a start object
+=====================
 
-The aim of lrengine is to provide a simple mechanism for building and interacting with a pandas DataFrame that has 'classifiers' that are extracted from file and/or folder names. Users can also define a function that operates on those files and/or folders and returns additional 'classifiers'. This provides an easy way to interact with directories of common data types and search for correlations between text in the file and/or folder names and any outputs of a user-defined function's operations on those files and/or folders.
-
-General Overview
-================
-
-Imagine the directory,
-
-.. figure:: _static/images/dir.png
-    :width: 400
-    :align: center
-
-    Example parent directory
-
-
-Import the lrengine package,
-
-.. code-block:: python
-
-    import lrengine as lr
-
-
-Create an object that contains a **frame** with at minimum one column that is the names of the files or folders in the supplied directory,
+Create an object that contains a DataFrame with at minimum one column that is the names of the files or folders in the supplied directory,
 
 .. code-block:: python
 
@@ -70,11 +49,7 @@ You may also classify by dates found in the file or folder names and the days el
 .. code-block:: python
 
     path = "/path/to/directory/"
-    lrobject = lr.start(path, 
-                        patterns={"sample": "\d\d"}, 
-                        skip="sample7", 
-                        date_format="YYYYMMDD"
-                        )
+    lrobject = lr.start(path, patterns={"sample": "\d\d"}, skip="sample7", date_format="YYYYMMDD")
 
 
 You can search for all possible dates by setting **date_format="any"**. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,
@@ -82,11 +57,7 @@ You can search for all possible dates by setting **date_format="any"**. This fin
 .. code-block:: python
 
     path = "/path/to/directory/"
-    lrobject = lr.start(path, 
-                        patterns={"sample": "\d\d"}, 
-                        skip="sample7", 
-                        date_format="any"
-                        )
+    lrobject = lr.start(path, patterns={"sample": "\d\d"}, skip="sample7", date_format="any")
 
 
 You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:
@@ -101,7 +72,7 @@ You can even use a custom function that operates on each element of the parent d
 
         return [output1, output2]
 
-Create the object,
+the call would look like,
 
 .. code-block:: python
 
@@ -114,11 +85,5 @@ Create the object,
                         function_args={"par1": 1,
                                        "par2": 2}
                         )
-
-Call the **drive()** method
-
-.. code-block:: python
-
-    lrobject.drive()
 
 and two new columns would be added called "output1" and "output2" with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.

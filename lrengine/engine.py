@@ -4,15 +4,17 @@ engine module, for calling functions and checking outputs
 
 import os
 import numpy as np
-from . import tools
 
 
 class cylinders:
     """
-    cylinders class
+    class for interacting with a user-supplied functions
 
-    Inputs:
-        lrdata (start object): Data object from start module
+    Args:
+        lrdata (start): start object
+
+    Returns:
+        updated start object
     """
 
     def __init__(self, lrdata):

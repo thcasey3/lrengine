@@ -1,9 +1,7 @@
-.. highlight:: python
 .. _tools:
 
+=====
+tools
+=====
 
-***********************
-:mod:`tools`
-***********************
-
-.. autofunction:: lrengine.tools.sea_born
+.. autofunction:: lrengine.tools.sea_born.sea

@@ -11,10 +11,13 @@ import numpy as np
 
 class date_injectors:
     """
-    date_injectors class
+    class for looking for dates in file or folder names
 
-    Inputs:
-        lrdata (start object): Data object from start module
+    Args:
+        lrdata (start): start object
+
+    Returns:
+        updated start object
     """
 
     def __init__(self, lrdata):
@@ -336,10 +339,13 @@ class date_injectors:
 
 class pattern_injectors:
     """
-    pattern_injectors class
+    class for looking for patterns in file or folder names
 
-    Inputs:
-        lrdata (start object): Data object from start module
+    Args:
+        lrdata (start): start object
+
+    Returns:
+        updated start object
     """
 
     def __init__(self, lrdata):
@@ -385,10 +391,16 @@ class pattern_injectors:
 
 class names_filter:
     """
-    pattern_injectors class
+    class for filtering names based on patterns
 
-    Inputs:
-        lrdata (start object): Data object from start module
+    Args:
+        lrdata (start): start object
+        skip (list): patterns to use to decide which names to skip
+        keep (list): patterns to use to decide which names to keep
+        inplace (bool): pandas "inplace" option for the .drop method
+
+    Returns:
+        updated start object
     """
 
     def __init__(self, lrdata, skip=None, keep=None, inplace=True):
@@ -428,10 +440,14 @@ class names_filter:
 
 class dates_filter:
     """
-    pattern_injectors class
+    class for reducing dates lists from the "all" option
 
-    Inputs:
-        lrdata (start object): Data object from start module
+    Args:
+        lrdata (start): start object
+        format (str): format of date to keep
+
+    Returns:
+        updated start object
     """
 
     def __init__(self, lrdata, format=None):

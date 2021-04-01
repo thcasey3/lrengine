@@ -1,8 +1,8 @@
-===================
-seaborn scatterplot
-===================
+===============
+seaborn relplot
+===============
 
-With the **sea()** method a scatterplot is made using the lrobject.frame. Use the same argument names used in **seaborn.scatterplot()** as dictionary keys with their corresponding values being any allowed values according to the **seaborn.scatterplot()** docs,
+With the **sea()** method a relplot is made using the lrobject.frame. Use the same argument names used in **seaborn.relplot()** as dictionary keys with their corresponding values being any allowed values according to the **seaborn.relplot()** docs,
 
 .. figure:: _static/images/sea_df.png
     :width: 700
@@ -23,4 +23,4 @@ With the **sea()** method a scatterplot is made using the lrobject.frame. Use th
     :alt: lrengine concept
     :align: center
 
-    Scatterplot from seaborn
+    Scatterplot from seaborn.relplot()

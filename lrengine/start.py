@@ -11,16 +11,19 @@ from . import intake, engine, tools
 
 class start:
     """
-    start class
+    start class for creating the object used by lrengine
 
-    Attributes:
+    Args:
         directory (str): The path to the parent directory, or .csv that can be made into a Pandas DataFrame
-        patterns (list): List of patterns to recognize in file or folder names
+        patterns (list or dict): List of patterns or dict of custom pattern pairs to recognize in file or folder names
         skip (list): List of patterns used to decide which elements to skip
         date_format (str): format of date string to search for
         classifiers (list): User-defined classifier(s)
-        function (function): User-defined function that returns classifier value(s)
+        function (function): User-supplied function that returns classifier value(s)
         function_args (dict): Dictionary of arguments for user-defined function
+
+    Returns:
+        start object
     """
 
     def __init__(

@@ -1,9 +1,7 @@
-.. highlight:: python
 .. _start:
 
+=====
+start
+=====
 
-***********************
-:mod:`start`
-***********************
-
-.. autofunction:: lrengine.start
+.. autofunction:: lrengine.start.start

@@ -27,11 +27,11 @@ Please report all issues using the: |IssuesTracker|
 .. list-table::
    :widths: 60 40
 
-   * - Current Release
-     - |release|
+   * - Current Version
+     - |version|
    * - Documentation Build Date
      - |date|
-   * - Author(s)
+   * - Author
      - |author|
 
 
@@ -47,13 +47,16 @@ Features
 
    install
    introduction
-   create start object
-   drive() method
-   map_directory() method
-   find_dates() method
-   reduce_dates() method
-   save() method
-   sea() method
+   create
+   define_patterns
+   reduce_names
+   find_dates
+   reduce_dates
+   drive
+   sea
+   map_directory
+   save
+   classes
    auto_examples/index
-   Planned features
+   planned
 

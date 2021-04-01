@@ -1,9 +1,7 @@
-.. highlight:: python
 .. _engine:
 
+======
+engine
+======
 
-***********************
-:mod:`engine`
-***********************
-
-.. autofunction:: lrengine.engine
+.. autofunction:: lrengine.engine.cylinders
