@@ -1,5 +1,5 @@
 """
-start class, checks and packages the inputs and sends them to intake
+start module, checks and packages the inputs and sends them to intake
 """
 
 import os

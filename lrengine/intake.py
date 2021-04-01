@@ -1,5 +1,5 @@
 """
-classes for finding dates and patterns
+intake module, classes for finding dates and patterns
 """
 
 from . import engine
@@ -11,10 +11,10 @@ import numpy as np
 
 class date_injectors:
     """
-    injectors class
+    date_injectors class
 
-    Attributes:
-        lrdata (start object): Data object from start class
+    Inputs:
+        lrdata (start object): Data object from start module
     """
 
     def __init__(self, lrdata):
@@ -336,10 +336,10 @@ class date_injectors:
 
 class pattern_injectors:
     """
-    injectors class
+    pattern_injectors class
 
-    Attributes:
-        lrdata (start object): Data object from start class
+    Inputs:
+        lrdata (start object): Data object from start module
     """
 
     def __init__(self, lrdata):

@@ -1,5 +1,5 @@
 """
-class for calling function and checking outputs
+engine module, for calling functions and checking outputs
 """
 
 import os
@@ -11,8 +11,8 @@ class cylinders:
     """
     cylinders class
 
-    Attributes:
-        lrdata (start object): Data object from start class
+    Inputs:
+        lrdata (start object): Data object from start module
     """
 
     def __init__(self, lrdata):

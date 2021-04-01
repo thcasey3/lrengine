@@ -1,5 +1,5 @@
 """
-class for making a scatterplot with seaborn
+sea_born module, for making a relplot with seaborn
 """
 import seaborn as sns
 
@@ -8,10 +8,10 @@ class sea:
     """
     sea class
 
-    Attributes:
+    Inputs:
         df (DataFrame): "frame" from start object
         kind (str): type of plot (currently only relplot is allowed)
-        seaborn_args (dict): dictionary, keys are seaborn.scatterplot arguments values are allowed values according to seaborn docs
+        seaborn_args (dict): dict keys are the seaborn.relplot arguments and their allowed values are according to seaborn documentation for relplot
     """
 
     def __init__(self, df, kind, seaborn_args):
