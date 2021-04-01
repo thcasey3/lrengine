@@ -370,7 +370,7 @@ class pattern_injectors:
                         else:
                             lrdata.frame.loc[indx, patt] = False
                     else:
-                        found = "null"
+                        found = False
                         value = lrdata.patterns[patt]
                         match = re.findall(patt + ".*", dir)
                         if len(match) != 0:
@@ -393,8 +393,7 @@ class names_filter:
 
     def __init__(self, lrdata, skip=None, keep=None, inplace=True):
 
-        if lrdata.skip:
-            self._take_out_names(lrdata, skip=skip, keep=keep, inplace=inplace)
+        self._take_out_names(lrdata, skip=skip, keep=keep, inplace=inplace)
 
     def _take_out_names(self, lrdata, skip=None, keep=None, inplace=True):
 

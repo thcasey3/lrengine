@@ -113,7 +113,28 @@ class startTester(unittest.TestCase):
         with self.assertRaises(TypeError):
             result.drive()
 
-    def test_c_dates_methods(self):
+    def test_c_patterns_methods(self):
+
+        result = start(self.path, patterns={"example": "_test", "short": bool})
+        find_loc = result.frame[result.frame["example"] == "_test"].index[0]
+        self.assertFalse(result.frame.loc[find_loc, "short"])
+        result.reduce_names(skip=["short"])
+        find_loc = result.frame[result.frame["names"] == "example.csv"].index[0]
+        self.assertFalse(result.frame.loc[find_loc, "example"])
+        find_loc = result.frame[
+            result.frame["names"] == "850802_example_test.csv"
+        ].index[0]
+        self.assertEqual(result.frame.loc[find_loc, "example"], "_test")
+
+    def test_d_skip_methods(self):
+
+        result = start(self.path, skip="short")
+        self.assertEqual(len(os.listdir(self.path)) - 2, len(result.frame))
+
+        with self.assertRaises(TypeError):
+            result = start(self.path, skip=1)
+
+    def test_e_dates_methods(self):
 
         self.start_result.date_format = "any"
         self.start_result.find_dates()
@@ -125,7 +146,7 @@ class startTester(unittest.TestCase):
         self.start_result.reduce_dates(format="YYYYMMDD")
         self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], date))
 
-    def test_d_map_directory_method(self):
+    def test_f_map_directory_method(self):
 
         self.start_result.map_directory()
         self.assertTrue(
@@ -136,7 +157,7 @@ class startTester(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
 
-    def test_e_sea_method(self):
+    def test_g_sea_method(self):
 
         with self.assertRaises(KeyError):
             self.start_result.sea(seaborn_args={})
@@ -146,7 +167,7 @@ class startTester(unittest.TestCase):
                 kind="scatterplot", seaborn_args={"x": 0, "y": 0, "hue": 1}
             )
 
-    def test_f_save_method(self):
+    def test_h_save_method(self):
 
         with self.assertRaises(TypeError):
             self.start_result.save(filename=100)
