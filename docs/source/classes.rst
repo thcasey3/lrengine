@@ -4,38 +4,30 @@
 Classes
 =======
 
+The following are the classes of lrengine, and the methods of the start class. All functionality is available as methods of the **start** class, so there is rarely reason to access other classes directly. 
 
-Start Module
-============
+Start Class
+===========
 
-.. automodule:: lrengine.start
-   :members:
-   :show-inheritance:
-   :member-order: bysource
+This class creates the data object and may perform certain operations according to the arguments.
 
+.. toctree::
+    :hidden:
+    :glob:
+    :maxdepth: 1
 
-Intake Module
-=============
+    ./start
+    ./intake
+    ./engine
+    ./tools
 
-.. automodule:: lrengine.intake
-   :members:
-   :show-inheritance:
-   :member-order: bysource
+.. rst-class:: func-list
 
-
-Engine Module
-=============
-
-.. automodule:: lrengine.engine
-   :members:
-   :show-inheritance:
-   :member-order: bysource
-
-
-Tools Module
-=============
-
-.. automodule:: lrengine.tools.sea_born
-   :members:
-   :show-inheritance:
-   :member-order: bysource
+=============================================  ============================================================
+Class                                          Description
+=============================================  ============================================================
+:ref:`start`                                   Create the object
+:ref:`intake`                                  Analyze and organize the object
+:ref:`engine`                                  Interact with a user defined function
+:ref:`tools`                                   Interfacing with other packages
+=============================================  ============================================================

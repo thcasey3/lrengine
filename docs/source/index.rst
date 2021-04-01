@@ -54,7 +54,6 @@ Features
    reduce_dates() method
    save() method
    sea() method
-   classes
    auto_examples/index
    Planned features
 
