@@ -63,6 +63,8 @@ class start:
             intake.date_injectors(self)
         if self.patterns:
             intake.pattern_injectors(self)
+        if self.skip:
+            intake.names_filter(self, skip=self.skip)
 
     def _checks_passed(self):
 
@@ -73,31 +75,7 @@ class start:
                 "frame": self.frame,
             }
         else:
-            if self.skip is not None:
-                if isinstance(self.sub_directories, list):
-                    sub_dir = []
-                    for _, subdir in enumerate(self.sub_directories):
-                        if not any(map(subdir.__contains__, self.skip)):
-                            sub_dir.append(subdir)
-                    if not self.sub_directories:
-                        raise TypeError(
-                            "Your skip patterns removed all of your sub-directories!"
-                        )
-                    else:
-                        self.sub_directories = sub_dir
-
-                elif isinstance(self.sub_directories, str):
-                    if any(map(self.sub_directories.__contains__, self.skip)):
-                        raise TypeError(
-                            "Your skip patterns removed your only directory!"
-                        )
-                else:
-                    raise TypeError("No directories to use")
-
             df = {"names": self.sub_directories}
-            if self.patterns:
-                for patts in self.patterns:
-                    df[patts] = np.zeros(len(self.sub_directories))
 
             self.frame = pd.DataFrame(df)
 
@@ -209,31 +187,14 @@ class start:
 
     def reduce_dates(self, format=None):
 
-        if format and "date_format" in self.frame.columns:
-            new_formats = list(np.zeros(len(self.frame)))
-            new_dates = list(np.zeros(len(self.frame)))
-            new_deltas = list(np.zeros(len(self.frame)))
-            for indx, names in enumerate(self.frame["date_format"]):
-                if isinstance(names, list):
-                    for indx2, forms in enumerate(names):
-                        if forms == format:
-                            new_formats[indx] = self.frame.loc[indx, "date_format"][
-                                indx2
-                            ]
-                            new_dates[indx] = self.frame.loc[indx, "date"][indx2]
-                            new_deltas[indx] = self.frame.loc[indx, "date_delta"][indx2]
+        intake.dates_filter(self, format=format)
+        return self.frame[["date", "date_format", "date_delta"]]
 
-                elif isinstance(names, str):
-                    if names == format:
-                        new_formats[indx] = self.frame.loc[indx, "date_format"]
-                        new_dates[indx] = self.frame.loc[indx, "date"]
-                        new_deltas[indx] = self.frame.loc[indx, "date_delta"]
+    def reduce_names(self, skip=None, keep=None, inplace=True):
 
-            self.frame["date_format"] = new_formats
-            self.frame["date"] = new_dates
-            self.frame["date_delta"] = new_deltas
+        intake.names_filter(self, skip=skip, keep=keep, inplace=inplace)
 
-            return self.frame[["date", "date_format", "date_delta"]]
+        return self.frame["names"]
 
     @staticmethod
     def check_directory(directory):
@@ -257,14 +218,10 @@ class start:
     @staticmethod
     def check_lists(items, kind):
 
-        if (
-            not isinstance(items, list)
-            and not isinstance(items, str)
-            and items is not None
-        ):
+        if not type(items) in [list, str, dict] and items is not None:
             raise TypeError(kind + " must be a list of strings, or None")
 
-        elif isinstance(items, list):
+        if isinstance(items, list):
             for indx, item in enumerate(items):
                 if not isinstance(item, str):
                     raise TypeError(
@@ -273,6 +230,17 @@ class start:
                         + " list must be strings, item ["
                         + str(indx)
                         + "] is not class 'str'"
+                    )
+
+        if isinstance(items, dict):
+            for item in items.keys():
+                if not isinstance(items[item], str) and items[item] is not bool:
+                    raise TypeError(
+                        "all values in the "
+                        + kind
+                        + " dict must be strings, item "
+                        + item
+                        + " is not class 'str'"
                     )
 
     @staticmethod

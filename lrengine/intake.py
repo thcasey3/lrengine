@@ -21,9 +21,9 @@ class date_injectors:
 
         if lrdata.date_format:
             if lrdata.date_format == "any":
-                lrdata = self._smart_search_dates(lrdata)
+                self._smart_search_dates(lrdata)
             else:
-                lrdata = self._look_for_date(lrdata)
+                self._look_for_date(lrdata)
 
     def _smart_search_dates(self, lrdata):
 
@@ -345,24 +345,134 @@ class pattern_injectors:
     def __init__(self, lrdata):
 
         if lrdata.patterns:
-            lrdata = self.look_for_patterns(lrdata)
+            self._look_for_patterns(lrdata)
 
-    def look_for_patterns(self, lrdata):
+    def _look_for_patterns(self, lrdata):
 
-        temp_dict = {}
-        for indx in lrdata.patterns:
-            temp_dict[indx] = []
+        if isinstance(lrdata.patterns, list):
+            patterns_to_iterate = lrdata.patterns
+        elif isinstance(lrdata.patterns, dict):
+            patterns_to_iterate = lrdata.patterns.keys()
 
-        for _, dir in enumerate(lrdata.frame.names):
-            for _, patt in enumerate(temp_dict.keys()):
-                if patt in dir:
-                    temp_dict[patt].append(1)
-                else:
-                    temp_dict[patt].append(0)
+        for patt in patterns_to_iterate:
+            lrdata.frame[patt] = np.zeros(len(lrdata.frame))
+            for indx, dir in enumerate(lrdata.frame["names"]):
+                if isinstance(lrdata.patterns, list):
+                    if patt in dir:
+                        lrdata.frame.loc[indx, patt] = True
+                    else:
+                        lrdata.frame.loc[indx, patt] = False
 
-        for _, cols in enumerate(lrdata.frame.columns):
-            for _, keys in enumerate(temp_dict.keys()):
-                if keys == cols:
-                    lrdata.frame[cols] = temp_dict[keys]
+                elif isinstance(lrdata.patterns, dict):
+                    if lrdata.patterns[patt] is bool:
+                        if patt in dir:
+                            lrdata.frame.loc[indx, patt] = True
+                        else:
+                            lrdata.frame.loc[indx, patt] = False
+                    else:
+                        found = "null"
+                        value = lrdata.patterns[patt]
+                        match = re.findall(patt + ".*", dir)
+                        if len(match) != 0:
+                            find_value = re.findall(patt + value, match[0])
+                            if len(find_value) != 0:
+                                found = find_value[0].replace(patt, "")
+
+                        lrdata.frame.loc[indx, patt] = found
+
+        return lrdata
+
+
+class names_filter:
+    """
+    pattern_injectors class
+
+    Inputs:
+        lrdata (start object): Data object from start module
+    """
+
+    def __init__(self, lrdata, skip=None, keep=None, inplace=True):
+
+        if lrdata.skip:
+            self._take_out_names(lrdata, skip=skip, keep=keep, inplace=inplace)
+
+    def _take_out_names(self, lrdata, skip=None, keep=None, inplace=True):
+
+        if skip is not None or keep is not None:
+            if isinstance(skip, str):
+                skip = [skip]
+            if isinstance(keep, str):
+                keep = [keep]
+            skip_indx = []
+            for indx, subdir in enumerate(lrdata.frame["names"]):
+                if skip is not None and keep is None:
+                    if any(map(subdir.__contains__, skip)):
+                        skip_indx.append(lrdata.frame.index[indx])
+                elif skip is None and keep is not None:
+                    if not any(map(subdir.__contains__, keep)):
+                        skip_indx.append(lrdata.frame.index[indx])
+                elif skip is not None and keep is not None:
+                    if any(map(subdir.__contains__, skip)) or not any(
+                        map(subdir.__contains__, keep)
+                    ):
+                        skip_indx.append(lrdata.frame.index[indx])
+
+            if len(skip_indx) == len(lrdata.frame):
+                raise TypeError(
+                    "You removed all of your names! Try different skip or keep patterns"
+                )
+            else:
+                lrdata.frame.drop(skip_indx, inplace=inplace)
+
+        return lrdata
+
+
+class dates_filter:
+    """
+    pattern_injectors class
+
+    Inputs:
+        lrdata (start object): Data object from start module
+    """
+
+    def __init__(self, lrdata, format=None):
+
+        self._take_out_dates(lrdata, format=format)
+
+    def _take_out_dates(self, lrdata, format=None):
+
+        if format and "date_format" in lrdata.frame.columns:
+            new_formats = list(np.zeros(len(lrdata.frame)))
+            new_dates = list(np.zeros(len(lrdata.frame)))
+            new_deltas = list(np.zeros(len(lrdata.frame)))
+            for indx, form_list in enumerate(lrdata.frame["date_format"]):
+                if isinstance(form_list, list):
+                    for indx2, forms in enumerate(form_list):
+                        if forms == format and isinstance(forms, str):
+                            new_formats[indx] = lrdata.frame.loc[
+                                lrdata.frame.index[indx], "date_format"
+                            ][indx2]
+                            new_dates[indx] = lrdata.frame.loc[
+                                lrdata.frame.index[indx], "date"
+                            ][indx2]
+                            new_deltas[indx] = lrdata.frame.loc[
+                                lrdata.frame.index[indx], "date_delta"
+                            ][indx2]
+
+                elif isinstance(form_list, str):
+                    if form_list == format:
+                        new_formats[indx] = lrdata.frame.loc[
+                            lrdata.frame.index[indx], "date_format"
+                        ]
+                        new_dates[indx] = lrdata.frame.loc[
+                            lrdata.frame.index[indx], "date"
+                        ]
+                        new_deltas[indx] = lrdata.frame.loc[
+                            lrdata.frame.index[indx], "date_delta"
+                        ]
+
+            lrdata.frame["date_format"] = new_formats
+            lrdata.frame["date"] = new_dates
+            lrdata.frame["date_delta"] = new_deltas
 
         return lrdata

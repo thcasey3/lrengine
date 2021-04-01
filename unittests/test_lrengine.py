@@ -73,10 +73,10 @@ class startTester(unittest.TestCase):
         self.start_result.drive()
         self.assertEqual(len(self.start_result.frame.columns), 7)
         self.assertEqual(self.start_result.frame.columns[0], "names")
-        self.assertEqual(self.start_result.frame.columns[1], "patt1")
-        self.assertEqual(self.start_result.frame.columns[2], "patt2")
-        self.assertEqual(self.start_result.frame.columns[3], "date")
-        self.assertEqual(self.start_result.frame.columns[4], "date_delta")
+        self.assertEqual(self.start_result.frame.columns[3], "patt1")
+        self.assertEqual(self.start_result.frame.columns[4], "patt2")
+        self.assertEqual(self.start_result.frame.columns[1], "date")
+        self.assertEqual(self.start_result.frame.columns[2], "date_delta")
         find_loc = self.start_result.frame[
             self.start_result.frame["names"] == "example.csv"
         ].index[0]
