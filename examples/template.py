@@ -28,28 +28,28 @@ path = "../path/to/parent/directory"
 # equal to the list of **'classifiers'** given during the creation of the **start** object below.
 def function_handle(directory, args_dict):
 
-    # insert code that acts on each file or sub-directory of directory and makes output(s)
+    # insert code that acts on each file or sub-directory and makes output(s)
     # output1 =
     # output2 =
 
-    return [output1, output2]
-
-
+    return [output1, output2] # make sure outputs are in a list
+                              # len() outputs list must = len() classifiers list
+                              
 # %%
 
 # %% [markdown]
 # Create the **start** object,
 lrobject = lr.start(
     path,
-    patterns=[],  # enter any patterns in the file or folder names to use as classifiers
-    skip=[],  # enter any sub-strings in the names of file folders that should be skipped
+    patterns=[],  # any patterns in the file or folder names to use as classifiers
+    skip=[],  # any sub-strings in the names of file folders that should be skipped
     classifiers=[
         "output1",
         "output2",
-    ],  # these are the column names corresponding to the function outputs
+    ],  # the column names corresponding to the function outputs
     function=function_handle,  # complete the function above
-    function_args={},  # enter any arguments required by function_handle
-    date_format="YYYYMMDD",  # give the format of any date strings in the file or folder names
+    function_args={},  # any arguments required by function_handle
+    date_format="YYYYMMDD",  # format of any date strings in the file or folder names
 )
 # %%
 
