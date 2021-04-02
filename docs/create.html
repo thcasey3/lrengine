@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Create a start object &mdash; lrengine  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Defining patterns" href="define_patterns.html" />
+    <link rel="prev" title="Introduction to lrengine" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+          
+
+          
+            
+            <img src="_static/web_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create a start object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists to one format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drive.html">Call a custom function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save.html">Save the frame to csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lrengine</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Create a start object</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/create.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="create-a-start-object">
+<h1>Create a start object<a class="headerlink" href="#create-a-start-object" title="Permalink to this headline">¶</a></h1>
+<p>Create an object that contains a DataFrame with at minimum one column that is the names of the files or folders in the supplied directory,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may define patterns to classify by. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column &quot;sample1&quot; and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s2">&quot;sample1&quot;</span><span class="p">)</span> <span class="c1"># single pattern</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sample1&quot;</span><span class="p">,</span> <span class="s2">&quot;sample2&quot;</span><span class="p">,</span> <span class="s2">&quot;sample3&quot;</span><span class="p">])</span> <span class="c1"># OR list of patterns</span>
+</pre></div>
+</div>
+<p>You may also use regular expressions to do more sophisticated pattern searches and classify by specific language rather than bool. To do this, use a dictionary rather than a list. The keys of the dict are the column names, the values are the expression to search for and classify by. This example creates a column called &quot;sample&quot; and classifies by any two digit number found just to the right of the word &quot;sample&quot;,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>If this patterning is not found, <strong>False</strong> is entered.</p>
+<p>To mix these behaviors, add &quot;bool&quot; for the dict value and the column for the key is added with <strong>True</strong> or <strong>False</strong> added if the pattern is or is not found, respectively. This example makes a column for &quot;sample&quot; and classifies by any two digit number as above, but also adds a column called &quot;blank_run&quot; and classifies as <strong>True</strong> or <strong>False</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">,</span> <span class="s2">&quot;blank_run&quot;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>You may skip directories according to specific language. This example classifies by sample number but skips any file or folder with &quot;sample7&quot; in the name,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format &quot;YYYYMMDD&quot; and adds &quot;date&quot; and &quot;date_delta&quot; columns,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can search for all possible dates by setting <strong>date_format=&quot;any&quot;</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
+
+    <span class="n">use_directory</span> <span class="o">=</span> <span class="n">directory</span>
+    <span class="n">output1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">])</span>
+    <span class="n">output2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">],</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par2&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>the call would look like,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;output2&quot;</span><span class="p">],</span>
+                    <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
+                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;par1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s2">&quot;par2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+<p>and two new columns would be added called &quot;output1&quot; and &quot;output2&quot; with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="define_patterns.html" class="btn btn-neutral float-right" title="Defining patterns" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction to lrengine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, lrengine
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
