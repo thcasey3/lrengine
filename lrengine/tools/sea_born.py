@@ -1,29 +1,32 @@
 """
-class for making a scatterplot with seaborn
+sea_born module, for making a relplot with seaborn
 """
 import seaborn as sns
 
 
 class sea:
     """
-    sea class
+    class for interacting with seaborn
 
-    Attributes:
+    Args:
         df (DataFrame): "frame" from start object
         kind (str): type of plot (currently only relplot is allowed)
-        seaborn_args (dict): dictionary, keys are seaborn.scatterplot arguments values are allowed values according to seaborn docs
+        seaborn_args (dict): dict keys are the seaborn.relplot arguments and their allowed values are according to seaborn documentation for relplot
+    Returns:
+        seaborn relplot
     """
 
-    def __init__(self, df, kind, seaborn_args):
+    def __init__(self, df=None, kind="relplot", seaborn_args={}):
 
         if kind == "relplot":
-            self.plt_relplot(df, seaborn_args)
+            self.plt_relplot(df=df, kind=kind, seaborn_args=seaborn_args)
         else:
             raise ValueError("only relplot is currently supported")
 
     def plt_relplot(
         self,
-        df,
+        df=None,
+        kind="relplot",
         seaborn_args={},
     ):
         sea_args = {

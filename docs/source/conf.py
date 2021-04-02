@@ -32,13 +32,10 @@ from datetime import datetime
 date = datetime.now().strftime(u"%m/%d/%Y, %H:%M:%S")
 
 # The short X.Y version
-version = u"0.0.1"
-# The full version, including alpha/beta/rc tags
-release = u"0.0.1"
+version = u"0.0.2"
 
 print(u"Build Time: " + date)
 print(u"Version: " + version)
-print(u"Release: " + release)
 
 
 rst_epilog_list = [

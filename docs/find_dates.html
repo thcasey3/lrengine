@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="Python" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Finding Dates &mdash; lrengine  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reduce the date lists to one format" href="reduce_dates.html" />
+    <link rel="prev" title="Reduce the frame using patterns" href="reduce_names.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+          
+
+          
+            
+            <img src="_static/web_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a start object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Finding Dates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists to one format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drive.html">Call a custom function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save.html">Save the frame to csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lrengine</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Finding Dates</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/find_dates.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="finding-dates">
+<h1>Finding Dates<a class="headerlink" href="#finding-dates" title="Permalink to this headline">¶</a></h1>
+<p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format &quot;YYYYMMDD&quot; and adds &quot;date&quot; and &quot;date_delta&quot; columns,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+<p>You can search for all possible dates by setting <strong>date_format=&quot;any&quot;</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also modify an existing object to include dates or change to a different format using the <strong>find_dates()</strong> method. For example, change the <strong>date_format</strong> then update the dates information,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="s2">&quot;YYYY-MM-DD&quot;</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The currently supported date_format options are,</p>
+<ul class="simple">
+<li><p>&quot;any&quot; (try all of the formats below)</p></li>
+<li><p>&quot;YYYYMMDD&quot;</p></li>
+<li><p>&quot;YYYYDDMM&quot;</p></li>
+<li><p>&quot;MMDDYYYY&quot;</p></li>
+<li><p>&quot;DDMMYYYY&quot;</p></li>
+<li><p>&quot;YYMMDD&quot;</p></li>
+<li><p>&quot;YYDDMM&quot;</p></li>
+<li><p>&quot;MMDDYY&quot;</p></li>
+<li><p>&quot;DDMMYY&quot;</p></li>
+<li><p>&quot;YYYY-MM-DD&quot; (&quot;-&quot; also implies &quot;_&quot;, &quot;/&quot;, &quot;:&quot;, and &quot;;&quot;)</p></li>
+<li><p>&quot;YYYY-DD-MM&quot;</p></li>
+<li><p>&quot;MM-DD-YYYY&quot;</p></li>
+<li><p>&quot;DD-MM-YYYY&quot;</p></li>
+<li><p>&quot;YY-MM-DD&quot;</p></li>
+<li><p>&quot;YY-DD-MM&quot;</p></li>
+<li><p>&quot;MM-DD-YY&quot;</p></li>
+<li><p>&quot;DD-MM-YY&quot;</p></li>
+</ul>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reduce_dates.html" class="btn btn-neutral float-right" title="Reduce the date lists to one format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="reduce_names.html" class="btn btn-neutral float-left" title="Reduce the frame using patterns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, lrengine
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
