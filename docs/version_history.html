@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reduce the frame using patterns &mdash; lrengine  documentation</title>
+  <title>Version History &mdash; lrengine  documentation</title>
   
 
   
@@ -40,8 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Finding Dates" href="find_dates.html" />
-    <link rel="prev" title="Defining patterns" href="define_patterns.html" /> 
+    <link rel="prev" title="Planned Features" href="planned.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -98,7 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a start object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce the frame using patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists to one format</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a custom function</a></li>
@@ -108,7 +107,11 @@
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Template</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Version History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-2">Version 0.0.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#version-0-0-1">Version 0.0.1</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -155,13 +158,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Reduce the frame using patterns</li>
+      <li>Version History</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/reduce_names.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/version_history.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -174,15 +177,23 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="reduce-the-frame-using-patterns">
-<h1>Reduce the frame using patterns<a class="headerlink" href="#reduce-the-frame-using-patterns" title="Permalink to this headline">¶</a></h1>
-<p>To filter the names by a given pattern, simply call the <strong>.reduce_names()</strong> method and give the patterns to use to decide which names to drop. This example drops from the frame any element having &quot;blank_sample&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">skip</span><span class="o">=</span><span class="s2">&quot;blank_sample&quot;</span><span class="p">)</span>
-</pre></div>
+  <div class="section" id="version-history">
+<h1>Version History<a class="headerlink" href="#version-history" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="version-0-0-2">
+<h2>Version 0.0.2<a class="headerlink" href="#version-0-0-2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Added option to use a dict and re expressions to define patterns</p></li>
+<li><p>Added new methods <strong>find_patterns()</strong> and <strong>reduce_names()</strong></p></li>
+<li><p>some code cleanup</p></li>
+<li><p>added to unittests</p></li>
+<li><p>improved documentation and template script</p></li>
+</ul>
 </div>
-<p>You may also do the reverse and keep only elements with a given pattern in the name using the <strong>keep=</strong> keyword arg. For example, keep only elements with &quot;blank_sample&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;blank_sample&quot;</span><span class="p">)</span>
-</pre></div>
+<div class="section" id="version-0-0-1">
+<h2>Version 0.0.1<a class="headerlink" href="#version-0-0-1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>First release</p></li>
+</ul>
 </div>
 </div>
 
@@ -194,10 +205,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="find_dates.html" class="btn btn-neutral float-right" title="Finding Dates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="define_patterns.html" class="btn btn-neutral float-left" title="Defining patterns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="planned.html" class="btn btn-neutral float-left" title="Planned Features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

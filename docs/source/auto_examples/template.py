@@ -32,9 +32,10 @@ def function_handle(directory, args_dict):
     # output1 =
     # output2 =
 
-    return [output1, output2] # make sure outputs are in a list
-                              # len() outputs list must = len() classifiers list
-                              
+    return [output1, output2]  # make sure outputs are in a list
+    # len() outputs list must = len() classifiers list
+
+
 # %%
 
 # %% [markdown]
