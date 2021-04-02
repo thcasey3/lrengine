@@ -202,25 +202,26 @@ returns a list of outputs. The list must have a single value for each member of 
 equal to the list of <strong>'classifiers'</strong> given during the creation of the <strong>start</strong> object below.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
 
-    <span class="c1"># insert code that acts on each file or sub-directory of directory and makes output(s)</span>
+    <span class="c1"># insert code that acts on each file or sub-directory and makes output(s)</span>
     <span class="c1"># output1 =</span>
     <span class="c1"># output2 =</span>
 
-    <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span> <span class="c1"># make sure outputs are in a list</span>
+                              <span class="c1"># len() outputs list must = len() classifiers list</span>
 </pre></div>
 </div>
 <p>Create the <strong>start</strong> object,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span>
     <span class="n">path</span><span class="p">,</span>
-    <span class="n">patterns</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># enter any patterns in the file or folder names to use as classifiers</span>
-    <span class="n">skip</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># enter any sub-strings in the names of file folders that should be skipped</span>
+    <span class="n">patterns</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># any patterns in the file or folder names to use as classifiers</span>
+    <span class="n">skip</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># any sub-strings in the names of file folders that should be skipped</span>
     <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
         <span class="s2">&quot;output1&quot;</span><span class="p">,</span>
         <span class="s2">&quot;output2&quot;</span><span class="p">,</span>
-    <span class="p">],</span>  <span class="c1"># these are the column names corresponding to the function outputs</span>
+    <span class="p">],</span>  <span class="c1"># the column names corresponding to the function outputs</span>
     <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>  <span class="c1"># complete the function above</span>
-    <span class="n">function_args</span><span class="o">=</span><span class="p">{},</span>  <span class="c1"># enter any arguments required by function_handle</span>
-    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span>  <span class="c1"># give the format of any date strings in the file or folder names</span>
+    <span class="n">function_args</span><span class="o">=</span><span class="p">{},</span>  <span class="c1"># any arguments required by function_handle</span>
+    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span>  <span class="c1"># format of any date strings in the file or folder names</span>
 <span class="p">)</span>
 </pre></div>
 </div>

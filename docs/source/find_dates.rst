@@ -9,7 +9,11 @@ You may also classify by dates found in the file or folder names and the days el
     import lrengine as lr
 
     path = "/path/to/directory/"
-    lrobject = lr.start(path, patterns={"sample": "\d\d"}, skip="sample7", date_format="YYYYMMDD")
+    lrobject = lr.start(path, 
+                        patterns={"sample": "\d\d"}, 
+                        skip="sample7", 
+                        date_format="YYYYMMDD"
+                        )
 
 
 You can search for all possible dates by setting **date_format="any"**. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,

@@ -179,7 +179,11 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">)</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span>
+                    <span class="p">)</span>
 </pre></div>
 </div>
 <p>You can search for all possible dates by setting <strong>date_format=&quot;any&quot;</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
