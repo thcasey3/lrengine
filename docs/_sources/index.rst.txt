@@ -59,4 +59,5 @@ Features
    classes
    auto_examples/index
    planned
+   version_history
 
