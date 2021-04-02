@@ -52,7 +52,7 @@ Define a function that accepts the parent directory and any additional arguments
 returns a list of outputs. The list must have a single value for each member of the list and have **len()**
 equal to the list of **'classifiers'** given during the creation of the **start** object below.
 
-.. GENERATED FROM PYTHON SOURCE LINES 29-38
+.. GENERATED FROM PYTHON SOURCE LINES 29-39
 
 .. code-block:: default
 
@@ -62,15 +62,16 @@ equal to the list of **'classifiers'** given during the creation of the **start*
         # output1 =
         # output2 =
 
-        return [output1, output2] # make sure outputs are in a list
-                                  # len() outputs list must = len() classifiers list
-                              
+        return [output1, output2]  # make sure outputs are in a list
+        # len() outputs list must = len() classifiers list
 
-.. GENERATED FROM PYTHON SOURCE LINES 41-42
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 42-43
 
 Create the **start** object,
 
-.. GENERATED FROM PYTHON SOURCE LINES 42-54
+.. GENERATED FROM PYTHON SOURCE LINES 43-55
 
 .. code-block:: default
 
@@ -87,36 +88,36 @@ Create the **start** object,
         date_format="YYYYMMDD",  # format of any date strings in the file or folder names
     )
 
-.. GENERATED FROM PYTHON SOURCE LINES 57-59
+.. GENERATED FROM PYTHON SOURCE LINES 58-60
 
 Pass the **start** object to the user defined function to add classifiers to the **.frame**,
 then print the **.head()** of **.frame**,
 
-.. GENERATED FROM PYTHON SOURCE LINES 59-61
+.. GENERATED FROM PYTHON SOURCE LINES 60-62
 
 .. code-block:: default
 
     lrobject.drive()
     print(lrobject.frame.head())
 
-.. GENERATED FROM PYTHON SOURCE LINES 64-65
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 Add a dictionary to the **start** object that is a map of the parent directory,
 
-.. GENERATED FROM PYTHON SOURCE LINES 65-66
+.. GENERATED FROM PYTHON SOURCE LINES 66-67
 
 .. code-block:: default
 
     lrobject.map_directory()
 
-.. GENERATED FROM PYTHON SOURCE LINES 69-73
+.. GENERATED FROM PYTHON SOURCE LINES 70-74
 
 Create a seaborn.relplot correlating the two outputs. Replace **'None'** for hue with date_delta if it exists in
 your **.frame**, or maybe with a third output if you have more than two. The **'seaborn_args'** dictionary should have
 keys that are the arguments that would be given to **seaborn.relplot** and any allowed values according to **seaborn.relplot**
 documentation,
 
-.. GENERATED FROM PYTHON SOURCE LINES 73-74
+.. GENERATED FROM PYTHON SOURCE LINES 74-75
 
 .. code-block:: default
 
