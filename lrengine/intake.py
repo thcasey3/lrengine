@@ -337,6 +337,61 @@ class date_injectors:
         return int(delta.days)
 
 
+class dates_filter:
+    """
+    class for reducing dates lists from the "all" option
+
+    Args:
+        lrdata (start): start object
+        format (str): format of date to keep
+
+    Returns:
+        updated start object
+    """
+
+    def __init__(self, lrdata, format=None):
+
+        self._take_out_dates(lrdata, format=format)
+
+    def _take_out_dates(self, lrdata, format=None):
+
+        if format and "date_format" in lrdata.frame.columns:
+            new_formats = list(np.zeros(len(lrdata.frame)))
+            new_dates = list(np.zeros(len(lrdata.frame)))
+            new_deltas = list(np.zeros(len(lrdata.frame)))
+            for indx, form_list in enumerate(lrdata.frame["date_format"]):
+                if isinstance(form_list, list):
+                    for indx2, forms in enumerate(form_list):
+                        if forms == format and isinstance(forms, str):
+                            new_formats[indx] = lrdata.frame.loc[
+                                lrdata.frame.index[indx], "date_format"
+                            ][indx2]
+                            new_dates[indx] = lrdata.frame.loc[
+                                lrdata.frame.index[indx], "date"
+                            ][indx2]
+                            new_deltas[indx] = lrdata.frame.loc[
+                                lrdata.frame.index[indx], "date_delta"
+                            ][indx2]
+
+                elif isinstance(form_list, str):
+                    if form_list == format:
+                        new_formats[indx] = lrdata.frame.loc[
+                            lrdata.frame.index[indx], "date_format"
+                        ]
+                        new_dates[indx] = lrdata.frame.loc[
+                            lrdata.frame.index[indx], "date"
+                        ]
+                        new_deltas[indx] = lrdata.frame.loc[
+                            lrdata.frame.index[indx], "date_delta"
+                        ]
+
+            lrdata.frame["date_format"] = new_formats
+            lrdata.frame["date"] = new_dates
+            lrdata.frame["date_delta"] = new_deltas
+
+        return lrdata
+
+
 class pattern_injectors:
     """
     class for looking for patterns in file or folder names
@@ -389,7 +444,7 @@ class pattern_injectors:
         return lrdata
 
 
-class names_filter:
+class patterns_filter:
     """
     class for filtering names based on patterns
 
@@ -434,60 +489,5 @@ class names_filter:
                 )
             else:
                 lrdata.frame.drop(skip_indx, inplace=inplace)
-
-        return lrdata
-
-
-class dates_filter:
-    """
-    class for reducing dates lists from the "all" option
-
-    Args:
-        lrdata (start): start object
-        format (str): format of date to keep
-
-    Returns:
-        updated start object
-    """
-
-    def __init__(self, lrdata, format=None):
-
-        self._take_out_dates(lrdata, format=format)
-
-    def _take_out_dates(self, lrdata, format=None):
-
-        if format and "date_format" in lrdata.frame.columns:
-            new_formats = list(np.zeros(len(lrdata.frame)))
-            new_dates = list(np.zeros(len(lrdata.frame)))
-            new_deltas = list(np.zeros(len(lrdata.frame)))
-            for indx, form_list in enumerate(lrdata.frame["date_format"]):
-                if isinstance(form_list, list):
-                    for indx2, forms in enumerate(form_list):
-                        if forms == format and isinstance(forms, str):
-                            new_formats[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_format"
-                            ][indx2]
-                            new_dates[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date"
-                            ][indx2]
-                            new_deltas[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_delta"
-                            ][indx2]
-
-                elif isinstance(form_list, str):
-                    if form_list == format:
-                        new_formats[indx] = lrdata.frame.loc[
-                            lrdata.frame.index[indx], "date_format"
-                        ]
-                        new_dates[indx] = lrdata.frame.loc[
-                            lrdata.frame.index[indx], "date"
-                        ]
-                        new_deltas[indx] = lrdata.frame.loc[
-                            lrdata.frame.index[indx], "date_delta"
-                        ]
-
-            lrdata.frame["date_format"] = new_formats
-            lrdata.frame["date"] = new_dates
-            lrdata.frame["date_delta"] = new_deltas
 
         return lrdata

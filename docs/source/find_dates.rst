@@ -6,6 +6,8 @@ You may also classify by dates found in the file or folder names and the days el
 
 .. code-block:: python
 
+    import lrengine as lr
+
     path = "/path/to/directory/"
     lrobject = lr.start(path, patterns={"sample": "\d\d"}, skip="sample7", date_format="YYYYMMDD")
 
@@ -16,6 +18,14 @@ You can search for all possible dates by setting **date_format="any"**. This fin
 
     path = "/path/to/directory/"
     lrobject = lr.start(path, patterns={"sample": "\d\d"}, skip="sample7", date_format="any")
+
+
+You can also modify an existing object to include dates or change to a different format using the **find_dates()** method. For example, change the **date_format** then update the dates information,
+
+.. code-block:: python
+
+    lrobject.date_format = "YYYY-MM-DD"
+    lrobject.find_dates()
 
 
 The currently supported date_format options are,

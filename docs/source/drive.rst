@@ -18,6 +18,8 @@ Create the object,
 
 .. code-block:: python
 
+    import lrengine as lr
+
     lrobject = lr.start(path,
                         patterns={"sample": "\d\d"}, 
                         skip="sample7", 

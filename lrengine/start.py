@@ -67,7 +67,7 @@ class start:
         if self.patterns:
             intake.pattern_injectors(self)
         if self.skip:
-            intake.names_filter(self, skip=self.skip)
+            intake.patterns_filter(self, skip=self.skip)
 
     def _checks_passed(self):
 
@@ -193,10 +193,14 @@ class start:
         intake.dates_filter(self, format=format)
         return self.frame[["date", "date_format", "date_delta"]]
 
+    def find_patterns(self):
+
+        intake.pattern_injectors(self)
+        return self.frame["names"]
+
     def reduce_names(self, skip=None, keep=None, inplace=True):
 
-        intake.names_filter(self, skip=skip, keep=keep, inplace=inplace)
-
+        intake.patterns_filter(self, skip=skip, keep=keep, inplace=inplace)
         return self.frame["names"]
 
     @staticmethod

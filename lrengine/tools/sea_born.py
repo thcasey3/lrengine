@@ -12,6 +12,8 @@ class sea:
         df (DataFrame): "frame" from start object
         kind (str): type of plot (currently only relplot is allowed)
         seaborn_args (dict): dict keys are the seaborn.relplot arguments and their allowed values are according to seaborn documentation for relplot
+    Returns:
+        seaborn relplot
     """
 
     def __init__(self, df=None, kind="relplot", seaborn_args={}):
