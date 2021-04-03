@@ -1,7 +1,7 @@
 """
 sq_lite module, for interacting with sqlite3
 """
-import sqlite3 as sq
+import pandas as pd
 
 
 class sql:

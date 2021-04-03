@@ -31,6 +31,9 @@ setup(
         "numpy>=1.13.3",
         "pandas>=1.0.4",
         "seaborn>=0.10",
+        "scikit-learn>=0.24.0",
+        "pyspark>=3.1.0",
+        "tensorflow>=2.4.0",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
