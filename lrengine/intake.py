@@ -85,7 +85,7 @@ class date_injectors:
             possible_delta = []
             possible_patt = []
             for _, patt in enumerate(possible_formats):
-                date_try = self.look_for_date_string(dir, patt)
+                date_try = self._look_for_date_string(dir, patt)
                 if date_try:
                     try:
                         found_date = self.parse_dates(date_try)
@@ -100,19 +100,6 @@ class date_injectors:
                             possible_patt.append(patt)
                     except ValueError:
                         continue
-
-            if isinstance(possible_date, list):
-                possible_date = list(set(possible_date))
-                if len(possible_date) == 1:
-                    possible_date = possible_date[0]
-            if isinstance(possible_delta, list):
-                possible_delta = list(set(possible_delta))
-                if len(possible_delta) == 1:
-                    possible_delta = possible_delta[0]
-            if isinstance(possible_patt, list):
-                possible_patt = list(set(possible_patt))
-                if len(possible_patt) == 1:
-                    possible_patt = possible_patt[0]
 
             if possible_date:
                 date_list[indx] = possible_date
@@ -135,11 +122,14 @@ class date_injectors:
         date_delta_list = list(np.zeros(len(lrdata.frame)))
 
         for indx, dir in enumerate(lrdata.frame.names):
-            possible_date = self.look_for_date_string(dir, lrdata.date_format)
+            possible_date = self._look_for_date_string(dir, lrdata.date_format)
             if possible_date:
-                date_list[indx] = self.parse_dates(possible_date)
-                if date_list[indx]:
-                    date_delta_list[indx] = self.diff_dates(date_list[indx])
+                try:
+                    date_list[indx] = self.parse_dates(possible_date)
+                    if date_list[indx]:
+                        date_delta_list[indx] = self.diff_dates(date_list[indx])
+                except ValueError:
+                    continue
 
         if sum(date_delta_list) != 0:
             lrdata.frame["date"] = date_list
@@ -149,8 +139,7 @@ class date_injectors:
 
         return lrdata
 
-    @staticmethod
-    def look_for_date_string(dir, date_format):
+    def _look_for_date_string(self, dir, date_format):
 
         if date_format in [
             "YYYY-MM-DD",
@@ -207,156 +196,171 @@ class date_injectors:
         date_string = [match.group(1) for match in matches]
 
         if date_string and isinstance(date_string, list):
-            date_string = date_string[0]
-            date_string.replace("/", "-").replace("_", "-").replace(":", "-")
+            new_date_string = []
+            for ds in date_string:
+                try:
+                    ds.replace("/", "-").replace("_", "-").replace(":", "-")
+                    test_date_string = self._map_date_string(ds, date_format)
+                    self.parse_dates(test_date_string)
+                    new_date_string.append(test_date_string)
+                except ValueError:
+                    continue
+            if new_date_string and len(new_date_string) == 1:
+                date_string = new_date_string[0]
+            elif new_date_string and len(new_date_string) > 1:
+                date_string = [x for x in new_date_string if x != []]
 
-            if date_format == "YYYY-MM-DD":
+        return date_string
+
+    def _map_date_string(self, date_string, date_format):
+
+        if date_format == "YYYY-MM-DD":
+            date_string = (
+                date_string[0:4] + "-" + date_string[5:7] + "-" + date_string[8:]
+            )
+
+        if date_format == "YYYY-DD-MM":
+            date_string = (
+                date_string[0:4] + "-" + date_string[8:] + "-" + date_string[5:7]
+            )
+
+        if date_format == "DD-MM-YYYY":
+            date_string = (
+                date_string[6:] + "-" + date_string[3:5] + "-" + date_string[0:2]
+            )
+
+        if date_format == "MM-DD-YYYY":
+            date_string = (
+                date_string[6:] + "-" + date_string[0:2] + "-" + date_string[3:5]
+            )
+
+        if date_format == "YYYYMMDD":
+            date_string = date_string[0:4] + date_string[4:6] + date_string[6:]
+
+        if date_format == "YYYYDDMM":
+            date_string = date_string[0:4] + date_string[6:] + date_string[4:6]
+
+        if date_format == "DDMMYYYY":
+            date_string = date_string[4:] + date_string[2:4] + date_string[0:2]
+
+        if date_format == "MMDDYYYY":
+            date_string = date_string[4:] + date_string[0:4]
+
+        if date_format == "YY-MM-DD":
+            if int("20" + date_string[0:2]) > date.today().year:
                 date_string = (
-                    date_string[0:4] + "-" + date_string[5:7] + "-" + date_string[8:]
+                    "19"
+                    + date_string[0:2]
+                    + "-"
+                    + date_string[3:5]
+                    + "-"
+                    + date_string[6:]
+                )
+            else:
+                date_string = (
+                    "20"
+                    + date_string[0:2]
+                    + "-"
+                    + date_string[3:5]
+                    + "-"
+                    + date_string[6:]
                 )
 
-            if date_format == "YYYY-DD-MM":
+        if date_format == "YY-DD-MM":
+            if int("20" + date_string[0:2]) > date.today().year:
                 date_string = (
-                    date_string[0:4] + "-" + date_string[8:] + "-" + date_string[5:7]
+                    "19"
+                    + date_string[0:2]
+                    + "-"
+                    + date_string[6:]
+                    + "-"
+                    + date_string[3:5]
+                )
+            else:
+                date_string = (
+                    "20"
+                    + date_string[0:2]
+                    + "-"
+                    + date_string[6:]
+                    + "-"
+                    + date_string[3:5]
                 )
 
-            if date_format == "DD-MM-YYYY":
+        if date_format == "DD-MM-YY":
+            if int("20" + date_string[6:]) > date.today().year:
                 date_string = (
-                    date_string[6:] + "-" + date_string[3:5] + "-" + date_string[0:2]
+                    "19"
+                    + date_string[6:]
+                    + "-"
+                    + date_string[3:5]
+                    + "-"
+                    + date_string[0:2]
+                )
+            else:
+                date_string = (
+                    "20"
+                    + date_string[6:]
+                    + "-"
+                    + date_string[3:5]
+                    + "-"
+                    + date_string[0:2]
                 )
 
-            if date_format == "MM-DD-YYYY":
+        if date_format == "MM-DD-YY":
+            if int("20" + date_string[6:]) > date.today().year:
                 date_string = (
-                    date_string[6:] + "-" + date_string[0:2] + "-" + date_string[3:5]
+                    "19"
+                    + date_string[6:]
+                    + "-"
+                    + date_string[0:2]
+                    + "-"
+                    + date_string[3:5]
+                )
+            else:
+                date_string = (
+                    "20"
+                    + date_string[6:]
+                    + "-"
+                    + date_string[0:2]
+                    + "-"
+                    + date_string[3:5]
                 )
 
-            if date_format == "YYYYMMDD":
-                date_string = date_string[0:4] + date_string[4:6] + date_string[6:]
+        if date_format == "YYMMDD":
+            if int("20" + date_string[0:2]) > date.today().year:
+                date_string = (
+                    "19" + date_string[0:2] + date_string[2:4] + date_string[4:]
+                )
+            else:
+                date_string = (
+                    "20" + date_string[0:2] + date_string[2:4] + date_string[4:]
+                )
 
-            if date_format == "YYYYDDMM":
-                date_string = date_string[0:4] + date_string[6:] + date_string[4:6]
+        if date_format == "YYDDMM":
+            if int("20" + date_string[0:2]) > date.today().year:
+                date_string = (
+                    "19" + date_string[0:2] + date_string[4:] + date_string[2:4]
+                )
+            else:
+                date_string = (
+                    "20" + date_string[0:2] + date_string[4:] + date_string[2:4]
+                )
 
-            if date_format == "DDMMYYYY":
-                date_string = date_string[4:] + date_string[2:4] + date_string[0:2]
+        if date_format == "DDMMYY":
+            if int("20" + date_string[4:]) > date.today().year:
+                date_string = (
+                    "19" + date_string[4:] + date_string[2:4] + date_string[0:2]
+                )
+            else:
+                date_string = (
+                    "20" + date_string[4:] + date_string[2:4] + date_string[0:2]
+                )
 
-            if date_format == "MMDDYYYY":
-                date_string = date_string[4:] + date_string[0:4]
-
-            if date_format == "YY-MM-DD":
-                if int("20" + date_string[0:2]) > date.today().year:
-                    date_string = (
-                        "19"
-                        + date_string[0:2]
-                        + "-"
-                        + date_string[3:5]
-                        + "-"
-                        + date_string[6:]
-                    )
-                else:
-                    date_string = (
-                        "20"
-                        + date_string[0:2]
-                        + "-"
-                        + date_string[3:5]
-                        + "-"
-                        + date_string[6:]
-                    )
-
-            if date_format == "YY-DD-MM":
-                if int("20" + date_string[0:2]) > date.today().year:
-                    date_string = (
-                        "19"
-                        + date_string[0:2]
-                        + "-"
-                        + date_string[6:]
-                        + "-"
-                        + date_string[3:5]
-                    )
-                else:
-                    date_string = (
-                        "20"
-                        + date_string[0:2]
-                        + "-"
-                        + date_string[6:]
-                        + "-"
-                        + date_string[3:5]
-                    )
-
-            if date_format == "DD-MM-YY":
-                if int("20" + date_string[6:]) > date.today().year:
-                    date_string = (
-                        "19"
-                        + date_string[6:]
-                        + "-"
-                        + date_string[3:5]
-                        + "-"
-                        + date_string[0:2]
-                    )
-                else:
-                    date_string = (
-                        "20"
-                        + date_string[6:]
-                        + "-"
-                        + date_string[3:5]
-                        + "-"
-                        + date_string[0:2]
-                    )
-
-            if date_format == "MM-DD-YY":
-                if int("20" + date_string[6:]) > date.today().year:
-                    date_string = (
-                        "19"
-                        + date_string[6:]
-                        + "-"
-                        + date_string[0:2]
-                        + "-"
-                        + date_string[3:5]
-                    )
-                else:
-                    date_string = (
-                        "20"
-                        + date_string[6:]
-                        + "-"
-                        + date_string[0:2]
-                        + "-"
-                        + date_string[3:5]
-                    )
-
-            if date_format == "YYMMDD":
-                if int("20" + date_string[0:2]) > date.today().year:
-                    date_string = (
-                        "19" + date_string[0:2] + date_string[2:4] + date_string[4:]
-                    )
-                else:
-                    date_string = (
-                        "20" + date_string[0:2] + date_string[2:4] + date_string[4:]
-                    )
-
-            if date_format == "YYDDMM":
-                if int("20" + date_string[0:2]) > date.today().year:
-                    date_string = (
-                        "19" + date_string[0:2] + date_string[4:] + date_string[2:4]
-                    )
-                else:
-                    date_string = (
-                        "20" + date_string[0:2] + date_string[4:] + date_string[2:4]
-                    )
-
-            if date_format == "DDMMYY":
-                if int("20" + date_string[4:]) > date.today().year:
-                    date_string = (
-                        "19" + date_string[4:] + date_string[2:4] + date_string[0:2]
-                    )
-                else:
-                    date_string = (
-                        "20" + date_string[4:] + date_string[2:4] + date_string[0:2]
-                    )
-
-            if date_format == "MMDDYY":
-                if int("20" + date_string[4:]) > date.today().year:
-                    date_string = "19" + date_string[4:] + date_string[0:4]
-                else:
-                    date_string = "20" + date_string[4:] + date_string[0:4]
+        if date_format == "MMDDYY":
+            if int("20" + date_string[4:]) > date.today().year:
+                date_string = "19" + date_string[4:] + date_string[0:4]
+            else:
+                date_string = "20" + date_string[4:] + date_string[0:4]
 
         return date_string
 
