@@ -293,5 +293,13 @@ class start:
             "YY/DD/MM",
             "MM/DD/YY",
             "DD/MM/YY",
+            "YYYY:MM:DD",
+            "YYYY:DD:MM",
+            "MM:DD:YYYY",
+            "DD:MM:YYYY",
+            "YY:MM:DD",
+            "YY:DD:MM",
+            "MM:DD:YY",
+            "DD:MM:YY",
         ]:
             raise ValueError("This date format is not allowed, see documentation")
