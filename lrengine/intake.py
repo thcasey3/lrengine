@@ -87,8 +87,8 @@ class date_injectors:
             for _, patt in enumerate(possible_formats):
                 date_try = self._look_for_date_string(dir, patt)
                 if date_try:
-                    try:
-                        found_date = self.parse_dates(date_try)
+                    found_date = self.parse_dates(date_try)
+                    if found_date is not None:
                         found_delta = self.diff_dates(found_date)
                         if (
                             found_delta >= 0
@@ -98,7 +98,7 @@ class date_injectors:
                             possible_date.append(found_date)
                             possible_delta.append(found_delta)
                             possible_patt.append(patt)
-                    except ValueError:
+                    else:
                         continue
 
             if possible_date:
@@ -124,11 +124,11 @@ class date_injectors:
         for indx, dir in enumerate(lrdata.frame.names):
             possible_date = self._look_for_date_string(dir, lrdata.date_format)
             if possible_date:
-                try:
-                    date_list[indx] = self.parse_dates(possible_date)
+                date_list[indx] = self.parse_dates(possible_date)
+                if date_list[indx] is not None:
                     if date_list[indx]:
                         date_delta_list[indx] = self.diff_dates(date_list[indx])
-                except ValueError:
+                else:
                     continue
 
         if sum(date_delta_list) != 0:
@@ -198,12 +198,12 @@ class date_injectors:
         if date_string and isinstance(date_string, list):
             new_date_string = []
             for ds in date_string:
-                try:
-                    ds.replace("/", "-").replace("_", "-").replace(":", "-")
-                    test_date_string = self._map_date_string(ds, date_format)
-                    self.parse_dates(test_date_string)
+                ds.replace("/", "-").replace("_", "-").replace(":", "-")
+                test_date_string = self._map_date_string(ds, date_format)
+                test = self.parse_dates(test_date_string)
+                if test is not None:
                     new_date_string.append(test_date_string)
-                except ValueError:
+                else:
                     continue
             if new_date_string and len(new_date_string) == 1:
                 date_string = new_date_string[0]
@@ -366,7 +366,11 @@ class date_injectors:
 
     @staticmethod
     def parse_dates(possible_date):
-        return parser.isoparse(possible_date).date()
+        try:
+            parsed = parser.isoparse(possible_date).date()
+            return parsed
+        except:
+            return None
 
     @staticmethod
     def diff_dates(possible_date):
