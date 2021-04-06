@@ -67,7 +67,7 @@ class start:
         if self.patterns:
             intake.pattern_injectors(self)
         if self.skip:
-            intake.patterns_filter(self, skip=self.skip)
+            intake.patterns_filter(self, remove=self.skip)
 
     def _checks_passed(self):
 
@@ -188,19 +188,24 @@ class start:
         else:
             return self.frame
 
-    def reduce_dates(self, format=None):
+    def reduce_dates(self, remove=None, keep=None):
 
-        intake.dates_filter(self, format=format)
-        return self.frame[["date", "date_format", "date_delta"]]
+        intake.dates_filter(self, remove=remove, keep=keep)
+        if "date_format" in self.frame.columns:
+            return self.frame[["date", "date_format", "date_delta"]]
+        elif "date" in self.frame.columns:
+            return self.frame[["date", "date_delta"]]
+        else:
+            return self.frame
 
     def find_patterns(self):
 
         intake.pattern_injectors(self)
         return self.frame["names"]
 
-    def reduce_names(self, skip=None, keep=None, inplace=True):
+    def reduce_names(self, remove=None, keep=None, inplace=True):
 
-        intake.patterns_filter(self, skip=skip, keep=keep, inplace=inplace)
+        intake.patterns_filter(self, remove=remove, keep=keep, inplace=inplace)
         return self.frame["names"]
 
     @staticmethod
@@ -293,5 +298,13 @@ class start:
             "YY/DD/MM",
             "MM/DD/YY",
             "DD/MM/YY",
+            "YYYY:MM:DD",
+            "YYYY:DD:MM",
+            "MM:DD:YYYY",
+            "DD:MM:YYYY",
+            "YY:MM:DD",
+            "YY:DD:MM",
+            "MM:DD:YY",
+            "DD:MM:YY",
         ]:
             raise ValueError("This date format is not allowed, see documentation")

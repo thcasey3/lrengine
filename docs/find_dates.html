@@ -40,7 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Reduce the date lists to one format" href="reduce_dates.html" />
+    <link rel="next" title="Reduce the date lists" href="reduce_dates.html" />
     <link rel="prev" title="Reduce the frame using patterns" href="reduce_names.html" /> 
 </head>
 
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -100,7 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Finding Dates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists to one format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a custom function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a directory</a></li>
@@ -183,17 +183,32 @@
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
-                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span>
-                    <span class="p">)</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can search for all possible dates by setting <strong>date_format=&quot;any&quot;</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
+<p>You can search for any of a list of formats if you supply a list, or even look for all possible dates by setting <strong>date_format=&quot;any&quot;</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span> <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or just look for any of three formats,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;/path/to/directory/&quot;</span>
+<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span> <span class="s2">&quot;YYMMDD&quot;</span><span class="p">,</span> <span class="s2">&quot;MMDDYYYY&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>You can also modify an existing object to include dates or change to a different format using the <strong>find_dates()</strong> method. For example, change the <strong>date_format</strong> then update the dates information,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="s2">&quot;YYYY-MM-DD&quot;</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You may use lists here as well,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;YYYY-MM-DD&quot;</span><span class="p">,</span> <span class="s2">&quot;YY-MM-DD&quot;</span><span class="p">]</span>
 <span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -208,7 +223,7 @@
 <li><p>&quot;YYDDMM&quot;</p></li>
 <li><p>&quot;MMDDYY&quot;</p></li>
 <li><p>&quot;DDMMYY&quot;</p></li>
-<li><p>&quot;YYYY-MM-DD&quot; (&quot;-&quot; also implies &quot;_&quot;, &quot;/&quot;, &quot;:&quot;, and &quot;;&quot;)</p></li>
+<li><p>&quot;YYYY-MM-DD&quot; (&quot;-&quot; can also be &quot;_&quot;, &quot;/&quot;, or &quot;:&quot;)</p></li>
 <li><p>&quot;YYYY-DD-MM&quot;</p></li>
 <li><p>&quot;MM-DD-YYYY&quot;</p></li>
 <li><p>&quot;DD-MM-YYYY&quot;</p></li>
@@ -227,7 +242,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reduce_dates.html" class="btn btn-neutral float-right" title="Reduce the date lists to one format" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="reduce_dates.html" class="btn btn-neutral float-right" title="Reduce the date lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="reduce_names.html" class="btn btn-neutral float-left" title="Reduce the frame using patterns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

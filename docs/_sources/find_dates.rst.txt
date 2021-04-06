@@ -12,16 +12,29 @@ You may also classify by dates found in the file or folder names and the days el
     lrobject = lr.start(path, 
                         patterns={"sample": "\d\d"}, 
                         skip="sample7", 
-                        date_format="YYYYMMDD"
-                        )
+                        date_format="YYYYMMDD")
 
 
-You can search for all possible dates by setting **date_format="any"**. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,
+You can search for any of a list of formats if you supply a list, or even look for all possible dates by setting **date_format="any"**. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,
 
 .. code-block:: python
 
     path = "/path/to/directory/"
-    lrobject = lr.start(path, patterns={"sample": "\d\d"}, skip="sample7", date_format="any")
+    lrobject = lr.start(path, 
+                        patterns={"sample": "\d\d"}, 
+                        skip="sample7", 
+                        date_format="any")
+
+
+Or just look for any of three formats,
+
+.. code-block:: python
+
+    path = "/path/to/directory/"
+    lrobject = lr.start(path, 
+                        patterns={"sample": "\d\d"}, 
+                        skip="sample7", 
+                        date_format=["YYYYMMDD", "YYMMDD", "MMDDYYYY"])
 
 
 You can also modify an existing object to include dates or change to a different format using the **find_dates()** method. For example, change the **date_format** then update the dates information,
@@ -29,6 +42,13 @@ You can also modify an existing object to include dates or change to a different
 .. code-block:: python
 
     lrobject.date_format = "YYYY-MM-DD"
+    lrobject.find_dates()
+
+You may use lists here as well,
+
+.. code-block:: python
+
+    lrobject.date_format = ["YYYY-MM-DD", "YY-MM-DD"]
     lrobject.find_dates()
 
 
@@ -43,7 +63,7 @@ The currently supported date_format options are,
 * "YYDDMM"
 * "MMDDYY"
 * "DDMMYY"
-* "YYYY-MM-DD" ("-" also implies "_", "/", ":", and ";")
+* "YYYY-MM-DD" ("-" can also be "_", "/", or ":")
 * "YYYY-DD-MM"
 * "MM-DD-YYYY"
 * "DD-MM-YYYY"

@@ -2,6 +2,13 @@
 Version History
 ===============
 
+Version 0.0.3
+-------------
+* Fixed date parsing to look for all possible combinations of number sequences
+* Expanded find_dates() and reduce_dates() accordingly to deal with lists
+* Improved exception handling
+
+
 Version 0.0.2
 -------------
 * Added option to use a dict and re expressions to define patterns
