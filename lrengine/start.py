@@ -188,10 +188,15 @@ class start:
         else:
             return self.frame
 
-    def reduce_dates(self, format=None):
+    def reduce_dates(self, remove=None, keep=None):
 
-        intake.dates_filter(self, format=format)
-        return self.frame[["date", "date_format", "date_delta"]]
+        intake.dates_filter(self, remove=remove, keep=keep)
+        if "date_format" in self.frame.columns:
+            return self.frame[["date", "date_format", "date_delta"]]
+        elif "date" in self.frame.columns:
+            return self.frame[["date", "date_delta"]]
+        else:
+            return self.frame
 
     def find_patterns(self):
 

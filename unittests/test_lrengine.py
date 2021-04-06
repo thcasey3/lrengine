@@ -142,9 +142,27 @@ class startTester(unittest.TestCase):
             self.start_result.frame["names"] == "19850802_example_short.csv"
         ].index[0]
         self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
-
-        self.start_result.reduce_dates(format="YYYYMMDD")
+        self.start_result.reduce_dates(keep="YYYYMMDD")
         self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], date))
+
+        self.start_result.find_dates()
+        self.start_result.reduce_dates(remove=["YYYYMMDD"])
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
+        self.assertTrue(
+            [
+                x
+                for x in self.start_result.frame.loc[find_loc, "date"]
+                if isinstance(x, date)
+            ]
+        )
+
+        self.start_result.find_dates()
+        self.start_result.reduce_dates(remove=["YYMMDD", "YYDDMM"])
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
+        find_loc = self.start_result.frame[
+            self.start_result.frame["names"] == "850802_example_test.csv"
+        ].index[0]
+        self.assertTrue(self.start_result.frame.loc[find_loc, "date_format"] == 0)
 
     def test_f_map_directory_method(self):
 
