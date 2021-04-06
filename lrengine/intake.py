@@ -567,7 +567,7 @@ class patterns_filter:
 
     Args:
         lrdata (start): start object
-        skip (list): patterns to use to decide which names to skip
+        remove (list): patterns to use to decide which names to remove
         keep (list): patterns to use to decide which names to keep
         inplace (bool): pandas "inplace" option for the .drop method
 
@@ -575,36 +575,36 @@ class patterns_filter:
         updated start object
     """
 
-    def __init__(self, lrdata, skip=None, keep=None, inplace=True):
+    def __init__(self, lrdata, remove=None, keep=None, inplace=True):
 
-        self._take_out_names(lrdata, skip=skip, keep=keep, inplace=inplace)
+        self._take_out_names(lrdata, remove=remove, keep=keep, inplace=inplace)
 
-    def _take_out_names(self, lrdata, skip, keep, inplace):
+    def _take_out_names(self, lrdata, remove, keep, inplace):
 
-        if skip is not None or keep is not None:
-            if isinstance(skip, str):
-                skip = [skip]
+        if remove is not None or keep is not None:
+            if isinstance(remove, str):
+                remove = [remove]
             if isinstance(keep, str):
                 keep = [keep]
-            skip_indx = []
+            remove_indx = []
             for indx, subdir in enumerate(lrdata.frame["names"]):
-                if skip is not None and keep is None:
-                    if any(map(subdir.__contains__, skip)):
-                        skip_indx.append(lrdata.frame.index[indx])
-                elif skip is None and keep is not None:
+                if remove is not None and keep is None:
+                    if any(map(subdir.__contains__, remove)):
+                        remove_indx.append(lrdata.frame.index[indx])
+                elif remove is None and keep is not None:
                     if not any(map(subdir.__contains__, keep)):
-                        skip_indx.append(lrdata.frame.index[indx])
-                elif skip is not None and keep is not None:
-                    if any(map(subdir.__contains__, skip)) or not any(
+                        remove_indx.append(lrdata.frame.index[indx])
+                elif remove is not None and keep is not None:
+                    if any(map(subdir.__contains__, remove)) or not any(
                         map(subdir.__contains__, keep)
                     ):
-                        skip_indx.append(lrdata.frame.index[indx])
+                        remove_indx.append(lrdata.frame.index[indx])
 
-            if len(skip_indx) == len(lrdata.frame):
+            if len(remove_indx) == len(lrdata.frame):
                 raise TypeError(
-                    "You removed all of your names! Try different skip or keep patterns"
+                    "You removed all of your names! Try different remove or keep patterns"
                 )
             else:
-                lrdata.frame.drop(skip_indx, inplace=inplace)
+                lrdata.frame.drop(remove_indx, inplace=inplace)
 
         return lrdata

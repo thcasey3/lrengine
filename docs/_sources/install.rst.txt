@@ -24,6 +24,12 @@ The following packages are required in order to use all features of lrengine:
      - 2.6.1+
    * - seaborn
      - 0.10+
+   * - scikit-learn
+     - 0.24+
+   * - pyspark
+     - 3.1+
+   * - tensorflow
+     - 2.4+
 
 
 To install the required packages with pip use the command:

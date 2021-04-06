@@ -118,7 +118,7 @@ class startTester(unittest.TestCase):
         result = start(self.path, patterns={"example": "_test", "short": bool})
         find_loc = result.frame[result.frame["example"] == "_test"].index[0]
         self.assertFalse(result.frame.loc[find_loc, "short"])
-        result.reduce_names(skip=["short"])
+        result.reduce_names(remove=["short"])
         find_loc = result.frame[result.frame["names"] == "example.csv"].index[0]
         self.assertFalse(result.frame.loc[find_loc, "example"])
         find_loc = result.frame[

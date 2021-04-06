@@ -67,7 +67,7 @@ class start:
         if self.patterns:
             intake.pattern_injectors(self)
         if self.skip:
-            intake.patterns_filter(self, skip=self.skip)
+            intake.patterns_filter(self, remove=self.skip)
 
     def _checks_passed(self):
 
@@ -203,9 +203,9 @@ class start:
         intake.pattern_injectors(self)
         return self.frame["names"]
 
-    def reduce_names(self, skip=None, keep=None, inplace=True):
+    def reduce_names(self, remove=None, keep=None, inplace=True):
 
-        intake.patterns_filter(self, skip=skip, keep=keep, inplace=inplace)
+        intake.patterns_filter(self, remove=remove, keep=keep, inplace=inplace)
         return self.frame["names"]
 
     @staticmethod
