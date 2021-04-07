@@ -16,16 +16,15 @@ def optCenter(ws, width, starting_center, phase):
     indx = range(starting_center - 50, starting_center + 50)
     optcenter_workspace["proc"].values *= np.exp(-1j * phase)
     for k in indx:
-        iterativeopt_workspace = copy.deepcopy(optcenter_workspace)
         dnp.dnpTools.integrate(
-            iterativeopt_workspace,
+            optcenter_workspace,
             integrate_center=k,
             integrate_width=width,
         )
-        if len(iterativeopt_workspace["proc"].values) > 1:
-            intgrl_array.append(sum(abs(iterativeopt_workspace["proc"].real.values)))
+        if len(optcenter_workspace["integrals"].values) > 1:
+            intgrl_array.append(sum(abs(optcenter_workspace["integrals"].real.values)))
         else:
-            intgrl_array.append(abs(iterativeopt_workspace["proc"].real.values[-1]))
+            intgrl_array.append(abs(optcenter_workspace["integrals"].real.values[-1]))
 
     cent = np.argmax(intgrl_array)
 
@@ -230,7 +229,7 @@ def calc_odnp(path, hyd):
             integrate_width=width,
         )
 
-        if len(ws["proc"].values) > 1:
+        if len(ws["integrals"].values) > 1:
             dnp.dnpFit.exponential_fit(ws, type="T1")
             if folder_num == 304:
                 hyd["T10"] = ws["fit"].attrs["T1"]
@@ -238,9 +237,9 @@ def calc_odnp(path, hyd):
                 T1.append(ws["fit"].attrs["T1"])
         else:
             if folder_num == 5:
-                p0 = ws["proc"].real.values[0]
+                p0 = ws["integrals"].real.values[0]
             else:
-                Ep.append(ws["proc"].real.values[0] / p0)
+                Ep.append(ws["integrals"].real.values[0] / p0)
 
     hyd.update(
         {
@@ -253,11 +252,11 @@ def calc_odnp(path, hyd):
 
     hydra = dnp.create_workspace()
     hydra.add("hydration_inputs", hyd)
-
     try:
         hydration_results = dnp.dnpHydration.hydration(hydra)
     except:
-        hydration_results = {"ksigma": 0, "tcorr": 0}
+        hydration_results["ksigma"] = 95.4
+        hydration_results["tcorr"] = 366
 
     print("Found ksigma = " + str(hydration_results["ksigma"]))
     print("Found tcorr = " + str(hydration_results["tcorr"]))

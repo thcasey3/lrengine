@@ -25,13 +25,14 @@ class sea:
 
     def plt_relplot(
         self,
-        df=None,
-        kind="relplot",
-        seaborn_args={},
+        df,
+        kind,
+        seaborn_args,
     ):
         sea_args = {
             "theme": "darkgrid",
             "hue": None,
+            "s": 25,
             "size": None,
             "style": None,
             "row": None,

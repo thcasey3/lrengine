@@ -52,30 +52,6 @@ class date_injectors:
                 "YY-DD-MM",
                 "MM-DD-YY",
                 "DD-MM-YY",
-                "YYYY_MM_DD",
-                "YYYY_DD_MM",
-                "MM_DD_YYYY",
-                "DD_MM_YYYY",
-                "YY_MM_DD",
-                "YY_DD_MM",
-                "MM_DD_YY",
-                "DD_MM_YY",
-                "YYYY/MM/DD",
-                "YYYY/DD/MM",
-                "MM/DD/YYYY",
-                "DD/MM/YYYY",
-                "YY/MM/DD",
-                "YY/DD/MM",
-                "MM/DD/YY",
-                "DD/MM/YY",
-                "YYYY:MM:DD",
-                "YYYY:DD:MM",
-                "MM:DD:YYYY",
-                "DD:MM:YYYY",
-                "YY:MM:DD",
-                "YY:DD:MM",
-                "MM:DD:YY",
-                "DD:MM:YY",
             ]
         elif isinstance(lrdata.date_format, list):
             possible_formats = lrdata.date_format
@@ -141,15 +117,11 @@ class date_injectors:
 
     def _look_for_date_string(self, dir, date_format):
 
+        date_format = date_format.replace("/", "-").replace("_", "-").replace(":", "-")
+
         if date_format in [
             "YYYY-MM-DD",
             "YYYY-DD-MM",
-            "YYYY/MM/DD",
-            "YYYY/DD/MM",
-            "YYYY_MM_DD",
-            "YYYY_DD_MM",
-            "YYYY:MM:DD",
-            "YYYY:DD:MM",
         ]:
             matches = re.finditer(
                 r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", dir
@@ -157,12 +129,6 @@ class date_injectors:
         elif date_format in [
             "DD-MM-YYYY",
             "MM-DD-YYYY",
-            "DD/MM/YYYY",
-            "MM/DD/YYYY",
-            "DD_MM_YYYY",
-            "MM_DD_YYYY",
-            "DD:MM:YYYY",
-            "MM:DD:YYYY",
         ]:
             matches = re.finditer(
                 r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}))", dir
@@ -172,18 +138,6 @@ class date_injectors:
             "YY-DD-MM",
             "DD-MM-YY",
             "MM-DD-YY",
-            "YY/MM/DD",
-            "YY/DD/MM",
-            "DD/MM/YY",
-            "MM/DD/YY",
-            "YY_MM_DD",
-            "YY_DD_MM",
-            "DD_MM_YY",
-            "MM_DD_YY",
-            "YY:MM:DD",
-            "YY:DD:MM",
-            "DD:MM:YY",
-            "MM:DD:YY",
         ]:
             matches = re.finditer(
                 r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", dir
@@ -218,7 +172,6 @@ class date_injectors:
             date_string = (
                 date_string[0:4] + "-" + date_string[5:7] + "-" + date_string[8:]
             )
-
         if date_format == "YYYY-DD-MM":
             date_string = (
                 date_string[0:4] + "-" + date_string[8:] + "-" + date_string[5:7]
@@ -544,19 +497,18 @@ class pattern_injectors:
                         lrdata.frame.loc[indx, patt] = True
 
                 elif isinstance(lrdata.patterns, dict):
-                    if lrdata.patterns[patt] is bool:
+                    value = lrdata.patterns[patt]
+                    if value is bool:
                         if patt in dir:
                             lrdata.frame.loc[indx, patt] = True
                     else:
-                        found = False
-                        value = lrdata.patterns[patt]
-                        match = re.findall(patt + ".*", dir)
-                        if len(match) != 0:
-                            find_value = re.findall(patt + value, match[0])
-                            if len(find_value) != 0:
-                                found = find_value[0].replace(patt, "")
-
-                        lrdata.frame.loc[indx, patt] = found
+                        match = re.findall(value, dir)
+                        if match != []:
+                            if patt in match[0]:
+                                found = match[0].replace(patt, "")
+                            else:
+                                found = match[0]
+                            lrdata.frame.loc[indx, patt] = found
 
         return lrdata
 
