@@ -264,7 +264,7 @@ class start:
     @staticmethod
     def check_date_format(date_format):
 
-        if not date_format in [
+        allowed_list = [
             "any",
             "YYYYMMDD",
             "YYYYDDMM",
@@ -330,5 +330,13 @@ class start:
             "YY-D-M",
             "M-D-YY",
             "D-M-YY",
-        ]:
-            raise ValueError("This date format is not allowed, see documentation")
+        ]
+        if (
+            isinstance(date_format, list)
+            and not all(map(allowed_list.__contains__, date_format))
+        ) or (isinstance(date_format, str) and date_format not in allowed_list):
+            raise ValueError(
+                "One of the date formats "
+                + date_format
+                + " is not allowed, see documentation"
+            )
