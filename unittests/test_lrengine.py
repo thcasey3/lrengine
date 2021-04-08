@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import os
+import pandas as pd
 from datetime import date
 from lrengine import start, intake, engine, tools
 from numpy.testing import assert_array_equal
@@ -156,13 +157,167 @@ class startTester(unittest.TestCase):
             ]
         )
 
-        self.start_result.find_dates()
-        self.start_result.reduce_dates(remove=["YYMMDD", "YYDDMM"])
-        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
         find_loc = self.start_result.frame[
             self.start_result.frame["names"] == "850802_example_test.csv"
         ].index[0]
-        self.assertTrue(self.start_result.frame.loc[find_loc, "date_format"] == 0)
+        self.start_result.find_dates()
+        self.assertTrue(
+            date(1985, 8, 2) in self.start_result.frame.loc[find_loc, "date"]
+        )
+        self.start_result.reduce_dates(remove=["YYMMDD", "YYDDMM"])
+        self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
+        self.assertTrue(
+            self.start_result.frame.loc[find_loc, "date_format"]
+            == ["YYMDD", "MDDYY", "YYDMM", "DMMYY", "MDYY", "DMYY"]
+        )
+        self.assertFalse(
+            date(1985, 8, 2) in self.start_result.frame.loc[find_loc, "date"]
+        )
+
+        self.start_result.frame = pd.DataFrame(
+            [
+                "19950509",
+                "19950905",
+                "05091995",
+                "09051995",
+                "950509",
+                "950905",
+                "050995",
+                "090595",
+                "1995509",
+                "1995095",
+                "5091995",
+                "0951995",
+                "95509",
+                "95095",
+                "50995",
+                "09595",
+                "1995059",
+                "1995905",
+                "0591995",
+                "9051995",
+                "95059",
+                "95905",
+                "05995",
+                "90595",
+                "199559",
+                "199595",
+                "591995",
+                "951995",
+                "9559",
+                "9595",
+                "5995",
+                "9595",
+                "1995-05-09",
+                "1995-09-05",
+                "05-09-1995",
+                "09-05-1995",
+                "95-05-09",
+                "95-09-05",
+                "05;09:95",
+                "09-05-95",
+                "1995-5-09",
+                "1995-09-5",
+                "5_09-1995",
+                "09-5-1995",
+                "95-5-09",
+                "95-09-5",
+                "5-09-95",
+                "09-5-95",
+                "1995-05-9",
+                "1995-9-05",
+                "05-9-1995",
+                "9-05-1995",
+                "95-05-9",
+                "95-9-05",
+                "05-9-95",
+                "9-05-95",
+                "1995;5;9",
+                "1995:9:5",
+                "5/9/1995",
+                "9_5_1995",
+                "95-5-9",
+                "95-9-5",
+                "5-9-95",
+                "9-5-95",
+            ],
+            columns=["names"],
+        )
+
+        date_strngs = [
+            "YYYYMMDD",
+            "YYYYDDMM",
+            "MMDDYYYY",
+            "DDMMYYYY",
+            "YYMMDD",
+            "YYDDMM",
+            "MMDDYY",
+            "DDMMYY",
+            "YYYYMDD",
+            "YYYYDDM",
+            "MDDYYYY",
+            "DDMYYYY",
+            "YYMDD",
+            "YYDDM",
+            "MDDYY",
+            "DDMYY",
+            "YYYYMMD",
+            "YYYYDMM",
+            "MMDYYYY",
+            "DMMYYYY",
+            "YYMMD",
+            "YYDMM",
+            "MMDYY",
+            "DMMYY",
+            "YYYYMD",
+            "YYYYDM",
+            "MDYYYY",
+            "DMYYYY",
+            "YYMD",
+            "YYDM",
+            "MDYY",
+            "DMYY",
+            "YYYY-MM-DD",
+            "YYYY-DD-MM",
+            "MM-DD-YYYY",
+            "DD-MM-YYYY",
+            "YY;MM;DD",
+            "YY-DD-MM",
+            "MM-DD-YY",
+            "DD-MM-YY",
+            "YYYY-M-DD",
+            "YYYY/DD/M",
+            "M-DD-YYYY",
+            "DD-M-YYYY",
+            "YY-M-DD",
+            "YY-DD-M",
+            "M-DD-YY",
+            "DD-M-YY",
+            "YYYY:MM:D",
+            "YYYY-D-MM",
+            "MM-D-YYYY",
+            "D-MM-YYYY",
+            "YY-MM-D",
+            "YY-D-MM",
+            "MM-D-YY",
+            "D-MM-YY",
+            "YYYY-M-D",
+            "YYYY-D-M",
+            "M-D-YYYY",
+            "D-M-YYYY",
+            "YY-M-D",
+            "YY_D_M",
+            "M-D-YY",
+            "D-M-YY",
+        ]
+
+        for indx, dat in enumerate(self.start_result.frame["names"]):
+            self.start_result.date_format = date_strngs[indx]
+            self.start_result.find_dates()
+            self.assertTrue(isinstance(self.start_result.frame.loc[indx, "date"], date))
+            self.assertEqual(
+                self.start_result.frame.loc[indx, "date"], date(1995, 5, 9)
+            )
 
     def test_f_map_directory_method(self):
 
