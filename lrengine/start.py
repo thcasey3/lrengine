@@ -203,9 +203,9 @@ class start:
         intake.pattern_injectors(self)
         return self.frame["names"]
 
-    def reduce_names(self, remove=None, keep=None, inplace=True):
+    def reduce_names(self, remove=None, keep=None):
 
-        intake.patterns_filter(self, remove=remove, keep=keep, inplace=inplace)
+        intake.patterns_filter(self, remove=remove, keep=keep)
         return self.frame["names"]
 
     @staticmethod

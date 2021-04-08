@@ -30,9 +30,9 @@ class date_injectors:
 
     def _smart_search_dates(self, lrdata):
 
-        date_list = list(np.zeros(len(lrdata.frame)))
-        date_format_list = list(np.zeros(len(lrdata.frame)))
-        date_delta_list = list(np.zeros(len(lrdata.frame)))
+        date_list = list(np.zeros(len(lrdata.frame)).astype(int))
+        date_format_list = list(np.zeros(len(lrdata.frame)).astype(int))
+        date_delta_list = list(np.zeros(len(lrdata.frame)).astype(int))
 
         if lrdata.date_format == "any":
             possible_formats = [
@@ -94,8 +94,8 @@ class date_injectors:
 
     def _look_for_date(self, lrdata):
 
-        date_list = [0 for _ in range(len(lrdata.frame))]
-        date_delta_list = [0 for _ in range(len(lrdata.frame))]
+        date_list = list(np.zeros(len(lrdata.frame)).astype(int))
+        date_delta_list = list(np.zeros(len(lrdata.frame)).astype(int))
 
         for indx, dir in enumerate(lrdata.frame.names):
             possible_date = self._look_for_date_string(dir, lrdata.date_format)
@@ -361,9 +361,9 @@ class dates_filter:
     def _take_out_dates(self, lrdata, remove, keep):
 
         if (keep or remove) and "date_format" in lrdata.frame.columns:
-            new_formats = [0 for _ in range(len(lrdata.frame))]
-            new_dates = [0 for _ in range(len(lrdata.frame))]
-            new_deltas = [0 for _ in range(len(lrdata.frame))]
+            new_formats = list(np.zeros(len(lrdata.frame)).astype(int))
+            new_dates = list(np.zeros(len(lrdata.frame)).astype(int))
+            new_deltas = list(np.zeros(len(lrdata.frame)).astype(int))
             for indx, form_list in enumerate(lrdata.frame["date_format"]):
                 if isinstance(form_list, list):
                     if remove is not None and keep is None:
@@ -490,7 +490,7 @@ class pattern_injectors:
             patterns_to_iterate = lrdata.patterns.keys()
 
         for patt in patterns_to_iterate:
-            lrdata.frame[patt] = [False for _ in range(len(lrdata.frame))]
+            lrdata.frame[patt] = list(np.zeros(len(lrdata.frame)).astype(bool))
             for indx, dir in enumerate(lrdata.frame["names"]):
                 if isinstance(lrdata.patterns, list):
                     if patt in dir:
@@ -527,36 +527,36 @@ class patterns_filter:
         updated start object
     """
 
-    def __init__(self, lrdata, remove=None, keep=None, inplace=True):
+    def __init__(self, lrdata, remove=None, keep=None):
 
-        self._take_out_names(lrdata, remove=remove, keep=keep, inplace=inplace)
+        self._take_out_names(lrdata, remove=remove, keep=keep)
 
-    def _take_out_names(self, lrdata, remove, keep, inplace):
+    def _take_out_names(self, lrdata, remove, keep):
 
         if remove is not None or keep is not None:
             if isinstance(remove, str):
                 remove = [remove]
             if isinstance(keep, str):
                 keep = [keep]
-            remove_indx = []
+            keep_indx = []
             for indx, subdir in enumerate(lrdata.frame["names"]):
                 if remove is not None and keep is None:
-                    if any(map(subdir.__contains__, remove)):
-                        remove_indx.append(lrdata.frame.index[indx])
+                    if not any(map(subdir.__contains__, remove)):
+                        keep_indx.append(lrdata.frame.index[indx])
                 elif remove is None and keep is not None:
-                    if not any(map(subdir.__contains__, keep)):
-                        remove_indx.append(lrdata.frame.index[indx])
+                    if any(map(subdir.__contains__, keep)):
+                        keep_indx.append(lrdata.frame.index[indx])
                 elif remove is not None and keep is not None:
-                    if any(map(subdir.__contains__, remove)) or not any(
+                    if not any(map(subdir.__contains__, remove)) or any(
                         map(subdir.__contains__, keep)
                     ):
-                        remove_indx.append(lrdata.frame.index[indx])
+                        keep_indx.append(lrdata.frame.index[indx])
 
-            if len(remove_indx) == len(lrdata.frame):
+            if len(keep_indx) == 0:
                 raise TypeError(
                     "You removed all of your names! Try different remove or keep patterns"
                 )
             else:
-                lrdata.frame.drop(remove_indx, inplace=inplace)
+                lrdata.frame = lrdata.frame.iloc[keep_indx, :]
 
         return lrdata
