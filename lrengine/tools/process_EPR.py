@@ -6,11 +6,14 @@ import numpy as np
 
 
 def proc_epr(path, args):
-    data = dnp.dnpImport.load(path)
-    if len(data.dims) == 1 and "frequency" in data.attrs.keys():
-        return [
-            np.argmax(data.values, axis=0) / len(data.values),
-            data.attrs["frequency"],
-        ]
-    else:
+    try:
+        data = dnp.dnpImport.load(path)
+        if len(data.dims) == 1 and "frequency" in data.attrs.keys():
+            return [
+                np.argmax(data.values, axis=0) / len(data.values),
+                data.attrs["frequency"],
+            ]
+        else:
+            return [0, 0]
+    except:
         return [0, 0]
