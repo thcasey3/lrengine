@@ -54,20 +54,5 @@ You may use lists here as well,
 
 The currently supported date_format options are,
 
-* "any" (try all of the formats below)
-* "YYYYMMDD"
-* "YYYYDDMM"
-* "MMDDYYYY"
-* "DDMMYYYY"
-* "YYMMDD"
-* "YYDDMM"
-* "MMDDYY"
-* "DDMMYY"
-* "YYYY-MM-DD" ("-" can also be "_", "/", or ":")
-* "YYYY-DD-MM"
-* "MM-DD-YYYY"
-* "DD-MM-YYYY"
-* "YY-MM-DD"
-* "YY-DD-MM"
-* "MM-DD-YY"
-* "DD-MM-YY"
+* All possible combinations of four or two digit years, two or one digit months, and two or one digit days; with or without "-", "_", "/", ":", or ";" included. For example, any of these can be found: "YYYYMMDD", "YYMD", "DD-MM-YY", "DMYY", "DD:MM:YYYY", "D/M/YYYY", **etc.**
+* "any" will try all of the formats described above and give a list of all that are found if more than one
