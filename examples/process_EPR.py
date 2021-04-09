@@ -1,6 +1,6 @@
-import sys
-
-sys.path.append("/Users/thomascasey/dnplab")
+"""
+an example of a user defined function for processing EPR data with DNPLab
+"""
 import dnplab as dnp
 import numpy as np
 

@@ -1,11 +1,9 @@
 """
-a built in function as an example of a user defined function
+an example of a user defined function for processing Han Lab ODNP data with DNPLab
 """
-import sys
 import os
 import copy
 
-sys.path.append("/Users/thomascasey/DNPLab")
 import dnplab as dnp
 import numpy as np
 
