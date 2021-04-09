@@ -18,15 +18,30 @@
 .. _sphx_glr_auto_examples_process_EPR.py:
 
 
-an example of a user defined function for processing EPR data with DNPLab
+EPR data processing
+===================
 
-.. GENERATED FROM PYTHON SOURCE LINES 4-21
+An example user-defined function for processing EPR data with the DNPLab package.
+
+.. GENERATED FROM PYTHON SOURCE LINES 12-13
+
+Import DNPLab and any other packages that may be needed for your function,
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-16
 
 .. code-block:: default
 
     import dnplab as dnp
     import numpy as np
 
+
+.. GENERATED FROM PYTHON SOURCE LINES 19-20
+
+The function accepts a path to an EPR spectrum file and returns the field value where the spectrum is maximum and the frequency. The function returns zeros where errors are encountered.
+
+.. GENERATED FROM PYTHON SOURCE LINES 20-35
+
+.. code-block:: default
 
     def proc_epr(path, args):
 
@@ -41,6 +56,8 @@ an example of a user defined function for processing EPR data with DNPLab
                 return [0, 0]
         except:
             return [0, 0]
+
+
 
 
 .. rst-class:: sphx-glr-timing

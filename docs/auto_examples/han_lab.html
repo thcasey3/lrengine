@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; lrengine  documentation</title>
+  <title>Han Lab ODNP data processing &mdash; lrengine  documentation</title>
   
 
   
@@ -93,7 +93,7 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installing lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../create.html">Create a start object</a></li>
@@ -106,7 +106,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../map_directory.html">Map a directory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../save.html">Save the frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">lrengine Template</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">lrengine Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="process_EPR.html">EPR data processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">lrengine Template</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Han Lab ODNP data processing</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../planned.html">Planned Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../version_history.html">Version History</a></li>
 </ul>
@@ -155,9 +160,9 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="index.html">lrengine Template</a> &raquo;</li>
+          <li><a href="index.html">lrengine Examples</a> &raquo;</li>
         
-      <li>&lt;no title&gt;</li>
+      <li>Han Lab ODNP data processing</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -181,15 +186,18 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-han-lab-py"><span class="std std-ref">here</span></a>
 to download the full example code</p>
 </div>
-<p class="sphx-glr-example-title" id="sphx-glr-auto-examples-han-lab-py">an example of a user defined function for processing Han Lab ODNP data with DNPLab</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">copy</span>
-
-<span class="kn">import</span> <span class="nn">dnplab</span> <span class="k">as</span> <span class="nn">dnp</span>
+<div class="sphx-glr-example-title section" id="han-lab-odnp-data-processing">
+<span id="sphx-glr-auto-examples-han-lab-py"></span><h1>Han Lab ODNP data processing<a class="headerlink" href="#han-lab-odnp-data-processing" title="Permalink to this headline">¶</a></h1>
+<p>An example user-defined function for processing Han Lab ODNP data with the DNPLab package.</p>
+<p>Import DNPLab and any other packages that may be needed for the functions,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dnplab</span> <span class="k">as</span> <span class="nn">dnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-
-<span class="k">def</span> <span class="nf">optCenter</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">starting_center</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+</pre></div>
+</div>
+<p>Function from hydrationGUI of DNPLab for optimizing center of integration window,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">optCenter</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">starting_center</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
     <span class="n">optcenter_workspace</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
     <span class="n">intgrl_array</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">indx</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">starting_center</span> <span class="o">-</span> <span class="mi">50</span><span class="p">,</span> <span class="n">starting_center</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span>
@@ -208,9 +216,10 @@ to download the full example code</p>
     <span class="n">cent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">intgrl_array</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">indx</span><span class="p">[</span><span class="n">cent</span><span class="p">]</span>
-
-
-<span class="k">def</span> <span class="nf">optPhase</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">starting_center</span><span class="p">,</span> <span class="n">starting_phase</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Function from hydrationGUI of DNPLab for optimizing phase,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">optPhase</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">starting_center</span><span class="p">,</span> <span class="n">starting_phase</span><span class="p">):</span>
     <span class="n">temp_data</span> <span class="o">=</span> <span class="n">ws</span><span class="p">[</span><span class="s2">&quot;proc&quot;</span><span class="p">][</span>
         <span class="s2">&quot;f2&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">starting_center</span> <span class="o">-</span> <span class="n">width</span><span class="p">,</span> <span class="n">starting_center</span> <span class="o">+</span> <span class="n">width</span><span class="p">)</span>
     <span class="p">]</span><span class="o">.</span><span class="n">values</span>
@@ -268,9 +277,10 @@ to download the full example code</p>
     <span class="n">bestindex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">rotated_data</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">phases</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">bestindex</span><span class="p">]</span>
-
-
-<span class="k">def</span> <span class="nf">optWidth</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">starting_width</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Function from hydrationGUI of DNPLab for optimizing integration window width,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">optWidth</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">starting_width</span><span class="p">,</span> <span class="n">center</span><span class="p">,</span> <span class="n">phase</span><span class="p">):</span>
     <span class="n">ydata</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span>
             <span class="n">ws</span><span class="p">[</span><span class="s2">&quot;proc&quot;</span><span class="p">][</span>
@@ -314,9 +324,10 @@ to download the full example code</p>
         <span class="n">center</span> <span class="o">=</span> <span class="n">optCenter</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_x</span><span class="p">),</span> <span class="n">center</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">center</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">min_x</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">calc_odnp</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hyd</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>Auto-process function from hydrationGUI. The function returns zeros where errors are encountered.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">calc_odnp</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">hyd</span><span class="p">):</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Working on: &quot;</span> <span class="o">+</span> <span class="n">path</span><span class="p">)</span>
 
@@ -453,6 +464,7 @@ to download the full example code</p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
 
 
            </div>

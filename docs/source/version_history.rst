@@ -4,7 +4,7 @@ Version History
 
 Version 0.0.3
 -------------
-* Fixed date parsing to look for all possible combinations of number sequences
+* Expanded date parsing to look for all possible combinations of number sequences
 * Expanded find_dates() and reduce_dates() accordingly to deal with lists
 * Expanded the list of date formats that can be found
 * Improved pattern searching with dict

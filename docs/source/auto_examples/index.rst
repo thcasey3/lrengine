@@ -4,18 +4,18 @@
 
 .. _sphx_glr_auto_examples:
 
-lrengine Template
+lrengine Examples
 =================
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="an example of a user defined function for processing EPR data with DNPLab">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example user-defined function for processing EPR data with the DNPLab package.">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_process_EPR_thumb.png
-     :alt: an example of a user defined function for processing EPR data with DNPLab
+     :alt: EPR data processing
 
      :ref:`sphx_glr_auto_examples_process_EPR.py`
 
@@ -52,12 +52,12 @@ lrengine Template
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="an example of a user defined function for processing Han Lab ODNP data with DNPLab">
+    <div class="sphx-glr-thumbcontainer" tooltip="An example user-defined function for processing Han Lab ODNP data with the DNPLab package.">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_han_lab_thumb.png
-     :alt: an example of a user defined function for processing Han Lab ODNP data with DNPLab
+     :alt: Han Lab ODNP data processing
 
      :ref:`sphx_glr_auto_examples_han_lab.py`
 

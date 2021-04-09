@@ -1,13 +1,25 @@
+# %% [markdown]
 """
-an example of a user defined function for processing Han Lab ODNP data with DNPLab
+Han Lab ODNP data processing
+============================
+
+An example user-defined function for processing Han Lab ODNP data with the DNPLab package.
+
 """
+# %%
+
+# %% [markdown]
+# Import DNPLab and any other packages that may be needed for the functions,
+import dnplab as dnp
+import numpy as np
 import os
 import copy
 
-import dnplab as dnp
-import numpy as np
+# %%
 
 
+# %% [markdown]
+# Function from hydrationGUI of DNPLab for optimizing center of integration window,
 def optCenter(ws, width, starting_center, phase):
     optcenter_workspace = copy.deepcopy(ws)
     intgrl_array = []
@@ -29,6 +41,10 @@ def optCenter(ws, width, starting_center, phase):
     return indx[cent]
 
 
+# %%
+
+# %% [markdown]
+# Function from hydrationGUI of DNPLab for optimizing phase,
 def optPhase(ws, width, starting_center, starting_phase):
     temp_data = ws["proc"][
         "f2", (starting_center - width, starting_center + width)
@@ -89,6 +105,10 @@ def optPhase(ws, width, starting_center, starting_phase):
     return phases[0, bestindex]
 
 
+# %%
+
+# %% [markdown]
+# Function from hydrationGUI of DNPLab for optimizing integration window width,
 def optWidth(ws, starting_width, center, phase):
     ydata = abs(
         np.real(
@@ -135,6 +155,10 @@ def optWidth(ws, starting_width, center, phase):
         return center, max(max_x) - min(min_x)
 
 
+# %%
+
+# %% [markdown]
+# Auto-process function from hydrationGUI. The function returns zeros where errors are encountered.
 def calc_odnp(path, hyd):
 
     print("Working on: " + path)
@@ -260,3 +284,6 @@ def calc_odnp(path, hyd):
     print("Found tcorr = " + str(hydration_results["tcorr"]))
 
     return hydration_results["tcorr"], hydration_results["ksigma"]
+
+
+# %%

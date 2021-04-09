@@ -18,18 +18,32 @@
 .. _sphx_glr_auto_examples_han_lab.py:
 
 
-an example of a user defined function for processing Han Lab ODNP data with DNPLab
+Han Lab ODNP data processing
+============================
 
-.. GENERATED FROM PYTHON SOURCE LINES 4-263
+An example user-defined function for processing Han Lab ODNP data with the DNPLab package.
+
+.. GENERATED FROM PYTHON SOURCE LINES 12-13
+
+Import DNPLab and any other packages that may be needed for the functions,
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-18
 
 .. code-block:: default
 
+    import dnplab as dnp
+    import numpy as np
     import os
     import copy
 
-    import dnplab as dnp
-    import numpy as np
 
+.. GENERATED FROM PYTHON SOURCE LINES 22-23
+
+Function from hydrationGUI of DNPLab for optimizing center of integration window,
+
+.. GENERATED FROM PYTHON SOURCE LINES 23-44
+
+.. code-block:: default
 
     def optCenter(ws, width, starting_center, phase):
         optcenter_workspace = copy.deepcopy(ws)
@@ -51,6 +65,15 @@ an example of a user defined function for processing Han Lab ODNP data with DNPL
 
         return indx[cent]
 
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 47-48
+
+Function from hydrationGUI of DNPLab for optimizing phase,
+
+.. GENERATED FROM PYTHON SOURCE LINES 48-108
+
+.. code-block:: default
 
     def optPhase(ws, width, starting_center, starting_phase):
         temp_data = ws["proc"][
@@ -112,6 +135,15 @@ an example of a user defined function for processing Han Lab ODNP data with DNPL
         return phases[0, bestindex]
 
 
+
+.. GENERATED FROM PYTHON SOURCE LINES 111-112
+
+Function from hydrationGUI of DNPLab for optimizing integration window width,
+
+.. GENERATED FROM PYTHON SOURCE LINES 112-158
+
+.. code-block:: default
+
     def optWidth(ws, starting_width, center, phase):
         ydata = abs(
             np.real(
@@ -157,6 +189,15 @@ an example of a user defined function for processing Han Lab ODNP data with DNPL
 
             return center, max(max_x) - min(min_x)
 
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 161-162
+
+Auto-process function from hydrationGUI. The function returns zeros where errors are encountered.
+
+.. GENERATED FROM PYTHON SOURCE LINES 162-289
+
+.. code-block:: default
 
     def calc_odnp(path, hyd):
 
@@ -283,6 +324,8 @@ an example of a user defined function for processing Han Lab ODNP data with DNPL
         print("Found tcorr = " + str(hydration_results["tcorr"]))
 
         return hydration_results["tcorr"], hydration_results["ksigma"]
+
+
 
 
 .. rst-class:: sphx-glr-timing
