@@ -177,26 +177,21 @@
   <div class="section" id="reduce-the-frame-using-patterns">
 <h1>Reduce the frame using patterns<a class="headerlink" href="#reduce-the-frame-using-patterns" title="Permalink to this headline">¶</a></h1>
 <p>To filter the names by a given pattern or list of patterns, simply call the <strong>.reduce_names()</strong> method and give the patterns to use to decide which names to drop. This example drops from the frame any element having &quot;blank_sample&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s2">&quot;blank_sample&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This next example drops any element having &quot;blank&quot; or &quot;zero&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;blank&quot;</span><span class="p">,</span> <span class="s2">&quot;zero&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>You may also do the reverse of remove and keep only elements with a given pattern in the name using the <strong>keep=</strong> keyword arg. For example, keep only elements with &quot;blank_sample&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;blank_sample&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or keep any elements with &quot;blank&quot; or &quot;zero&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;blank&quot;</span><span class="p">,</span> <span class="s2">&quot;zero&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<p><em>This method uses the pandas.DataFrame.drop method. You may toggle the **inplace*</em> option with the keyword arg <strong>inplace=</strong> the same as you would using pandas directly.*</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;blank&quot;</span><span class="p">,</span> <span class="s2">&quot;zero&quot;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><em>Default for lrengine is **inplace=True*</em>.*</p>
 </div>
 
 

@@ -1230,9 +1230,8 @@ class patterns_filter:
 
     Args:
         lrdata (start): start object
-        remove (list): patterns to use to decide which names to remove
-        keep (list): patterns to use to decide which names to keep
-        inplace (bool): pandas "inplace" option for the .drop method
+        remove (str or list): pattern(s) to use to decide which names to remove
+        keep (str or list): pattern(s) to use to decide which names to keep
 
     Returns:
         updated start object

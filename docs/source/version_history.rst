@@ -9,7 +9,7 @@ Version 0.0.3
 * Expanded the list of date formats that can be found
 * Improved pattern searching with dict
 * Fixed bug in engine
-* Fixed missing "s" parameter in sea()
+* Fixed missing 's' parameter in sea()
 * Improved exception handling
 
 

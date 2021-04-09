@@ -176,12 +176,12 @@
             
   <div class="section" id="reduce-the-date-lists">
 <h1>Reduce the date lists<a class="headerlink" href="#reduce-the-date-lists" title="Permalink to this headline">¶</a></h1>
-<p>The <strong>find_dates()</strong> method with the option <strong>date_format=&quot;any&quot;</strong> may return lists for each name if more than one date are found. For example, the date 2000-01-01 will be found to be a date as is and also as 00-01-01. To reduce the <strong>&quot;dates&quot;</strong> to a single date format, use the <strong>reduce_dates()</strong> method with the desired format given using the keyword arg <strong>keep=</strong>,</p>
+<p>The <strong>find_dates()</strong> method with the option <strong>date_format='any'</strong> may return lists for each name if more than one date are found. For example, the date 2000-01-01 will be found to be a date as is and also as 00-01-01. To reduce the <strong>'dates'</strong> to a single date format, use the <strong>reduce_dates()</strong> method with the desired format given using the keyword arg <strong>keep=</strong>,</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/listed_dates.png"><img alt="_images/listed_dates.png" src="_images/listed_dates.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-text"><strong>.head()</strong> with found dates added</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id2">
@@ -189,15 +189,15 @@
 <p class="caption"><span class="caption-text"><strong>.head()</strong> after reduction'</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <p>You may also keep more than one format by giving a list,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span> <span class="s2">&quot;MMDDYYYY&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>or do the reverse of keep with the keyword arg <strong>remove=</strong>. This, for example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>keeps all formats except &quot;YYYYMMDD&quot;. You can use lists with remove too. For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span> <span class="s2">&quot;MMDDYYYY&quot;</span><span class="p">])</span>
+<p>keeps all formats except <strong>'YYYYMMDD'</strong>. You can use lists with remove too. For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>

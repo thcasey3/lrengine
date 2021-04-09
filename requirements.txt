@@ -1,5 +1,5 @@
-pandas>=1.0
-numpy>=1.13
-python-dateutil>=2.6
-seaborn>=0.11
+pandas>=1.0.4
+numpy>=1.13.3
+python-dateutil>=2.6.1
+seaborn>=0.10
 

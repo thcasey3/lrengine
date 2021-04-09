@@ -6,32 +6,23 @@ To filter the names by a given pattern or list of patterns, simply call the **.r
 
 .. code-block:: python
 
-    lrobject.reduce_names(remove="blank_sample")
+    lrobject.reduce_names(remove='blank_sample')
 
 This next example drops any element having "blank" or "zero" in the name,
 
 .. code-block:: python
 
-    lrobject.reduce_names(remove=["blank", "zero"])
+    lrobject.reduce_names(remove=['blank', 'zero'])
 
 You may also do the reverse of remove and keep only elements with a given pattern in the name using the **keep=** keyword arg. For example, keep only elements with "blank_sample" in the name, 
 
 .. code-block:: python
 
-    lrobject.reduce_names(keep="blank_sample")
+    lrobject.reduce_names(keep='blank_sample')
 
 Or keep any elements with "blank" or "zero" in the name,
 
 .. code-block:: python
 
-    lrobject.reduce_names(keep=["blank", "zero"])
-
-
-*This method uses the pandas.DataFrame.drop method. You may toggle the **inplace** option with the keyword arg **inplace=** the same as you would using pandas directly.* 
-
-.. code-block:: python
-
-    lrobject.reduce_names(keep=["blank", "zero"], inplace=True)
-
-*Default for lrengine is **inplace=True**.*
+    lrobject.reduce_names(keep=['blank', 'zero'])
 
