@@ -336,7 +336,7 @@ class start:
             and not all(map(allowed_list.__contains__, date_format))
         ) or (isinstance(date_format, str) and date_format not in allowed_list):
             raise ValueError(
-                "One of the date formats "
+                "The date format "
                 + date_format
-                + " is not allowed, see documentation"
+                + " is not one of the allowed options, see documentation"
             )

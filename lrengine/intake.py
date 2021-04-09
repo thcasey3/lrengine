@@ -104,12 +104,12 @@ class date_injectors:
         elif isinstance(lrdata.date_format, list):
             possible_formats = lrdata.date_format
 
-        for indx, dir in enumerate(lrdata.frame.names):
+        for indx, direct in enumerate(lrdata.frame.names):
             possible_date = []
             possible_delta = []
             possible_patt = []
             for _, patt in enumerate(possible_formats):
-                date_try = self._look_for_date_string(dir, patt)
+                date_try = self._look_for_date_string(direct, patt)
                 if date_try:
                     found_date = self.parse_dates(date_try)
                     if found_date is not None:
@@ -145,8 +145,8 @@ class date_injectors:
         date_list = list(np.zeros(len(lrdata.frame)).astype(int))
         date_delta_list = list(np.zeros(len(lrdata.frame)).astype(int))
 
-        for indx, dir in enumerate(lrdata.frame.names):
-            possible_date = self._look_for_date_string(dir, lrdata.date_format)
+        for indx, direct in enumerate(lrdata.frame.names):
+            possible_date = self._look_for_date_string(direct, lrdata.date_format)
             if possible_date:
                 date_list[indx] = self.parse_dates(possible_date)
                 if date_list[indx] is not None:
@@ -163,7 +163,7 @@ class date_injectors:
 
         return lrdata
 
-    def _look_for_date_string(self, dir, date_format):
+    def _look_for_date_string(self, direct, date_format):
 
         for x in ["/", "_", ":", ";"]:
             date_format = date_format.replace(x, "-")
@@ -173,56 +173,56 @@ class date_injectors:
             "YYYY-DD-MM",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", dir
+                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", direct
             )
         elif date_format in [
             "DD-MM-YYYY",
             "MM-DD-YYYY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}))", dir
+                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}))", direct
             )
         elif date_format in [
             "YYYY-MM-D",
             "YYYY-DD-M",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{1}))", dir
+                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{1}))", direct
             )
         elif date_format in [
             "DD-M-YYYY",
             "MM-D-YYYY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{4}))", dir
+                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{4}))", direct
             )
         elif date_format in [
             "M-DD-YYYY",
             "D-MM-YYYY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}))", dir
+                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{4}))", direct
             )
         if date_format in [
             "YYYY-M-DD",
             "YYYY-D-MM",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{2}))", dir
+                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{2}))", direct
             )
         if date_format in [
             "YYYY-M-D",
             "YYYY-D-M",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{1}))", dir
+                r"(?=([0-9]{4}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{1}))", direct
             )
         elif date_format in [
             "D-M-YYYY",
             "M-D-YYYY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{4}))", dir
+                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{4}))", direct
             )
         elif date_format in [
             "YY-MM-DD",
@@ -231,7 +231,7 @@ class date_injectors:
             "MM-DD-YY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", dir
+                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", direct
             )
         elif date_format in [
             "YY-M-DD",
@@ -240,35 +240,35 @@ class date_injectors:
             "MM-D-YY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{2}))", dir
+                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{2}))", direct
             )
         elif date_format in ["YY-MM-D", "YY-DD-M"]:
             matches = re.finditer(
-                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{1}))", dir
+                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{1}))", direct
             )
         elif date_format in [
             "YY-M-D",
             "YY-D-M",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{1}))", dir
+                r"(?=([0-9]{2}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{1}))", direct
             )
         elif date_format in [
             "D-M-YY",
             "M-D-YY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{2}))", dir
+                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{1}[^a-zA-Z0-9][0-9]{2}))", direct
             )
         elif date_format in [
             "D-MM-YY",
             "M-DD-YY",
         ]:
             matches = re.finditer(
-                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", dir
+                r"(?=([0-9]{1}[^a-zA-Z0-9][0-9]{2}[^a-zA-Z0-9][0-9]{2}))", direct
             )
         elif date_format in ["YYYYMMDD", "YYYYDDMM", "DDMMYYYY", "MMDDYYYY"]:
-            matches = re.finditer(r"(?=(\d{8}))", dir)
+            matches = re.finditer(r"(?=(\d{8}))", direct)
         elif date_format in [
             "YYYYMMD",
             "YYYYDMM",
@@ -279,7 +279,7 @@ class date_injectors:
             "DDMYYYY",
             "MDDYYYY",
         ]:
-            matches = re.finditer(r"(?=(\d{7}))", dir)
+            matches = re.finditer(r"(?=(\d{7}))", direct)
         elif date_format in [
             "YYYYMD",
             "YYYYDM",
@@ -290,7 +290,7 @@ class date_injectors:
             "MMDDYY",
             "DDMMYY",
         ]:
-            matches = re.finditer(r"(?=(\d{6}))", dir)
+            matches = re.finditer(r"(?=(\d{6}))", direct)
         elif date_format in [
             "YYMMD",
             "YYDMM",
@@ -302,9 +302,9 @@ class date_injectors:
             "MDDYY",
             "DMMYY",
         ]:
-            matches = re.finditer(r"(?=(\d{5}))", dir)
+            matches = re.finditer(r"(?=(\d{5}))", direct)
         elif date_format in ["YYMD", "YYDM", "DMYY", "MDYY"]:
-            matches = re.finditer(r"(?=(\d{4}))", dir)
+            matches = re.finditer(r"(?=(\d{4}))", direct)
 
         date_string = [match.group(1) for match in matches]
 
@@ -1202,19 +1202,19 @@ class pattern_injectors:
 
         for patt in patterns_to_iterate:
             lrdata.frame[patt] = list(np.zeros(len(lrdata.frame)).astype(bool))
-            for indx, dir in enumerate(lrdata.frame["names"]):
+            for indx, direct in enumerate(lrdata.frame["names"]):
                 if isinstance(lrdata.patterns, list):
-                    if patt in dir:
+                    if patt in direct:
                         lrdata.frame.loc[indx, patt] = True
 
                 elif isinstance(lrdata.patterns, dict):
                     value = lrdata.patterns[patt]
                     if value is bool:
-                        if patt in dir:
+                        if patt in direct:
                             lrdata.frame.loc[indx, patt] = True
                     else:
-                        match = re.findall(value, dir)
-                        if match != []:
+                        match = re.findall(value, direct)
+                        if match:
                             if patt in match[0]:
                                 found = match[0].replace(patt, "")
                             else:
