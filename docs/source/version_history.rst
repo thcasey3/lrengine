@@ -6,6 +6,10 @@ Version 0.0.3
 -------------
 * Fixed date parsing to look for all possible combinations of number sequences
 * Expanded find_dates() and reduce_dates() accordingly to deal with lists
+* Expanded the list of date formats that can be found
+* Improved pattern searching with dict
+* Fixed bug in engine
+* Fixed missing 's' parameter in sea()
 * Improved exception handling
 
 

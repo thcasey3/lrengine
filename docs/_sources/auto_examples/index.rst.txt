@@ -10,6 +10,27 @@ lrengine Template
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="an example of a user defined function for processing EPR data with DNPLab">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_process_EPR_thumb.png
+     :alt: an example of a user defined function for processing EPR data with DNPLab
+
+     :ref:`sphx_glr_auto_examples_process_EPR.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/process_EPR
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This Template serves as an example layout for a script using lrengine.">
 
 .. only:: html
@@ -28,6 +49,27 @@ lrengine Template
    :hidden:
 
    /auto_examples/template
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="an example of a user defined function for processing Han Lab ODNP data with DNPLab">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_han_lab_thumb.png
+     :alt: an example of a user defined function for processing Han Lab ODNP data with DNPLab
+
+     :ref:`sphx_glr_auto_examples_han_lab.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/han_lab
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>

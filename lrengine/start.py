@@ -15,11 +15,11 @@ class start:
 
     Args:
         directory (str): The path to the parent directory, or .csv that can be made into a Pandas DataFrame
-        patterns (list or dict): List of patterns or dict of custom pattern pairs to recognize in file or folder names
-        skip (list): List of patterns used to decide which elements to skip
-        date_format (str): format of date string to search for
+        patterns (str, list, or dict): pattern(s) to recognize in file or folder names (see docs)
+        skip (str or list): pattern(s) used to decide which elements to skip
+        date_format (str or list): format(s) of date strings to search for
         classifiers (list): User-defined classifier(s)
-        function (function): User-supplied function that returns classifier value(s)
+        function (function): User-supplied function that returns classifier value(s) as list
         function_args (dict): Dictionary of arguments for user-defined function
 
     Returns:
@@ -203,9 +203,9 @@ class start:
         intake.pattern_injectors(self)
         return self.frame["names"]
 
-    def reduce_names(self, remove=None, keep=None, inplace=True):
+    def reduce_names(self, remove=None, keep=None):
 
-        intake.patterns_filter(self, remove=remove, keep=keep, inplace=inplace)
+        intake.patterns_filter(self, remove=remove, keep=keep)
         return self.frame["names"]
 
     @staticmethod
@@ -264,7 +264,7 @@ class start:
     @staticmethod
     def check_date_format(date_format):
 
-        if not date_format in [
+        allowed_list = [
             "any",
             "YYYYMMDD",
             "YYYYDDMM",
@@ -274,6 +274,30 @@ class start:
             "YYDDMM",
             "MMDDYY",
             "DDMMYY",
+            "YYYYMDD",
+            "YYYYDDM",
+            "MDDYYYY",
+            "DDMYYYY",
+            "YYMDD",
+            "YYDDM",
+            "MDDYY",
+            "DDMYY",
+            "YYYYMMD",
+            "YYYYDMM",
+            "MMDYYYY",
+            "DMMYYYY",
+            "YYMMD",
+            "YYDMM",
+            "MMDYY",
+            "DMMYY",
+            "YYYYMD",
+            "YYYYDM",
+            "MDYYYY",
+            "DMYYYY",
+            "YYMD",
+            "YYDM",
+            "MDYY",
+            "DMYY",
             "YYYY-MM-DD",
             "YYYY-DD-MM",
             "MM-DD-YYYY",
@@ -282,29 +306,37 @@ class start:
             "YY-DD-MM",
             "MM-DD-YY",
             "DD-MM-YY",
-            "YYYY_MM_DD",
-            "YYYY_DD_MM",
-            "MM_DD_YYYY",
-            "DD_MM_YYYY",
-            "YY_MM_DD",
-            "YY_DD_MM",
-            "MM_DD_YY",
-            "DD_MM_YY",
-            "YYYY/MM/DD",
-            "YYYY/DD/MM",
-            "MM/DD/YYYY",
-            "DD/MM/YYYY",
-            "YY/MM/DD",
-            "YY/DD/MM",
-            "MM/DD/YY",
-            "DD/MM/YY",
-            "YYYY:MM:DD",
-            "YYYY:DD:MM",
-            "MM:DD:YYYY",
-            "DD:MM:YYYY",
-            "YY:MM:DD",
-            "YY:DD:MM",
-            "MM:DD:YY",
-            "DD:MM:YY",
-        ]:
-            raise ValueError("This date format is not allowed, see documentation")
+            "YYYY-M-DD",
+            "YYYY-DD-M",
+            "M-DD-YYYY",
+            "DD-M-YYYY",
+            "YY-M-DD",
+            "YY-DD-M",
+            "M-DD-YY",
+            "DD-M-YY",
+            "YYYY-MM-D",
+            "YYYY-D-MM",
+            "MM-D-YYYY",
+            "D-MM-YYYY",
+            "YY-MM-D",
+            "YY-D-MM",
+            "MM-D-YY",
+            "D-MM-YY",
+            "YYYY-M-D",
+            "YYYY-D-M",
+            "M-D-YYYY",
+            "D-M-YYYY",
+            "YY-M-D",
+            "YY-D-M",
+            "M-D-YY",
+            "D-M-YY",
+        ]
+        if (
+            isinstance(date_format, list)
+            and not all(map(allowed_list.__contains__, date_format))
+        ) or (isinstance(date_format, str) and date_format not in allowed_list):
+            raise ValueError(
+                "The date format "
+                + date_format
+                + " is not one of the allowed options, see documentation"
+            )

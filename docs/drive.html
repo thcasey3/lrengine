@@ -180,8 +180,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
 
     <span class="n">use_directory</span> <span class="o">=</span> <span class="n">directory</span>
-    <span class="n">output1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">])</span>
-    <span class="n">output2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">],</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par2&quot;</span><span class="p">])</span>
+    <span class="n">output1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">[</span><span class="s1">&#39;par1&#39;</span><span class="p">])</span>
+    <span class="n">output2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="s1">&#39;par1&#39;</span><span class="p">],</span> <span class="n">args_dict</span><span class="p">[</span><span class="s1">&#39;par2&#39;</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span>
 </pre></div>
@@ -190,13 +190,13 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
 
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
-                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
-                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
-                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span>
-                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;output2&quot;</span><span class="p">],</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;\d\d&#39;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="s1">&#39;output2&#39;</span><span class="p">],</span>
                     <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
-                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;par1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                                   <span class="s2">&quot;par2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;par1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s1">&#39;par2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
                     <span class="p">)</span>
 </pre></div>
 </div>

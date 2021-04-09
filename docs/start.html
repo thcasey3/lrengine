@@ -192,11 +192,11 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>str</em>) -- The path to the parent directory, or .csv that can be made into a Pandas DataFrame</p></li>
-<li><p><strong>patterns</strong> (<em>list</em><em> or </em><em>dict</em>) -- List of patterns or dict of custom pattern pairs to recognize in file or folder names</p></li>
-<li><p><strong>skip</strong> (<em>list</em>) -- List of patterns used to decide which elements to skip</p></li>
-<li><p><strong>date_format</strong> (<em>str</em>) -- format of date string to search for</p></li>
+<li><p><strong>patterns</strong> (<em>str</em><em>, </em><em>list</em><em>, or </em><em>dict</em>) -- pattern(s) to recognize in file or folder names (see docs)</p></li>
+<li><p><strong>skip</strong> (<em>str</em><em> or </em><em>list</em>) -- pattern(s) used to decide which elements to skip</p></li>
+<li><p><strong>date_format</strong> (<em>str</em><em> or </em><em>list</em>) -- format(s) of date strings to search for</p></li>
 <li><p><strong>classifiers</strong> (<em>list</em>) -- User-defined classifier(s)</p></li>
-<li><p><strong>function</strong> (<em>function</em>) -- User-supplied function that returns classifier value(s)</p></li>
+<li><p><strong>function</strong> (<em>function</em>) -- User-supplied function that returns classifier value(s) as list</p></li>
 <li><p><strong>function_args</strong> (<em>dict</em>) -- Dictionary of arguments for user-defined function</p></li>
 </ul>
 </dd>

@@ -9,8 +9,8 @@ You can even use a custom function that operates on each element of the parent d
     def function_handle(directory, args_dict):
 
         use_directory = directory
-        output1 = random.randint(0, args_dict["par1"])
-        output2 = random.randint(args_dict["par1"], args_dict["par2"])
+        output1 = random.randint(0, args_dict['par1'])
+        output2 = random.randint(args_dict['par1'], args_dict['par2'])
 
         return [output1, output2]
 
@@ -21,13 +21,13 @@ Create the object,
     import lrengine as lr
 
     lrobject = lr.start(path,
-                        patterns={"sample": "\d\d"}, 
-                        skip="sample7", 
-                        date_format="any"
-                        classifiers=["output1", "output2"],
+                        patterns={'sample': '\d\d'}, 
+                        skip='sample7', 
+                        date_format='any'
+                        classifiers=['output1', 'output2'],
                         function=function_handle,
-                        function_args={"par1": 1,
-                                       "par2": 2}
+                        function_args={'par1': 1,
+                                       'par2': 2}
                         )
 
 Call the **drive()** method
