@@ -1,5 +1,5 @@
 =====================
-Create a start object
+Create a Start Object
 =====================
 
 Create an object that contains a DataFrame with at minimum one column that is the names of the files or folders in the supplied directory,

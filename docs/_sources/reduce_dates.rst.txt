@@ -1,5 +1,5 @@
 =====================
-Reduce the date lists
+Reduce the Date Lists
 =====================
 
 The **find_dates()** method with the option **date_format='any'** may return lists for each name if more than one date are found. For example, the date 2000-01-01 will be found to be a date as is and also as 00-01-01. To reduce the **'dates'** to a single date format, use the **reduce_dates()** method with the desired format given using the keyword arg **keep=**, 
