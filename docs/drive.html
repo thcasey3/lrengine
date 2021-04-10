@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="seaborn relplot" href="sea.html" />
-    <link rel="prev" title="Reduce the date lists to one format" href="reduce_dates.html" /> 
+    <link rel="prev" title="Reduce the date lists" href="reduce_dates.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -100,13 +100,13 @@
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists to one format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Call a custom function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a directory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
@@ -180,8 +180,8 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
 
     <span class="n">use_directory</span> <span class="o">=</span> <span class="n">directory</span>
-    <span class="n">output1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">])</span>
-    <span class="n">output2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par1&quot;</span><span class="p">],</span> <span class="n">args_dict</span><span class="p">[</span><span class="s2">&quot;par2&quot;</span><span class="p">])</span>
+    <span class="n">output1</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">[</span><span class="s1">&#39;par1&#39;</span><span class="p">])</span>
+    <span class="n">output2</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">args_dict</span><span class="p">[</span><span class="s1">&#39;par1&#39;</span><span class="p">],</span> <span class="n">args_dict</span><span class="p">[</span><span class="s1">&#39;par2&#39;</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span>
 </pre></div>
@@ -190,13 +190,13 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
 
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
-                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sample&quot;</span><span class="p">:</span> <span class="s2">&quot;\d\d&quot;</span><span class="p">},</span>
-                    <span class="n">skip</span><span class="o">=</span><span class="s2">&quot;sample7&quot;</span><span class="p">,</span>
-                    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;any&quot;</span>
-                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;output2&quot;</span><span class="p">],</span>
+                    <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;\d\d&#39;</span><span class="p">},</span>
+                    <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
+                    <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span>
+                    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="s1">&#39;output2&#39;</span><span class="p">],</span>
                     <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
-                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;par1&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-                                   <span class="s2">&quot;par2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+                    <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;par1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s1">&#39;par2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
                     <span class="p">)</span>
 </pre></div>
 </div>
@@ -218,7 +218,7 @@
         <a href="sea.html" class="btn btn-neutral float-right" title="seaborn relplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="reduce_dates.html" class="btn btn-neutral float-left" title="Reduce the date lists to one format" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reduce_dates.html" class="btn btn-neutral float-left" title="Reduce the date lists" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -15,7 +15,7 @@ lrengine is an open-source Python package for correlating dates and specific lan
 
 Install the required packages using pip:
 ```console
-pip install pandas numpy python-dateutil seaborn
+pip install pandas numpy python-dateutil seaborn scikit-learn pyspark tensorflow
 ```
 
 # Installation
