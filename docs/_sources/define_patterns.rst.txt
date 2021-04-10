@@ -1,5 +1,5 @@
 =================
-Defining patterns
+Defining Patterns
 =================
 
 You may define patterns to classify by. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts **True** where found, **False** where not found,

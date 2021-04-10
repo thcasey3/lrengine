@@ -1,5 +1,5 @@
 ======================
-Call a custom function
+Call a Custom Function
 ======================
 
 You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:
