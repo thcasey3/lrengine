@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.2
+                0.0.3
               </div>
             
           
@@ -100,7 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists to one format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the date lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a custom function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a directory</a></li>
@@ -112,7 +112,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tools.html">tools</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
@@ -192,11 +192,11 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> (<em>str</em>) -- The path to the parent directory, or .csv that can be made into a Pandas DataFrame</p></li>
-<li><p><strong>patterns</strong> (<em>list</em><em> or </em><em>dict</em>) -- List of patterns or dict of custom pattern pairs to recognize in file or folder names</p></li>
-<li><p><strong>skip</strong> (<em>list</em>) -- List of patterns used to decide which elements to skip</p></li>
-<li><p><strong>date_format</strong> (<em>str</em>) -- format of date string to search for</p></li>
+<li><p><strong>patterns</strong> (<em>str</em><em>, </em><em>list</em><em>, or </em><em>dict</em>) -- pattern(s) to recognize in file or folder names (see docs)</p></li>
+<li><p><strong>skip</strong> (<em>str</em><em> or </em><em>list</em>) -- pattern(s) used to decide which elements to skip</p></li>
+<li><p><strong>date_format</strong> (<em>str</em><em> or </em><em>list</em>) -- format(s) of date strings to search for</p></li>
 <li><p><strong>classifiers</strong> (<em>list</em>) -- User-defined classifier(s)</p></li>
-<li><p><strong>function</strong> (<em>function</em>) -- User-supplied function that returns classifier value(s)</p></li>
+<li><p><strong>function</strong> (<em>function</em>) -- User-supplied function that returns classifier value(s) as list</p></li>
 <li><p><strong>function_args</strong> (<em>dict</em>) -- Dictionary of arguments for user-defined function</p></li>
 </ul>
 </dd>

@@ -25,7 +25,6 @@ The following packages are required in order to use all features of lrengine:
    * - seaborn
      - 0.10+
 
-
 To install the required packages with pip use the command:
 
 .. code-block:: bash

@@ -27,9 +27,11 @@ class cylinders:
             classifiers = self.check_func_output(lrdata.classifiers, classifiers)
 
             for indx1, meas_col in enumerate(lrdata.classifiers):
-                lrdata.frame[meas_col] = np.zeros(len(lrdata.frame))
+                lrdata.frame[meas_col] = ""
                 for indx2, meas_val in enumerate(classifiers):
-                    lrdata.frame.loc[indx2, meas_col] = meas_val[indx1]
+                    lrdata.frame.loc[lrdata.frame.index[indx2], meas_col] = meas_val[
+                        indx1
+                    ]
         else:
             print(
                 "DataFrame will only classify by Names, dates if any exist in the Names, and patterns if any are given"
@@ -37,10 +39,12 @@ class cylinders:
 
     def run_function(self, lrdata):
 
-        classifiers = list(np.zeros(len(lrdata.frame.names)))
-        for indx, name in enumerate(lrdata.frame.names):
-            classifiers[indx] = lrdata.function(
-                os.path.join(lrdata.directory, name), lrdata.function_args
+        classifiers = []
+        for name in lrdata.frame.names:
+            classifiers.append(
+                lrdata.function(
+                    os.path.join(lrdata.directory, name), lrdata.function_args
+                )
             )
 
         return classifiers
