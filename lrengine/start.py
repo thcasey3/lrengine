@@ -188,9 +188,18 @@ class start:
         else:
             return self.frame
 
-    def reduce_dates(self, remove=None, keep=None, only_unique=True):
+    def date_range(self, keep=None, remove=None, strip_zeros=False):
 
-        intake.dates_filter(self, remove=remove, keep=keep, only_unique=only_unique)
+        intake.dates_filter(self, keep=keep, remove=remove, strip_zeros=strip_zeros, which="range")
+        print(self.frame.head())
+        """if self.frame["names"]:
+            return self.frame["names"]
+        else:
+            raise TypeError("No items in frame for given date range(s)")"""
+
+    def reduce_dates(self, remove=None, keep=None, only_unique=True, strip_zeros=False):
+
+        intake.dates_filter(self, remove=remove, keep=keep, only_unique=only_unique, strip_zeros=strip_zeros, which="reduce")
         if "date_format" in self.frame.columns:
             return self.frame[["date", "date_format", "date_delta"]]
         elif "date" in self.frame.columns:

@@ -115,9 +115,8 @@ class date_injectors:
                     if found_date is not None:
                         found_delta = self.diff_dates(found_date)
                         if (
-                            found_delta >= 0
-                            and found_date.year > 1900
-                            and found_date.year < date.today().year
+                                found_delta >= 0
+                                and 1900 < found_date.year < date.today().year
                         ):
                             possible_date.append(found_date)
                             possible_delta.append(found_delta)
@@ -1057,17 +1056,77 @@ class dates_filter:
         updated start object
     """
 
-    def __init__(self, lrdata, remove=None, keep=None, only_unique=True):
+    def __init__(self, lrdata, remove=None, keep=None, only_unique=True, strip_zeros=False, which=None):
 
-        if remove is not None and keep is not None:
-            raise ValueError("please give either remove or keep, do not give both.")
+        if which is not None:
 
-        if isinstance(remove, str):
-            remove = [remove]
-        if isinstance(keep, str):
-            keep = [keep]
+            if remove is not None and keep is not None:
+                raise ValueError("Please give either keep or remove, not both at once")
 
-        self._take_out_dates(lrdata, remove=remove, keep=keep, only_unique=only_unique)
+            if strip_zeros:
+                keep_indx = lrdata.frame[lrdata.frame["date"] != 0].index.tolist()
+                lrdata.frame = lrdata.frame.loc[keep_indx, :]
+
+            if remove is not None or keep is not None:
+                if isinstance(remove, str):
+                    remove = [remove]
+                if isinstance(keep, str):
+                    keep = [keep]
+
+            if which == "reduce":
+                self._take_out_dates(lrdata, remove=remove, keep=keep, only_unique=only_unique)
+            elif which == "range":
+                self._range(lrdata, remove=remove, keep=keep)
+
+
+    def _range(self, lrdata, remove, keep):
+
+        if keep is not None and remove is not None:
+            raise ValueError("Please give either keep or remove, not both at once")
+
+        if keep:
+            if isinstance(keep, str):
+                keep = [keep]
+
+            for indx, _ in enumerate(keep):
+                if keep[indx] == "today":
+                    keep[indx] = date.today().strftime('%Y-%m-%d')
+                elif isinstance(keep[indx], date):
+                    keep[indx] = keep[indx].strftime('%Y-%m-%d')
+                elif isinstance(keep[indx], list):
+                    for indx2, x in enumerate(keep[indx]):
+                        if isinstance(x, date):
+                            keep[indx][indx2] = x.strftime('%Y-%m-%d')
+                        elif isinstance(x, date):
+                            keep[indx][indx2] = x
+
+            keep_indx = []
+            for indx, dates in enumerate(lrdata.frame["date"]):
+                print(keep)
+                if isinstance(dates, list):
+                    dates = [x.strftime('%Y-%m-%d') for x in dates]
+                    for indx2, kept in enumerate(keep):
+                        print(kept)
+                        if isinstance(kept, list):
+                            if any([x[0] > dates < x[1] for x in kept]):
+                                keep_indx.append(lrdata.frame.index[indx])
+                            elif isinstance(kept, str):
+                                if any(map(dates.__contains__, kept)):
+                                    keep_indx.append(lrdata.frame.index[indx])
+
+                elif isinstance(dates, date):
+                    dates = [dates.strftime('%Y-%m-%d')]
+                    if any([isinstance(x, list) for x in keep]):
+                        if any([x[0] > dates < x[1] for x in keep]):
+                            keep_indx.append(lrdata.frame.index[indx])
+
+        if remove:
+            pass
+
+        print(keep_indx)
+        lrdata.frame = lrdata.frame.loc[keep_indx, :]
+
+        return lrdata
 
     def _take_out_dates(self, lrdata, remove, keep, only_unique):
 
@@ -1287,6 +1346,6 @@ class patterns_filter:
                     "You removed all of your names! Try different remove or keep patterns"
                 )
             else:
-                lrdata.frame = lrdata.frame.iloc[keep_indx, :]
+                lrdata.frame = lrdata.frame.loc[keep_indx, :]
 
         return lrdata
