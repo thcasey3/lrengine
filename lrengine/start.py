@@ -188,9 +188,9 @@ class start:
         else:
             return self.frame
 
-    def reduce_dates(self, remove=None, keep=None):
+    def reduce_dates(self, remove=None, keep=None, only_unique=True):
 
-        intake.dates_filter(self, remove=remove, keep=keep)
+        intake.dates_filter(self, remove=remove, keep=keep, only_unique=only_unique)
         if "date_format" in self.frame.columns:
             return self.frame[["date", "date_format", "date_delta"]]
         elif "date" in self.frame.columns:

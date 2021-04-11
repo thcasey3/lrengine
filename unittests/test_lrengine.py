@@ -319,6 +319,12 @@ class startTester(unittest.TestCase):
                 self.start_result.frame.loc[indx, "date"], date(1995, 5, 9)
             )
 
+        self.start_result.date_format = "any"
+        self.start_result.find_dates()
+        self.assertEqual(len(self.start_result.frame.loc[0, "date_format"]), 9)
+        self.start_result.reduce_dates()
+        self.assertEqual(len(self.start_result.frame.loc[0, "date_format"]), 6)
+
     def test_f_map_directory_method(self):
 
         self.start_result.map_directory()
