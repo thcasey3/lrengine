@@ -1051,6 +1051,9 @@ class dates_filter:
         lrdata (start): start object
         remove (str or list): format(s) of dates to remove
         keep (str or list): format(s) of dates to keep
+        only_unique (bool): keep or remove duplicate dates
+        strip_zeros (bool): keep or remove date=0 elements
+        which (str): which method is using the functions
 
     Returns:
         updated start object

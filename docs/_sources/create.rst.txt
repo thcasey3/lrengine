@@ -97,3 +97,5 @@ the call would look like,
                         )
 
 and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.
+
+If the path is to a **.csv** file that was saved using the **save()** method, the same frame that was created and saved will be re-created in the **start** object (assuming the **.csv** was not modified). However, the other attributes of the **start** object that was saved will be missing, and will need to be defined manually.

@@ -181,6 +181,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/path/to/my_file.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>If this <strong>.csv</strong> file is not modified and in a subsequent call to <strong>lr.start(path)</strong> the path is to this <strong>.csv</strong> file, the same frame that was created and saved will be re-created in the new <strong>start</strong> object. However, the other attributes of the <strong>start</strong> object that was saved will be missing, and will need to be defined manually.</p>
 </div>
 
 
