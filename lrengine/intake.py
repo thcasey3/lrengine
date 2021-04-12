@@ -1123,12 +1123,12 @@ class dates_filter:
 
     def _on_date(self, lrdata, remove, keep):
 
+        keep_indx = []
         if keep:
             keep_indx = self.on_date_list(lrdata, keep)
 
         if remove:
             rem_indx = self.on_date_list(lrdata, remove)
-            keep_indx = []
             for indx in lrdata.frame.index:
                 if not self.strip_zeros:
                     if indx not in rem_indx or lrdata.frame.loc[indx, "date"] == 0:
@@ -1211,12 +1211,12 @@ class dates_filter:
 
     def _in_range(self, lrdata, remove, keep):
 
+        keep_indx = []
         if keep:
             keep_indx = self.in_range_list(lrdata, keep)
 
         if remove:
             rem_indx = self.in_range_list(lrdata, remove)
-            keep_indx = []
             for indx in lrdata.frame.index:
                 if not self.strip_zeros:
                     if indx not in rem_indx or lrdata.frame.loc[indx, "date"] == 0:

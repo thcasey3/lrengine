@@ -325,6 +325,46 @@ class startTester(unittest.TestCase):
         self.start_result.reduce_dates()
         self.assertEqual(len(self.start_result.frame.loc[0, "date_format"]), 6)
 
+        self.start_result.frame = pd.DataFrame(
+            ["19900509", "19950509", "20000509", "20050509", "20100509"],
+            columns=["name"],
+        )
+        self.start_result.date_format = "YYYYMMDD"
+        self.start_result.find_dates()
+        self.assertEqual(len(self.start_result.frame), 5)
+        self.start_result.in_range(
+            keep=[["1989-05-09", "1999-05-09"], ["2001-05-09", "2011-05-09"]]
+        )
+        self.assertEqual(len(self.start_result.frame), 4)
+        self.start_result.on_date(remove="1990-05-09")
+        self.assertEqual(len(self.start_result.frame), 3)
+
+        self.start_result.frame = pd.DataFrame(
+            [
+                "19900509",
+                "19950509",
+                "20000509",
+                "20050509",
+                "20100509",
+                "test1",
+                "test2",
+                "test3",
+            ],
+            columns=["name"],
+        )
+        self.start_result.date_format = "YYYYMMDD"
+        self.start_result.find_dates()
+        self.assertEqual(len(self.start_result.frame), 8)
+        self.start_result.in_range(
+            remove=[["1989-05-09", "1994-05-09"], ["2001-05-09", "2006-05-09"]],
+            strip_zeros=False,
+        )
+        self.assertEqual(len(self.start_result.frame), 6)
+        self.start_result.on_date(keep="2010-05-09", strip_zeros=False)
+        self.assertEqual(len(self.start_result.frame), 4)
+        self.start_result.reduce_dates(strip_zeros=True)
+        self.assertEqual(len(self.start_result.frame), 1)
+
     def test_f_map_directory_method(self):
 
         self.start_result.map_directory()
