@@ -29,7 +29,7 @@ To install the required packages with pip use the command:
 
 .. code-block:: bash
 
-   $ python -m pip install pandas numpy python-dateutil seaborn
+   $ pip install pandas numpy python-dateutil seaborn
 
 
 .. _installing:
@@ -39,7 +39,7 @@ Installing with pip
 
 .. code-block:: bash
 
-   $ python -m pip install lrengine
+   $ pip install lrengine
 
 
 Confirm Successful Installation
