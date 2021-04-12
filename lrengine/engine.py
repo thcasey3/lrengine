@@ -40,7 +40,7 @@ class cylinders:
     def run_function(self, lrdata):
 
         classifiers = []
-        for name in lrdata.frame.names:
+        for name in lrdata.frame.name:
             classifiers.append(
                 lrdata.function(
                     os.path.join(lrdata.directory, name), lrdata.function_args

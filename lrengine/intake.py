@@ -104,7 +104,7 @@ class date_injectors:
         elif isinstance(lrdata.date_format, list):
             possible_formats = lrdata.date_format
 
-        for indx, direct in enumerate(lrdata.frame.names):
+        for indx, direct in enumerate(lrdata.frame.name):
             possible_date = []
             possible_delta = []
             possible_patt = []
@@ -115,8 +115,8 @@ class date_injectors:
                     if found_date is not None:
                         found_delta = self.diff_dates(found_date)
                         if (
-                                found_delta >= 0
-                                and 1900 < found_date.year < date.today().year
+                            found_delta >= 0
+                            and 1900 < found_date.year < date.today().year
                         ):
                             possible_date.append(found_date)
                             possible_delta.append(found_delta)
@@ -144,7 +144,7 @@ class date_injectors:
         date_list = list(np.zeros(len(lrdata.frame)).astype(int))
         date_delta_list = list(np.zeros(len(lrdata.frame)).astype(int))
 
-        for indx, direct in enumerate(lrdata.frame.names):
+        for indx, direct in enumerate(lrdata.frame.name):
             possible_date = self._look_for_date_string(direct, lrdata.date_format)
             if possible_date:
                 date_list[indx] = self.parse_dates(possible_date)
@@ -1056,77 +1056,182 @@ class dates_filter:
         updated start object
     """
 
-    def __init__(self, lrdata, remove=None, keep=None, only_unique=True, strip_zeros=False, which=None):
+    def __init__(
+        self,
+        lrdata,
+        remove=None,
+        keep=None,
+        only_unique=True,
+        strip_zeros=False,
+        which=None,
+    ):
 
         if which is not None:
 
             if remove is not None and keep is not None:
                 raise ValueError("Please give either keep or remove, not both at once")
 
+            self.strip_zeros = strip_zeros
             if strip_zeros:
                 keep_indx = lrdata.frame[lrdata.frame["date"] != 0].index.tolist()
                 lrdata.frame = lrdata.frame.loc[keep_indx, :]
 
-            if remove is not None or keep is not None:
-                if isinstance(remove, str):
-                    remove = [remove]
-                if isinstance(keep, str):
-                    keep = [keep]
-
-            if which == "reduce":
-                self._take_out_dates(lrdata, remove=remove, keep=keep, only_unique=only_unique)
-            elif which == "range":
-                self._range(lrdata, remove=remove, keep=keep)
-
-
-    def _range(self, lrdata, remove, keep):
-
-        if keep is not None and remove is not None:
-            raise ValueError("Please give either keep or remove, not both at once")
-
-        if keep:
+            if isinstance(remove, str):
+                remove = [remove]
             if isinstance(keep, str):
                 keep = [keep]
 
-            for indx, _ in enumerate(keep):
-                if keep[indx] == "today":
-                    keep[indx] = date.today().strftime('%Y-%m-%d')
-                elif isinstance(keep[indx], date):
-                    keep[indx] = keep[indx].strftime('%Y-%m-%d')
-                elif isinstance(keep[indx], list):
-                    for indx2, x in enumerate(keep[indx]):
-                        if isinstance(x, date):
-                            keep[indx][indx2] = x.strftime('%Y-%m-%d')
-                        elif isinstance(x, date):
-                            keep[indx][indx2] = x
+            if which == "reduce":
+                self._take_out_dates(
+                    lrdata, remove=remove, keep=keep, only_unique=only_unique
+                )
+            elif which == "ondate":
+                self._on_date(lrdata, remove=remove, keep=keep)
+            elif which == "inrange":
+                self._in_range(lrdata, remove=remove, keep=keep)
 
-            keep_indx = []
-            for indx, dates in enumerate(lrdata.frame["date"]):
-                print(keep)
-                if isinstance(dates, list):
-                    dates = [x.strftime('%Y-%m-%d') for x in dates]
-                    for indx2, kept in enumerate(keep):
-                        print(kept)
-                        if isinstance(kept, list):
-                            if any([x[0] > dates < x[1] for x in kept]):
-                                keep_indx.append(lrdata.frame.index[indx])
-                            elif isinstance(kept, str):
-                                if any(map(dates.__contains__, kept)):
-                                    keep_indx.append(lrdata.frame.index[indx])
+    @staticmethod
+    def on_date_list(lrdata, conditions_list):
 
-                elif isinstance(dates, date):
-                    dates = [dates.strftime('%Y-%m-%d')]
-                    if any([isinstance(x, list) for x in keep]):
-                        if any([x[0] > dates < x[1] for x in keep]):
-                            keep_indx.append(lrdata.frame.index[indx])
+        if any([isinstance(x, list) for x in conditions_list]):
+            raise ValueError(
+                "for on_date() the elements of the list can not be lists, did you mean to use in_range()?"
+            )
+
+        for indx, kept in enumerate(conditions_list):
+            if kept == "today":
+                conditions_list[indx] = date.today().strftime("%Y-%m-%d")
+            elif isinstance(kept, date):
+                conditions_list[indx] = kept.strftime("%Y-%m-%d")
+            elif isinstance(kept, str):
+                try:
+                    _ = parser.parse(kept)
+                except:
+                    raise ValueError("one of the dates is not a valid date, see docs.")
+
+        keep_indx = []
+        for indx, dates in enumerate(lrdata.frame["date"]):
+            if isinstance(dates, list):
+                dates = [x.strftime("%Y-%m-%d") for x in dates]
+            elif isinstance(dates, date):
+                dates = [dates.strftime("%Y-%m-%d")]
+
+            if dates == 0 or any(map(dates.__contains__, conditions_list)):
+                keep_indx.append(lrdata.frame.index[indx])
+
+        return keep_indx
+
+    def _on_date(self, lrdata, remove, keep):
+
+        if keep:
+            keep_indx = self.on_date_list(lrdata, keep)
 
         if remove:
-            pass
+            rem_indx = self.on_date_list(lrdata, remove)
+            keep_indx = []
+            for indx in lrdata.frame.index:
+                if not self.strip_zeros:
+                    if indx not in rem_indx or lrdata.frame.loc[indx, "date"] == 0:
+                        keep_indx.append(indx)
+                else:
+                    if indx not in rem_indx:
+                        keep_indx.append(indx)
 
-        print(keep_indx)
-        lrdata.frame = lrdata.frame.loc[keep_indx, :]
+        if keep_indx:
+            keep_indx = list(set(keep_indx))
+            keep_indx.sort()
+            lrdata.frame = lrdata.frame.loc[keep_indx, :]
+            return lrdata
+        else:
+            raise ValueError("the given options would return an empty frame")
 
-        return lrdata
+    @staticmethod
+    def in_range_list(lrdata, conditions_list):
+
+        if not isinstance(conditions_list, list) or not all(
+            [
+                isinstance(x, str) or (isinstance(x, list) and len(x) == 2)
+                for x in conditions_list
+            ]
+        ):
+            raise ValueError(
+                "for in_range() you must give only two element lists, did you mean to use on_date()?"
+            )
+        keep_indx = []
+        if (
+            isinstance(conditions_list, list)
+            and len(conditions_list) == 2
+            and not all([isinstance(x, list) for x in conditions_list])
+        ):
+            conditions_list = [
+                x.replace("today", date.today().strftime("%Y-%m-%d"))
+                for x in conditions_list
+            ]
+            try:
+                _ = [parser.parse(x) for x in conditions_list]
+            except:
+                raise ValueError("one of the dates is not valid, see docs.")
+
+            for indx, dates in enumerate(lrdata.frame["date"]):
+                if isinstance(dates, list):
+                    dates = [x.strftime("%Y-%m-%d") for x in dates]
+                elif isinstance(dates, date):
+                    dates = [dates.strftime("%Y-%m-%d")]
+
+                if dates == 0 or any(
+                    [conditions_list[0] < x < conditions_list[1] for x in dates]
+                ):
+                    keep_indx.append(lrdata.frame.index[indx])
+
+        elif isinstance(conditions_list, list) and all(
+            [isinstance(x, list) and len(x) == 2 for x in conditions_list]
+        ):
+            conditions_list = [
+                [x.replace("today", date.today().strftime("%Y-%m-%d")) for x in y]
+                for y in conditions_list
+            ]
+            try:
+                _ = [[parser.parse(x) for x in y] for y in conditions_list]
+            except:
+                raise ValueError("one of the dates is not valid, see docs.")
+
+            for indx, dates in enumerate(lrdata.frame["date"]):
+                if isinstance(dates, list):
+                    dates = [x.strftime("%Y-%m-%d") for x in dates]
+                elif isinstance(dates, date):
+                    dates = [dates.strftime("%Y-%m-%d")]
+
+                for kept in conditions_list:
+                    if dates == 0 or any([kept[0] < x < kept[1] for x in dates]):
+                        keep_indx.append(lrdata.frame.index[indx])
+        else:
+            raise TypeError("the given list is not valid, see docs.")
+
+        return keep_indx
+
+    def _in_range(self, lrdata, remove, keep):
+
+        if keep:
+            keep_indx = self.in_range_list(lrdata, keep)
+
+        if remove:
+            rem_indx = self.in_range_list(lrdata, remove)
+            keep_indx = []
+            for indx in lrdata.frame.index:
+                if not self.strip_zeros:
+                    if indx not in rem_indx or lrdata.frame.loc[indx, "date"] == 0:
+                        keep_indx.append(indx)
+                else:
+                    if indx not in rem_indx:
+                        keep_indx.append(indx)
+
+        if keep_indx:
+            keep_indx = list(set(keep_indx))
+            keep_indx.sort()
+            lrdata.frame = lrdata.frame.loc[keep_indx, :]
+            return lrdata
+        else:
+            raise ValueError("the given options would return an empty frame")
 
     def _take_out_dates(self, lrdata, remove, keep, only_unique):
 
@@ -1281,7 +1386,7 @@ class pattern_injectors:
 
         for patt in patterns_to_iterate:
             lrdata.frame[patt] = list(np.zeros(len(lrdata.frame)).astype(bool))
-            for indx, direct in enumerate(lrdata.frame["names"]):
+            for indx, direct in enumerate(lrdata.frame["name"]):
                 if isinstance(lrdata.patterns, list):
                     if patt in direct:
                         lrdata.frame.loc[indx, patt] = True
@@ -1328,7 +1433,7 @@ class patterns_filter:
             if isinstance(keep, str):
                 keep = [keep]
             keep_indx = []
-            for indx, subdir in enumerate(lrdata.frame["names"]):
+            for indx, subdir in enumerate(lrdata.frame["name"]):
                 if remove is not None and keep is None:
                     if not any(map(subdir.__contains__, remove)):
                         keep_indx.append(lrdata.frame.index[indx])
