@@ -92,6 +92,11 @@ class startTester(unittest.TestCase):
         self.assertEqual(self.start_result.frame.columns[5], "meas1")
         self.assertEqual(self.start_result.frame.columns[6], "meas2")
 
+        self.start_result.function = tools.utest2.proc_epr
+        self.start_result.drive()
+        self.assertTrue([x == "null" for x in self.start_result.frame["meas1"]])
+        self.assertTrue([x == "null" for x in self.start_result.frame["meas2"]])
+
         result = start(
             self.path,
             classifiers=["justone"],
