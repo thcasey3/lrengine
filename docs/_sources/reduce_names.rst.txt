@@ -1,5 +1,5 @@
 ===============================
-Reduce the frame using patterns
+Reduce the Frame Using Patterns
 ===============================
 
 To filter the names by a given pattern or list of patterns, simply call the **.reduce_names()** method and give the patterns to use to decide which names to drop. This example drops from the frame any element having "blank_sample" in the name, 

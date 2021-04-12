@@ -1,5 +1,5 @@
 ===============
-Map a directory
+Map a Directory
 ===============
 
 Use the **map_directory()** method to add **.directory_map** to the **start** object. This is a dictionary with keys that are the directories and values that are lists of filenames found in the directories,

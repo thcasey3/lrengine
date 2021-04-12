@@ -26,7 +26,7 @@ class date_injectors:
             if lrdata.date_format == "any" or isinstance(lrdata.date_format, list):
                 self._smart_search_dates(lrdata)
             elif isinstance(lrdata.date_format, str):
-                self._look_for_date(lrdata)
+                self._look_for_dates(lrdata)
 
     def _smart_search_dates(self, lrdata):
 
@@ -104,7 +104,7 @@ class date_injectors:
         elif isinstance(lrdata.date_format, list):
             possible_formats = lrdata.date_format
 
-        for indx, direct in enumerate(lrdata.frame.names):
+        for indx, direct in enumerate(lrdata.frame.name):
             possible_date = []
             possible_delta = []
             possible_patt = []
@@ -116,8 +116,7 @@ class date_injectors:
                         found_delta = self.diff_dates(found_date)
                         if (
                             found_delta >= 0
-                            and found_date.year > 1900
-                            and found_date.year < date.today().year
+                            and 1900 < found_date.year < date.today().year
                         ):
                             possible_date.append(found_date)
                             possible_delta.append(found_delta)
@@ -140,12 +139,12 @@ class date_injectors:
 
         return lrdata
 
-    def _look_for_date(self, lrdata):
+    def _look_for_dates(self, lrdata):
 
         date_list = list(np.zeros(len(lrdata.frame)).astype(int))
         date_delta_list = list(np.zeros(len(lrdata.frame)).astype(int))
 
-        for indx, direct in enumerate(lrdata.frame.names):
+        for indx, direct in enumerate(lrdata.frame.name):
             possible_date = self._look_for_date_string(direct, lrdata.date_format)
             if possible_date:
                 date_list[indx] = self.parse_dates(possible_date)
@@ -1052,123 +1051,311 @@ class dates_filter:
         lrdata (start): start object
         remove (str or list): format(s) of dates to remove
         keep (str or list): format(s) of dates to keep
+        only_unique (bool): keep or remove duplicate dates
+        strip_zeros (bool): keep or remove date=0 elements
+        which (str): which method is using the functions
 
     Returns:
         updated start object
     """
 
-    def __init__(self, lrdata, remove=None, keep=None):
+    def __init__(
+        self,
+        lrdata,
+        remove=None,
+        keep=None,
+        only_unique=True,
+        strip_zeros=False,
+        which=None,
+    ):
 
-        if remove is not None and keep is not None:
-            raise ValueError("please give either remove or keep, do not give both.")
+        if which is not None:
 
-        if isinstance(remove, str):
-            remove = [remove]
-        if isinstance(keep, str):
-            keep = [keep]
+            if remove is not None and keep is not None:
+                raise ValueError("Please give either keep or remove, not both at once")
 
-        self._take_out_dates(lrdata, remove=remove, keep=keep)
+            self.strip_zeros = strip_zeros
+            if strip_zeros:
+                keep_indx = lrdata.frame[lrdata.frame["date"] != 0].index.tolist()
+                lrdata.frame = lrdata.frame.loc[keep_indx, :]
 
-    def _take_out_dates(self, lrdata, remove, keep):
+            if isinstance(remove, str):
+                remove = [remove]
+            if isinstance(keep, str):
+                keep = [keep]
 
-        if (keep or remove) and "date_format" in lrdata.frame.columns:
+            if which == "reduce":
+                self._take_out_dates(
+                    lrdata, remove=remove, keep=keep, only_unique=only_unique
+                )
+            elif which == "ondate":
+                self._on_date(lrdata, remove=remove, keep=keep)
+            elif which == "inrange":
+                self._in_range(lrdata, remove=remove, keep=keep)
+
+    @staticmethod
+    def on_date_list(lrdata, conditions_list):
+
+        if any([isinstance(x, list) for x in conditions_list]):
+            raise ValueError(
+                "for on_date() the elements of the list can not be lists, did you mean to use in_range()?"
+            )
+
+        for indx, kept in enumerate(conditions_list):
+            if kept == "today":
+                conditions_list[indx] = date.today().strftime("%Y-%m-%d")
+            elif isinstance(kept, date):
+                conditions_list[indx] = kept.strftime("%Y-%m-%d")
+            elif isinstance(kept, str):
+                try:
+                    _ = parser.parse(kept)
+                except:
+                    raise ValueError("one of the dates is not a valid date, see docs.")
+
+        keep_indx = []
+        for indx, dates in enumerate(lrdata.frame["date"]):
+            if isinstance(dates, list):
+                dates = [x.strftime("%Y-%m-%d") for x in dates]
+            elif isinstance(dates, date):
+                dates = [dates.strftime("%Y-%m-%d")]
+
+            if dates == 0 or any(map(dates.__contains__, conditions_list)):
+                keep_indx.append(lrdata.frame.index[indx])
+
+        return keep_indx
+
+    def _on_date(self, lrdata, remove, keep):
+
+        keep_indx = []
+        if keep:
+            keep_indx = self.on_date_list(lrdata, keep)
+
+        if remove:
+            rem_indx = self.on_date_list(lrdata, remove)
+            for indx in lrdata.frame.index:
+                if not self.strip_zeros:
+                    if indx not in rem_indx or lrdata.frame.loc[indx, "date"] == 0:
+                        keep_indx.append(indx)
+                else:
+                    if indx not in rem_indx:
+                        keep_indx.append(indx)
+
+        if keep_indx:
+            keep_indx = list(set(keep_indx))
+            keep_indx.sort()
+            lrdata.frame = lrdata.frame.loc[keep_indx, :]
+            return lrdata
+        else:
+            raise ValueError("the given options would return an empty frame")
+
+    @staticmethod
+    def in_range_list(lrdata, conditions_list):
+
+        if not isinstance(conditions_list, list) or not all(
+            [
+                isinstance(x, str) or (isinstance(x, list) and len(x) == 2)
+                for x in conditions_list
+            ]
+        ):
+            raise ValueError(
+                "for in_range() you must give only two element lists, did you mean to use on_date()?"
+            )
+        keep_indx = []
+        if (
+            isinstance(conditions_list, list)
+            and len(conditions_list) == 2
+            and not all([isinstance(x, list) for x in conditions_list])
+        ):
+            conditions_list = [
+                x.replace("today", date.today().strftime("%Y-%m-%d"))
+                for x in conditions_list
+            ]
+            try:
+                _ = [parser.parse(x) for x in conditions_list]
+            except:
+                raise ValueError("one of the dates is not valid, see docs.")
+
+            for indx, dates in enumerate(lrdata.frame["date"]):
+                if isinstance(dates, list):
+                    dates = [x.strftime("%Y-%m-%d") for x in dates]
+                elif isinstance(dates, date):
+                    dates = [dates.strftime("%Y-%m-%d")]
+
+                if dates == 0 or any(
+                    [conditions_list[0] < x < conditions_list[1] for x in dates]
+                ):
+                    keep_indx.append(lrdata.frame.index[indx])
+
+        elif isinstance(conditions_list, list) and all(
+            [isinstance(x, list) and len(x) == 2 for x in conditions_list]
+        ):
+            conditions_list = [
+                [x.replace("today", date.today().strftime("%Y-%m-%d")) for x in y]
+                for y in conditions_list
+            ]
+            try:
+                _ = [[parser.parse(x) for x in y] for y in conditions_list]
+            except:
+                raise ValueError("one of the dates is not valid, see docs.")
+
+            for indx, dates in enumerate(lrdata.frame["date"]):
+                if isinstance(dates, list):
+                    dates = [x.strftime("%Y-%m-%d") for x in dates]
+                elif isinstance(dates, date):
+                    dates = [dates.strftime("%Y-%m-%d")]
+
+                for kept in conditions_list:
+                    if dates == 0 or any([kept[0] < x < kept[1] for x in dates]):
+                        keep_indx.append(lrdata.frame.index[indx])
+        else:
+            raise TypeError("the given list is not valid, see docs.")
+
+        return keep_indx
+
+    def _in_range(self, lrdata, remove, keep):
+
+        keep_indx = []
+        if keep:
+            keep_indx = self.in_range_list(lrdata, keep)
+
+        if remove:
+            rem_indx = self.in_range_list(lrdata, remove)
+            for indx in lrdata.frame.index:
+                if not self.strip_zeros:
+                    if indx not in rem_indx or lrdata.frame.loc[indx, "date"] == 0:
+                        keep_indx.append(indx)
+                else:
+                    if indx not in rem_indx:
+                        keep_indx.append(indx)
+
+        if keep_indx:
+            keep_indx = list(set(keep_indx))
+            keep_indx.sort()
+            lrdata.frame = lrdata.frame.loc[keep_indx, :]
+            return lrdata
+        else:
+            raise ValueError("the given options would return an empty frame")
+
+    def _take_out_dates(self, lrdata, remove, keep, only_unique):
+
+        if "date_format" in lrdata.frame.columns:
             new_formats = list(np.zeros(len(lrdata.frame)).astype(int))
             new_dates = list(np.zeros(len(lrdata.frame)).astype(int))
             new_deltas = list(np.zeros(len(lrdata.frame)).astype(int))
             for indx, form_list in enumerate(lrdata.frame["date_format"]):
-                if isinstance(form_list, list):
-                    if remove is not None and keep is None:
-                        new_formats[indx] = [
-                            x
-                            for x in lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_format"
-                            ]
-                            if x not in remove
-                        ]
-                        new_dates[indx] = [
-                            lrdata.frame.loc[lrdata.frame.index[indx], "date"][x]
-                            for x, form in enumerate(
-                                lrdata.frame.loc[
+                if remove is None and keep is None:
+                    new_formats[indx] = lrdata.frame.loc[
+                        lrdata.frame.index[indx], "date_format"
+                    ]
+                    new_dates[indx] = lrdata.frame.loc[lrdata.frame.index[indx], "date"]
+                    new_deltas[indx] = lrdata.frame.loc[
+                        lrdata.frame.index[indx], "date_delta"
+                    ]
+                else:
+                    if isinstance(form_list, list):
+                        if remove is not None and keep is None:
+                            new_formats[indx] = [
+                                x
+                                for x in lrdata.frame.loc[
                                     lrdata.frame.index[indx], "date_format"
                                 ]
-                            )
-                            if form not in remove
-                        ]
-                        new_deltas[indx] = [
-                            lrdata.frame.loc[lrdata.frame.index[indx], "date_delta"][x]
-                            for x, form in enumerate(
+                                if x not in remove
+                            ]
+                            new_dates[indx] = [
+                                lrdata.frame.loc[lrdata.frame.index[indx], "date"][x]
+                                for x, form in enumerate(
+                                    lrdata.frame.loc[
+                                        lrdata.frame.index[indx], "date_format"
+                                    ]
+                                )
+                                if form not in remove
+                            ]
+                            new_deltas[indx] = [
                                 lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date_delta"
+                                ][x]
+                                for x, form in enumerate(
+                                    lrdata.frame.loc[
+                                        lrdata.frame.index[indx], "date_format"
+                                    ]
+                                )
+                                if form not in remove
+                            ]
+                        elif remove is None and keep is not None:
+                            new_formats[indx] = [
+                                x
+                                for x in lrdata.frame.loc[
                                     lrdata.frame.index[indx], "date_format"
                                 ]
-                            )
-                            if form not in remove
-                        ]
-                    elif remove is None and keep is not None:
-                        new_formats[indx] = [
-                            x
-                            for x in lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_format"
+                                if x in keep
                             ]
-                            if x in keep
-                        ]
-                        new_dates[indx] = [
-                            lrdata.frame.loc[lrdata.frame.index[indx], "date"][x]
-                            for x, form in enumerate(
+                            new_dates[indx] = [
+                                lrdata.frame.loc[lrdata.frame.index[indx], "date"][x]
+                                for x, form in enumerate(
+                                    lrdata.frame.loc[
+                                        lrdata.frame.index[indx], "date_format"
+                                    ]
+                                )
+                                if form in keep
+                            ]
+                            new_deltas[indx] = [
                                 lrdata.frame.loc[
-                                    lrdata.frame.index[indx], "date_format"
-                                ]
-                            )
-                            if form in keep
-                        ]
-                        new_deltas[indx] = [
-                            lrdata.frame.loc[lrdata.frame.index[indx], "date_delta"][x]
-                            for x, form in enumerate(
-                                lrdata.frame.loc[
-                                    lrdata.frame.index[indx], "date_format"
-                                ]
-                            )
-                            if form in keep
-                        ]
-                elif isinstance(form_list, str):
-                    if remove is not None and keep is None:
-                        if form_list not in remove:
-                            new_formats[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_format"
-                            ]
-                            new_dates[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date"
-                            ]
-                            new_deltas[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_delta"
-                            ]
-                    elif remove is None and keep is not None:
-                        if form_list in keep:
-                            new_formats[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_format"
-                            ]
-                            new_dates[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date"
-                            ]
-                            new_deltas[indx] = lrdata.frame.loc[
-                                lrdata.frame.index[indx], "date_delta"
+                                    lrdata.frame.index[indx], "date_delta"
+                                ][x]
+                                for x, form in enumerate(
+                                    lrdata.frame.loc[
+                                        lrdata.frame.index[indx], "date_format"
+                                    ]
+                                )
+                                if form in keep
                             ]
 
-                if not new_formats[indx]:
-                    new_formats[indx] = 0
-                elif (
-                    isinstance(new_formats[indx], list) and len(new_formats[indx]) == 1
-                ):
-                    new_formats[indx] = new_formats[indx][0]
+                    elif isinstance(form_list, str):
+                        if remove is not None and keep is None:
+                            if form_list not in remove:
+                                new_formats[indx] = lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date_format"
+                                ]
+                                new_dates[indx] = lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date"
+                                ]
+                                new_deltas[indx] = lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date_delta"
+                                ]
+                        elif remove is None and keep is not None:
+                            if form_list in keep:
+                                new_formats[indx] = lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date_format"
+                                ]
+                                new_dates[indx] = lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date"
+                                ]
+                                new_deltas[indx] = lrdata.frame.loc[
+                                    lrdata.frame.index[indx], "date_delta"
+                                ]
 
                 if not new_dates[indx]:
                     new_dates[indx] = 0
+                    new_formats[indx] = 0
+                    new_deltas[indx] = 0
                 elif isinstance(new_dates[indx], list) and len(new_dates[indx]) == 1:
                     new_dates[indx] = new_dates[indx][0]
-
-                if not new_deltas[indx]:
-                    new_deltas[indx] = 0
-                elif isinstance(new_deltas[indx], list) and len(new_deltas[indx]) == 1:
+                    new_formats[indx] = new_formats[indx][0]
                     new_deltas[indx] = new_deltas[indx][0]
+                elif isinstance(new_dates[indx], list) and len(new_dates[indx]) > 1:
+                    if only_unique:
+                        nd = []
+                        ndd = []
+                        ndf = []
+                        for ix, d in enumerate(new_dates[indx]):
+                            if d not in nd:
+                                nd.append(d)
+                                ndd.append(new_deltas[indx][ix])
+                                ndf.append(new_formats[indx][ix])
+
+                        new_dates[indx] = nd
+                        new_formats[indx] = ndf
+                        new_deltas[indx] = ndd
 
             lrdata.frame["date_format"] = new_formats
             lrdata.frame["date"] = new_dates
@@ -1202,7 +1389,7 @@ class pattern_injectors:
 
         for patt in patterns_to_iterate:
             lrdata.frame[patt] = list(np.zeros(len(lrdata.frame)).astype(bool))
-            for indx, direct in enumerate(lrdata.frame["names"]):
+            for indx, direct in enumerate(lrdata.frame["name"]):
                 if isinstance(lrdata.patterns, list):
                     if patt in direct:
                         lrdata.frame.loc[indx, patt] = True
@@ -1249,7 +1436,7 @@ class patterns_filter:
             if isinstance(keep, str):
                 keep = [keep]
             keep_indx = []
-            for indx, subdir in enumerate(lrdata.frame["names"]):
+            for indx, subdir in enumerate(lrdata.frame["name"]):
                 if remove is not None and keep is None:
                     if not any(map(subdir.__contains__, remove)):
                         keep_indx.append(lrdata.frame.index[indx])
@@ -1267,6 +1454,6 @@ class patterns_filter:
                     "You removed all of your names! Try different remove or keep patterns"
                 )
             else:
-                lrdata.frame = lrdata.frame.iloc[keep_indx, :]
+                lrdata.frame = lrdata.frame.loc[keep_indx, :]
 
         return lrdata

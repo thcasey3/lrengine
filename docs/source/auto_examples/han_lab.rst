@@ -25,9 +25,32 @@ An example user-defined function for processing Han Lab ODNP data with the DNPLa
 
 .. GENERATED FROM PYTHON SOURCE LINES 12-13
 
+For the function below the call would look something like,
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-27
+
+.. code-block:: default
+
+    """
+    lrobject = lr.start(
+        parent_directory,
+        classifiers=["tcorr", "ksigma"],
+        function=han_lab.calc_odnp,
+        function_args=hyd_dict,
+    )
+
+    lrobject.drive()
+    """
+    # parent_directory contains folders of han_lab data collected using "rb_dnp1" at the CNSI
+    # facility. Add patterns, skip, date searching, etc. according to the lrengine docs. The
+    # "hyd_dict" is the dictionary of input constants for dnpHydration, according to DNPLab
+    # docs.
+
+.. GENERATED FROM PYTHON SOURCE LINES 30-31
+
 Import DNPLab and any other packages that may be needed for the functions,
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-18
+.. GENERATED FROM PYTHON SOURCE LINES 31-36
 
 .. code-block:: default
 
@@ -37,11 +60,11 @@ Import DNPLab and any other packages that may be needed for the functions,
     import copy
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 22-23
+.. GENERATED FROM PYTHON SOURCE LINES 40-41
 
 Function from hydrationGUI of DNPLab for optimizing center of integration window,
 
-.. GENERATED FROM PYTHON SOURCE LINES 23-44
+.. GENERATED FROM PYTHON SOURCE LINES 41-62
 
 .. code-block:: default
 
@@ -67,11 +90,11 @@ Function from hydrationGUI of DNPLab for optimizing center of integration window
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 47-48
+.. GENERATED FROM PYTHON SOURCE LINES 65-66
 
 Function from hydrationGUI of DNPLab for optimizing phase,
 
-.. GENERATED FROM PYTHON SOURCE LINES 48-108
+.. GENERATED FROM PYTHON SOURCE LINES 66-126
 
 .. code-block:: default
 
@@ -136,11 +159,11 @@ Function from hydrationGUI of DNPLab for optimizing phase,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 111-112
+.. GENERATED FROM PYTHON SOURCE LINES 129-130
 
 Function from hydrationGUI of DNPLab for optimizing integration window width,
 
-.. GENERATED FROM PYTHON SOURCE LINES 112-158
+.. GENERATED FROM PYTHON SOURCE LINES 130-176
 
 .. code-block:: default
 
@@ -191,11 +214,11 @@ Function from hydrationGUI of DNPLab for optimizing integration window width,
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 161-162
+.. GENERATED FROM PYTHON SOURCE LINES 179-180
 
 Auto-process function from hydrationGUI. The function returns zeros where errors are encountered.
 
-.. GENERATED FROM PYTHON SOURCE LINES 162-289
+.. GENERATED FROM PYTHON SOURCE LINES 180-307
 
 .. code-block:: default
 

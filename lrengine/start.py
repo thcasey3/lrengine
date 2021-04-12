@@ -15,7 +15,7 @@ class start:
 
     Args:
         directory (str): The path to the parent directory, or .csv that can be made into a Pandas DataFrame
-        patterns (str, list, or dict): pattern(s) to recognize in file or folder names (see docs)
+        patterns (str, list, or dict): pattern(s) to recognize in file or folder name (see docs)
         skip (str or list): pattern(s) used to decide which elements to skip
         date_format (str or list): format(s) of date strings to search for
         classifiers (list): User-defined classifier(s)
@@ -78,7 +78,7 @@ class start:
                 "frame": self.frame,
             }
         else:
-            df = {"names": self.sub_directories}
+            df = {"name": self.sub_directories}
 
             self.frame = pd.DataFrame(df)
 
@@ -188,9 +188,38 @@ class start:
         else:
             return self.frame
 
-    def reduce_dates(self, remove=None, keep=None):
+    def on_date(self, keep=None, remove=None, strip_zeros=True):
 
-        intake.dates_filter(self, remove=remove, keep=keep)
+        intake.dates_filter(
+            self, keep=keep, remove=remove, strip_zeros=strip_zeros, which="ondate"
+        )
+
+        if len(self.frame) != 0:
+            return self.frame["name"]
+        else:
+            raise TypeError("No items in frame for given date")
+
+    def in_range(self, keep=None, remove=None, strip_zeros=True):
+
+        intake.dates_filter(
+            self, keep=keep, remove=remove, strip_zeros=strip_zeros, which="inrange"
+        )
+
+        if len(self.frame) != 0:
+            return self.frame[["name", "date"]]
+        else:
+            raise TypeError("No items in frame for given date range(s)")
+
+    def reduce_dates(self, remove=None, keep=None, only_unique=True, strip_zeros=False):
+
+        intake.dates_filter(
+            self,
+            remove=remove,
+            keep=keep,
+            only_unique=only_unique,
+            strip_zeros=strip_zeros,
+            which="reduce",
+        )
         if "date_format" in self.frame.columns:
             return self.frame[["date", "date_format", "date_delta"]]
         elif "date" in self.frame.columns:
@@ -201,12 +230,12 @@ class start:
     def find_patterns(self):
 
         intake.pattern_injectors(self)
-        return self.frame["names"]
+        return self.frame["name"]
 
     def reduce_names(self, remove=None, keep=None):
 
         intake.patterns_filter(self, remove=remove, keep=keep)
-        return self.frame["names"]
+        return self.frame["name"]
 
     @staticmethod
     def check_directory(directory):

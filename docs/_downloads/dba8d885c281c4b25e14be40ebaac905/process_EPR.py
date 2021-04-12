@@ -9,6 +9,25 @@ An example user-defined function for processing EPR data with the DNPLab package
 # %%
 
 # %% [markdown]
+# For the function below the call would look something like,
+"""
+lrobject = lr.start(
+    parent_directory,
+    skip=[".DSC", ".YGF", ".par"],  # otherwise duplicates
+    classifiers=["max_loc", "frequency"],
+    function=process_EPR.proc_epr,
+    function_args={},
+)
+
+lrobject.drive()
+"""
+# parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.
+# according to the lrengine docs. The function_args are empty in this case. Since DTA
+# and spc files come with companion DSC, YGF, or par files and DNPLab uses any of these,
+# skip these files to avoid duplicates.
+# %%
+
+# %% [markdown]
 # Import DNPLab and any other packages that may be needed for your function,
 import dnplab as dnp
 import numpy as np

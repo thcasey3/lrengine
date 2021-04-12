@@ -9,6 +9,24 @@ An example user-defined function for processing Han Lab ODNP data with the DNPLa
 # %%
 
 # %% [markdown]
+# For the function below the call would look something like,
+"""
+lrobject = lr.start(
+    parent_directory,
+    classifiers=["tcorr", "ksigma"],
+    function=han_lab.calc_odnp,
+    function_args=hyd_dict,
+)
+
+lrobject.drive()
+"""
+# parent_directory contains folders of han_lab data collected using "rb_dnp1" at the CNSI
+# facility. Add patterns, skip, date searching, etc. according to the lrengine docs. The
+# "hyd_dict" is the dictionary of input constants for dnpHydration, according to DNPLab
+# docs.
+# %%
+
+# %% [markdown]
 # Import DNPLab and any other packages that may be needed for the functions,
 import dnplab as dnp
 import numpy as np

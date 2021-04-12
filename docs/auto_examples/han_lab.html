@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -96,15 +96,16 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installing lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../create.html">Create a start object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../define_patterns.html">Defining patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../reduce_names.html">Reduce the frame using patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../create.html">Create a Start Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../define_patterns.html">Defining Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reduce_names.html">Reduce the Frame Using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../find_dates.html">Finding Dates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../reduce_dates.html">Reduce the date lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../drive.html">Call a custom function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reduce_dates.html">Reduce the Date Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../narrow_dates.html">Narrow the Date Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../drive.html">Call a Custom Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sea.html">seaborn relplot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../map_directory.html">Map a directory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../save.html">Save the frame to csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">Classes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">lrengine Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="process_EPR.html">EPR data processing</a></li>
@@ -189,6 +190,23 @@ to download the full example code</p>
 <div class="sphx-glr-example-title section" id="han-lab-odnp-data-processing">
 <span id="sphx-glr-auto-examples-han-lab-py"></span><h1>Han Lab ODNP data processing<a class="headerlink" href="#han-lab-odnp-data-processing" title="Permalink to this headline">¶</a></h1>
 <p>An example user-defined function for processing Han Lab ODNP data with the DNPLab package.</p>
+<p>For the function below the call would look something like,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">lrobject = lr.start(</span>
+<span class="sd">    parent_directory,</span>
+<span class="sd">    classifiers=[&quot;tcorr&quot;, &quot;ksigma&quot;],</span>
+<span class="sd">    function=han_lab.calc_odnp,</span>
+<span class="sd">    function_args=hyd_dict,</span>
+<span class="sd">)</span>
+
+<span class="sd">lrobject.drive()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># parent_directory contains folders of han_lab data collected using &quot;rb_dnp1&quot; at the CNSI</span>
+<span class="c1"># facility. Add patterns, skip, date searching, etc. according to the lrengine docs. The</span>
+<span class="c1"># &quot;hyd_dict&quot; is the dictionary of input constants for dnpHydration, according to DNPLab</span>
+<span class="c1"># docs.</span>
+</pre></div>
+</div>
 <p>Import DNPLab and any other packages that may be needed for the functions,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dnplab</span> <span class="k">as</span> <span class="nn">dnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>

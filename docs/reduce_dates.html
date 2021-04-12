@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reduce the date lists &mdash; lrengine  documentation</title>
+  <title>Reduce the Date Lists &mdash; lrengine  documentation</title>
   
 
   
@@ -40,7 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Call a custom function" href="drive.html" />
+    <link rel="next" title="Narrow the Date Range" href="narrow_dates.html" />
     <link rel="prev" title="Finding Dates" href="find_dates.html" /> 
 </head>
 
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -96,15 +96,16 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create.html">Create a start object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the frame using patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
+<li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce the date lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="drive.html">Call a custom function</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce the Date Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a directory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="save.html">Save the frame to csv</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
@@ -155,7 +156,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Reduce the date lists</li>
+      <li>Reduce the Date Lists</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -175,7 +176,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="reduce-the-date-lists">
-<h1>Reduce the date lists<a class="headerlink" href="#reduce-the-date-lists" title="Permalink to this headline">¶</a></h1>
+<h1>Reduce the Date Lists<a class="headerlink" href="#reduce-the-date-lists" title="Permalink to this headline">¶</a></h1>
 <p>The <strong>find_dates()</strong> method with the option <strong>date_format='any'</strong> may return lists for each name if more than one date are found. For example, the date 2000-01-01 will be found to be a date as is and also as 00-01-01. To reduce the <strong>'dates'</strong> to a single date format, use the <strong>reduce_dates()</strong> method with the desired format given using the keyword arg <strong>keep=</strong>,</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/listed_dates.png"><img alt="_images/listed_dates.png" src="_images/listed_dates.png" style="width: 600px;" /></a>
@@ -200,6 +201,20 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
+<p>You may also choose to remove or keep duplicate dates using the keyword arg <strong>only_unique=</strong>. Default is <strong>only_unique=True</strong> for <strong>reduce_dates()</strong>.  For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#removes duplicate dates</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">()</span>                  <span class="c1">#removes duplicate dates</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
+                      <span class="n">only_unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps all dates, even duplicates</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">only_unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps frame untouched</span>
+</pre></div>
+</div>
+<p>There is also an option to keep or remove any elements with 0 for date using the keyword arg <strong>strip_zeros=</strong>. Default is <strong>strip_zeros=False</strong> for <strong>reduce_dates()</strong>.  For example,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#keeps date=0 elements</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
+                      <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#removes date=0 elements</span>
+</pre></div>
+</div>
 </div>
 
 
@@ -210,7 +225,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="drive.html" class="btn btn-neutral float-right" title="Call a custom function" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="narrow_dates.html" class="btn btn-neutral float-right" title="Narrow the Date Range" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="find_dates.html" class="btn btn-neutral float-left" title="Finding Dates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
