@@ -42,6 +42,6 @@ If the custom function errors, for example if it tries to operate on a file/fold
 
 .. code-block:: python
 
-    lrobject.frame = lrobject.frame[lrobject.frame['par1'] != 'null']
+    lrobject.frame = lrobject.frame[lrobject.frame['output1'] != 'null']
 
 to reduce the frame to only compatible files/folders.
