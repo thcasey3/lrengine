@@ -41,11 +41,14 @@ class cylinders:
 
         classifiers = []
         for name in lrdata.frame.name:
-            classifiers.append(
-                lrdata.function(
-                    os.path.join(lrdata.directory, name), lrdata.function_args
+            try:
+                classifiers.append(
+                    lrdata.function(
+                        os.path.join(lrdata.directory, name), lrdata.function_args
+                    )
                 )
-            )
+            except:
+                classifiers.append(["null" for _ in range(len(lrdata.classifiers))])
 
         return classifiers
 

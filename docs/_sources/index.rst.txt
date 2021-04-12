@@ -52,6 +52,7 @@ Features
    reduce_names
    find_dates
    reduce_dates
+   narrow_dates
    drive
    sea
    map_directory
