@@ -73,17 +73,17 @@ class startTester(unittest.TestCase):
 
         self.start_result.drive()
         self.assertEqual(len(self.start_result.frame.columns), 7)
-        self.assertEqual(self.start_result.frame.columns[0], "names")
+        self.assertEqual(self.start_result.frame.columns[0], "name")
         self.assertEqual(self.start_result.frame.columns[3], "patt1")
         self.assertEqual(self.start_result.frame.columns[4], "patt2")
         self.assertEqual(self.start_result.frame.columns[1], "date")
         self.assertEqual(self.start_result.frame.columns[2], "date_delta")
         find_loc = self.start_result.frame[
-            self.start_result.frame["names"] == "example.csv"
+            self.start_result.frame["name"] == "example.csv"
         ].index[0]
         self.assertEqual(self.start_result.frame.loc[find_loc, "date_delta"], 0)
         find_loc = self.start_result.frame[
-            self.start_result.frame["names"] == "19850802_example_short.csv"
+            self.start_result.frame["name"] == "19850802_example_short.csv"
         ].index[0]
         self.assertEqual(
             self.start_result.frame.loc[find_loc, "date"], date(1985, 8, 2)
@@ -91,6 +91,11 @@ class startTester(unittest.TestCase):
         self.assertNotEqual(self.start_result.frame.loc[find_loc, "date_delta"], 0)
         self.assertEqual(self.start_result.frame.columns[5], "meas1")
         self.assertEqual(self.start_result.frame.columns[6], "meas2")
+
+        self.start_result.function = tools.utest2.proc_epr
+        self.start_result.drive()
+        self.assertTrue([x == "null" for x in self.start_result.frame["meas1"]])
+        self.assertTrue([x == "null" for x in self.start_result.frame["meas2"]])
 
         result = start(
             self.path,
@@ -120,10 +125,10 @@ class startTester(unittest.TestCase):
         find_loc = result.frame[result.frame["example"] == "_test"].index[0]
         self.assertFalse(result.frame.loc[find_loc, "short"])
         result.reduce_names(remove=["short"])
-        find_loc = result.frame[result.frame["names"] == "example.csv"].index[0]
+        find_loc = result.frame[result.frame["name"] == "example.csv"].index[0]
         self.assertFalse(result.frame.loc[find_loc, "example"])
         find_loc = result.frame[
-            result.frame["names"] == "850802_example_test.csv"
+            result.frame["name"] == "850802_example_test.csv"
         ].index[0]
         self.assertEqual(result.frame.loc[find_loc, "example"], "_test")
 
@@ -140,7 +145,7 @@ class startTester(unittest.TestCase):
         self.start_result.date_format = "any"
         self.start_result.find_dates()
         find_loc = self.start_result.frame[
-            self.start_result.frame["names"] == "19850802_example_short.csv"
+            self.start_result.frame["name"] == "19850802_example_short.csv"
         ].index[0]
         self.assertTrue(isinstance(self.start_result.frame.loc[find_loc, "date"], list))
         self.start_result.reduce_dates(keep="YYYYMMDD")
@@ -158,7 +163,7 @@ class startTester(unittest.TestCase):
         )
 
         find_loc = self.start_result.frame[
-            self.start_result.frame["names"] == "850802_example_test.csv"
+            self.start_result.frame["name"] == "850802_example_test.csv"
         ].index[0]
         self.start_result.find_dates()
         self.assertTrue(
@@ -241,7 +246,7 @@ class startTester(unittest.TestCase):
                 "5-9-95",
                 "9-5-95",
             ],
-            columns=["names"],
+            columns=["name"],
         )
 
         date_strngs = [
@@ -311,13 +316,59 @@ class startTester(unittest.TestCase):
             "D-M-YY",
         ]
 
-        for indx, dat in enumerate(self.start_result.frame["names"]):
+        for indx, dat in enumerate(self.start_result.frame["name"]):
             self.start_result.date_format = date_strngs[indx]
             self.start_result.find_dates()
             self.assertTrue(isinstance(self.start_result.frame.loc[indx, "date"], date))
             self.assertEqual(
                 self.start_result.frame.loc[indx, "date"], date(1995, 5, 9)
             )
+
+        self.start_result.date_format = "any"
+        self.start_result.find_dates()
+        self.assertEqual(len(self.start_result.frame.loc[0, "date_format"]), 9)
+        self.start_result.reduce_dates()
+        self.assertEqual(len(self.start_result.frame.loc[0, "date_format"]), 6)
+
+        self.start_result.frame = pd.DataFrame(
+            ["19900509", "19950509", "20000509", "20050509", "20100509"],
+            columns=["name"],
+        )
+        self.start_result.date_format = "YYYYMMDD"
+        self.start_result.find_dates()
+        self.assertEqual(len(self.start_result.frame), 5)
+        self.start_result.in_range(
+            keep=[["1989-05-09", "1999-05-09"], ["2001-05-09", "2011-05-09"]]
+        )
+        self.assertEqual(len(self.start_result.frame), 4)
+        self.start_result.on_date(remove="1990-05-09")
+        self.assertEqual(len(self.start_result.frame), 3)
+
+        self.start_result.frame = pd.DataFrame(
+            [
+                "19900509",
+                "19950509",
+                "20000509",
+                "20050509",
+                "20100509",
+                "test1",
+                "test2",
+                "test3",
+            ],
+            columns=["name"],
+        )
+        self.start_result.date_format = "YYYYMMDD"
+        self.start_result.find_dates()
+        self.assertEqual(len(self.start_result.frame), 8)
+        self.start_result.in_range(
+            remove=[["1989-05-09", "1994-05-09"], ["2001-05-09", "2006-05-09"]],
+            strip_zeros=False,
+        )
+        self.assertEqual(len(self.start_result.frame), 6)
+        self.start_result.on_date(keep="2010-05-09", strip_zeros=False)
+        self.assertEqual(len(self.start_result.frame), 4)
+        self.start_result.reduce_dates(strip_zeros=True)
+        self.assertEqual(len(self.start_result.frame), 1)
 
     def test_f_map_directory_method(self):
 

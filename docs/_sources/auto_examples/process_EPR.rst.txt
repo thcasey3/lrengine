@@ -25,9 +25,33 @@ An example user-defined function for processing EPR data with the DNPLab package
 
 .. GENERATED FROM PYTHON SOURCE LINES 12-13
 
+For the function below the call would look something like,
+
+.. GENERATED FROM PYTHON SOURCE LINES 13-28
+
+.. code-block:: default
+
+    """
+    lrobject = lr.start(
+        parent_directory,
+        skip=[".DSC", ".YGF", ".par"],  # otherwise duplicates
+        classifiers=["max_loc", "frequency"],
+        function=process_EPR.proc_epr,
+        function_args={},
+    )
+
+    lrobject.drive()
+    """
+    # parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.
+    # according to the lrengine docs. The function_args are empty in this case. Since DTA
+    # and spc files come with companion DSC, YGF, or par files and DNPLab uses any of these,
+    # skip these files to avoid duplicates.
+
+.. GENERATED FROM PYTHON SOURCE LINES 31-32
+
 Import DNPLab and any other packages that may be needed for your function,
 
-.. GENERATED FROM PYTHON SOURCE LINES 13-16
+.. GENERATED FROM PYTHON SOURCE LINES 32-35
 
 .. code-block:: default
 
@@ -35,11 +59,11 @@ Import DNPLab and any other packages that may be needed for your function,
     import numpy as np
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 19-20
+.. GENERATED FROM PYTHON SOURCE LINES 38-39
 
 The function accepts a path to an EPR spectrum file and returns the field value where the spectrum is maximum and the frequency. The function returns zeros where errors are encountered.
 
-.. GENERATED FROM PYTHON SOURCE LINES 20-35
+.. GENERATED FROM PYTHON SOURCE LINES 39-54
 
 .. code-block:: default
 

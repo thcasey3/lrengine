@@ -40,12 +40,15 @@ class cylinders:
     def run_function(self, lrdata):
 
         classifiers = []
-        for name in lrdata.frame.names:
-            classifiers.append(
-                lrdata.function(
-                    os.path.join(lrdata.directory, name), lrdata.function_args
+        for name in lrdata.frame.name:
+            try:
+                classifiers.append(
+                    lrdata.function(
+                        os.path.join(lrdata.directory, name), lrdata.function_args
+                    )
                 )
-            )
+            except:
+                classifiers.append(["null" for _ in range(len(lrdata.classifiers))])
 
         return classifiers
 

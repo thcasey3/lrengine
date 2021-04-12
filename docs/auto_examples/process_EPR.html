@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.3
+                0.0.4
               </div>
             
           
@@ -101,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../reduce_names.html">Reduce the Frame Using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reduce_dates.html">Reduce the Date Lists</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../narrow_dates.html">Narrow the Date Range</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../drive.html">Call a Custom Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../map_directory.html">Map a Directory</a></li>
@@ -189,6 +190,24 @@ to download the full example code</p>
 <div class="sphx-glr-example-title section" id="epr-data-processing">
 <span id="sphx-glr-auto-examples-process-epr-py"></span><h1>EPR data processing<a class="headerlink" href="#epr-data-processing" title="Permalink to this headline">¶</a></h1>
 <p>An example user-defined function for processing EPR data with the DNPLab package.</p>
+<p>For the function below the call would look something like,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">lrobject = lr.start(</span>
+<span class="sd">    parent_directory,</span>
+<span class="sd">    skip=[&quot;.DSC&quot;, &quot;.YGF&quot;, &quot;.par&quot;],  # otherwise duplicates</span>
+<span class="sd">    classifiers=[&quot;max_loc&quot;, &quot;frequency&quot;],</span>
+<span class="sd">    function=process_EPR.proc_epr,</span>
+<span class="sd">    function_args={},</span>
+<span class="sd">)</span>
+
+<span class="sd">lrobject.drive()</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.</span>
+<span class="c1"># according to the lrengine docs. The function_args are empty in this case. Since DTA</span>
+<span class="c1"># and spc files come with companion DSC, YGF, or par files and DNPLab uses any of these,</span>
+<span class="c1"># skip these files to avoid duplicates.</span>
+</pre></div>
+</div>
 <p>Import DNPLab and any other packages that may be needed for your function,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dnplab</span> <span class="k">as</span> <span class="nn">dnp</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>

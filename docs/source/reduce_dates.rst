@@ -38,3 +38,23 @@ keeps all formats except **'YYYYMMDD'**. You can use lists with remove too. For 
 .. code-block:: python
 
     lrobject.reduce_dates(remove=['YYYYMMDD', 'MMDDYYYY'])
+
+
+You may also choose to remove or keep duplicate dates using the keyword arg **only_unique=**. Default is **only_unique=True** for **reduce_dates()**.  For example,
+
+.. code-block:: python
+
+    lrobject.reduce_dates(remove='YYYYMMDD') #removes duplicate dates
+    lrobject.reduce_dates()                  #removes duplicate dates
+    lrobject.reduce_dates(remove='YYYYMMDD', 
+                          only_unique=False) #keeps all dates, even duplicates
+    lrobject.reduce_dates(only_unique=False) #keeps frame untouched
+
+There is also an option to keep or remove any elements with 0 for date using the keyword arg **strip_zeros=**. Default is **strip_zeros=False** for **reduce_dates()**.  For example,
+
+.. code-block:: python
+
+    lrobject.reduce_dates(remove='YYYYMMDD') #keeps date=0 elements
+    lrobject.reduce_dates(remove='YYYYMMDD', 
+                          strip_zeros=True)  #removes date=0 elements
+
