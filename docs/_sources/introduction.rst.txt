@@ -2,7 +2,7 @@
 Introduction to lrengine
 ========================
 
-The aim of lrengine is to provide a simple mechanism for building and interacting with a pandas DataFrame that has **classifiers** that are extracted from file and/or folder names. Users can also define a function that operates on those files and/or folders and returns additional **classifiers**. This provides an easy way to interact with directories of common data types and search for correlations between text in the file and/or folder names and any outputs of a user-defined function's operations on those files and/or folders.
+The aim of lrengine is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names. Users can also define a function that operates on those files and/or folders and adds additional columns for **classifiers** returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.
 
 General Overview
 ================
@@ -31,7 +31,10 @@ Create an object that contains a **frame** with at minimum one column that is th
     lrobject = lr.start(path)
 
 
-You may define patterns to classify by. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts **True** where found, **False** where not found,
+Language Patterns
+-----------------
+
+You may define patterns to use for classification. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating whether the pattern was or was not found. This example adds the column 'sample1' and puts **True** where found, **False** where not found,
 
 .. code-block:: python
 
@@ -57,6 +60,9 @@ To mix these behaviors, add **bool** for the dict value and the column for the k
     lrobject = lr.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
 
 
+Skip Files or Folders
+---------------------
+
 You may skip directories according to specific language. This example classifies by sample number but skips any file or folder with 'sample7' in the name,
 
 .. code-block:: python
@@ -64,6 +70,9 @@ You may skip directories according to specific language. This example classifies
     path = '/path/to/directory/'
     lrobject = lr.start(path, patterns={'sample': 'sample\d'}, skip='sample7')
 
+
+Find Dates
+----------
 
 You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,
 
@@ -88,6 +97,9 @@ You can search for all possible dates by setting **date_format='any'**. This fin
                         date_format='any'
                         )
 
+
+Use Custom Function
+-------------------
 
 You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:
 
@@ -121,4 +133,14 @@ Call the **drive()** method
 
     lrobject.drive()
 
-and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.
+and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template. 
+
+
+Handle Function Errors
+----------------------
+
+If the function errors on the specific file or folder "null" is returned for the classifier to facilitate easy removal of any file or folder that is not compatible with the function using something similar to,
+
+.. code-block:: python
+
+    lrobject.frame = lrobject.frame[lrobject.frame['output1'] != 'null']

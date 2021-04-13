@@ -41,6 +41,9 @@ To mix these behaviors, add **bool** for the dict value and the column for the k
     lrobject = lr.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
 
 
+Skip Using Patterns
+===================
+
 You may skip directories according to specific language. This example classifies by sample number but skips any file or folder with 'sample7' in the name,
 
 .. code-block:: python

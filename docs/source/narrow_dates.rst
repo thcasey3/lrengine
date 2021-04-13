@@ -1,6 +1,6 @@
-=====================
-Narrow the Date Range 
-=====================
+================
+Narrow the Dates
+================
 
 You may also reduce the frame to a specific date or range of dates using the **on_date()** or **in_range()** methods. For example, to keep only the elements of a frame having the date Aug. 2nd 1985, 
 
