@@ -9,7 +9,7 @@ from numpy.testing import assert_array_equal
 
 class startTester(unittest.TestCase):
     def setUp(self):
-        self.path = "./data/"
+        self.path = os.path.normpath("./data/")
         self.subd = os.listdir(self.path)
         self.meas = ["meas1", "meas2"]
         self.patt = ["patt1", "patt2"]
@@ -397,13 +397,12 @@ class startTester(unittest.TestCase):
         lrobject.map_to_frame(depth=4, kind="any", to_frame=True)
         self.assertEqual(len(lrobject.frame), 2)
 
-        """
-        lrobject.map_directory("./data", skip="short")
+        lrobject.map_directory(self.path, skip="short")
+        print(lrobject.directory_map)
         self.assertEqual(len(lrobject.directory_map.keys()), 1)
         self.assertEqual(
-            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 2
+            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 3
         )
-        """
 
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
@@ -424,20 +423,20 @@ class startTester(unittest.TestCase):
             self.start_result.save(filename=100)
 
         if "utest.csv" in os.listdir(self.path):
-            os.remove(self.path + "utest.csv")
+            os.remove(os.path.join(self.path, "utest.csv"))
 
         self.start_result.save(filename=os.path.join(self.path, "utest"))
         self.assertTrue("utest.csv" in os.listdir(self.path))
 
-        os.remove(self.path + "utest.csv")
+        os.remove(os.path.join(self.path, "utest.csv"))
 
         self.start_result.save(filename=os.path.join(self.path, "utest.csv"))
         self.assertTrue("utest.csv" in os.listdir(self.path))
         self.assertFalse("utest.csv.csv" in os.listdir(self.path))
-        os.remove(self.path + "utest.csv")
+        os.remove(os.path.join(self.path, "utest.csv"))
 
         if "utest.csv.csv" in os.listdir(self.path):
-            os.remove(self.path + "utest.csv.csv")
+            os.remove(os.path.join(self.path, "utest.csv.csv"))
 
         if str(date.today()) + "_DataFrame.csv" in os.listdir(self.path):
             os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))
