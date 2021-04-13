@@ -383,9 +383,9 @@ class startTester(unittest.TestCase):
             "test_red": ["r", "re", "rd", "ed"],
             "test_blue": ["b", "bl", "blu"],
             "test_green": ["g", "gr"],
-            "test_red/maroon": ["r", "re", "rd", "ed"],
-            "test_blue/navy/sky": ["b", "bl", "blu"],
-            "test_green/winter/neon/forest": ["g", "gr"],
+            os.path.join("test_red", "maroon"): ["r", "re", "rd", "ed"],
+            os.path.join("test_blue", "navy", "sky"): ["b", "bl", "blu"],
+            os.path.join("test_green", "winter", "neon", "forest"): ["g", "gr"],
         }
         self.assertEqual(len(lrobject.frame), 0)
         lrobject.map_to_frame(depth=2, kind="folders", to_frame=True)
