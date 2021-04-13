@@ -41,7 +41,7 @@ class start:
             self.frame = pd.DataFrame({})
             self._empty_object()
         else:
-            self.directory = directory
+            self.directory = os.path.normpath(directory)
             self.patterns = patterns
             self.skip = skip
             self.date_format = date_format
@@ -122,9 +122,9 @@ class start:
         walk_topdown=True,
     ):
         if hasattr(self, "directory") and directory is None:
-            direct = self.directory
+            direct = os.path.normpath(self.directory)
         elif not hasattr(self, "directory") and directory is not None:
-            direct = directory
+            direct = os.path.normpath(directory)
         elif hasattr(self, "directory") and directory is not None:
             raise TypeError(
                 "Your object contains a directory, and you've given another directory. Please choose one by setting the attribute 'directory' to the directory you wish to map, and do not inlcude the directory keyword arg"
@@ -138,6 +138,7 @@ class start:
         if os.path.isdir(direct):
             self.directory_map = {}
             for root, dirs, files in os.walk(direct, topdown=walk_topdown):
+                root = os.path.normpath(root)
                 if root == direct:
                     self.directory_map[root] = files
                 else:
@@ -206,7 +207,7 @@ class start:
                     if kind == "any":
                         temp.append(x)
                     for y in self.directory_map[x]:
-                        temp.append(os.path.join(x, y))
+                        temp.append(os.path.normpath(os.path.join(x, y)))
                 if isinstance(depth, list):
                     for t in temp:
                         if t.count(os.sep) in depth:
