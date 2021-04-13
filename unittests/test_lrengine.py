@@ -397,10 +397,11 @@ class startTester(unittest.TestCase):
         lrobject.map_to_frame(depth=4, kind="any", to_frame=True)
         self.assertEqual(len(lrobject.frame), 2)
 
-        lrobject.map_directory(self.path, skip="short")
+        lrobject.map_directory(self.path, skip=["short", ".DS_Store"])
         self.assertEqual(len(lrobject.directory_map.keys()), 1)
+        print(lrobject.directory_map[list(lrobject.directory_map.keys())[0]])
         self.assertEqual(
-            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 3
+            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 2
         )
 
         with self.assertRaises(ValueError):
