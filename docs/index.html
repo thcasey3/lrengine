@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -97,13 +97,14 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -176,8 +177,8 @@
             
   <div class="section" id="welcome-to-lrengine">
 <h1>Welcome to lrengine<a class="headerlink" href="#welcome-to-lrengine" title="Permalink to this headline">¶</a></h1>
-<p>lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names either with each other or with outputs of a user supplied function.</p>
-<p>The source code for the project is published here: <a href="https://github.com/thcasey3/lrengine/" target="_blank"> GitHub</a></p>
+<p>lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names with eachother and with outputs of a user supplied function.</p>
+<p>The source code for the project is available here: <a href="https://github.com/thcasey3/lrengine/" target="_blank"> GitHub</a></p>
 <p>Please report all issues using the: <a href="https://github.com/thcasey3/lrengine/issues" target="_blank"> Report Issues</a></p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
@@ -186,10 +187,10 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Current Version</p></td>
-<td><p>0.0.4</p></td>
+<td><p>0.0.5</p></td>
 </tr>
 <tr class="row-even"><td><p>Documentation Build Date</p></td>
-<td><p>04/12/2021, 14:47:08</p></td>
+<td><p>04/13/2021, 12:04:00</p></td>
 </tr>
 <tr class="row-odd"><td><p>Author</p></td>
 <td><p>Thomas Casey</p></td>
@@ -201,8 +202,8 @@
 <ul class="simple">
 <li><p>Organize DataFrames using dates and specific language in file and folder names</p></li>
 <li><p>Find specific format date strings, or look for possible date strings, in file or folder names</p></li>
-<li><p>Construct DataFrames from a function that processes files or sub-directories of a parent directory</p></li>
-<li><p>Visualize correlations between function outputs, and dates or specific language in file and folder names</p></li>
+<li><p>Add classifiers using a custom function that processes contents of a parent directory</p></li>
+<li><p>Visualize correlations between function outputs, dates, and language in file and folder names</p></li>
 </ul>
 <div class="toctree-wrapper compound">
 <ul>
@@ -216,15 +217,50 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html#general-overview">General Overview</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
-<li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
-<li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="create.html#look-for-patterns">Look for Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create.html#skip-using-patterns">Skip Using Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create.html#look-for-dates">Look for Dates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create.html#add-function-outputs">Add Function Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create.html#load-a-saved-frame">Load a Saved Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="create.html#create-empty-object">Create Empty Object</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_patterns.html#using-str-or-list">Using str or list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="define_patterns.html#using-dict">Using dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="define_patterns.html#modify-existing-frame">Modify Existing Frame</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reduce_names.html#remove">Remove</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reduce_names.html#keep">Keep</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="find_dates.html#find-dates-method">Find Dates Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="find_dates.html#allowed-formats">Allowed Formats</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reduce_dates.html#use-lists">Use Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reduce_dates.html#handling-duplicates">Handling Duplicates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reduce_dates.html#remove-zeros">Remove Zeros</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Dates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="narrow_dates.html#use-lists">Use Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="narrow_dates.html#use-ranges">Use Ranges</a></li>
+<li class="toctree-l2"><a class="reference internal" href="narrow_dates.html#remove-zeros">Remove Zeros</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="drive.html#handling-errors">Handling Errors</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="start.html">start</a></li>
@@ -238,10 +274,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="planned.html">Planned Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="version_history.html#version-0-0-4">Version 0.0.4</a></li>
-<li class="toctree-l2"><a class="reference internal" href="version_history.html#version-0-0-3">Version 0.0.3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="version_history.html#version-0-0-2">Version 0.0.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="version_history.html#version-0-0-1">Version 0.0.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version_history.html#version-0-0-5">Version 0.0.5</a></li>
 </ul>
 </li>
 </ul>

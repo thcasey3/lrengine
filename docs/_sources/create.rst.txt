@@ -12,6 +12,9 @@ Create an object that contains a DataFrame with at minimum one column that is th
     lrobject = lr.start(path)
 
 
+Look for Patterns
+=================
+
 You may define patterns to classify by. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts **True** where found, **False** where not found,
 
 .. code-block:: python
@@ -38,6 +41,9 @@ To mix these behaviors, add **bool** for the dict value and the column for the k
     lrobject = lr.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
 
 
+Skip Using Patterns
+===================
+
 You may skip directories according to specific language. This example classifies by sample number but skips any file or folder with 'sample7' in the name,
 
 .. code-block:: python
@@ -45,6 +51,9 @@ You may skip directories according to specific language. This example classifies
     path = '/path/to/directory/'
     lrobject = lr.start(path, patterns={'sample': 'sample\d'}, skip='sample7')
 
+
+Look for Dates
+==============
 
 You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,
 
@@ -69,6 +78,9 @@ You can search for all possible dates by setting **date_format='any'**. This fin
                         date_format='any'
                         )
 
+
+Add Function Outputs
+====================
 
 You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:
 
@@ -95,7 +107,22 @@ the call would look like,
                         function_args={'par1': 1,
                                        'par2': 2}
                         )
+    lrobject.drive()
 
 and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.
 
-If the path is to a **.csv** file that was saved using the **save()** method, the same frame that was created and saved will be re-created in the **start** object (assuming the **.csv** was not modified). However, the other attributes of the **start** object that was saved will be missing, and will need to be defined manually.
+Load a Saved Frame
+==================
+
+If the given path is to a **.csv** file that was saved using the **save()** method, the same frame that was created and saved will be re-created in the **start** object (assuming the **.csv** was not modified). However, the other attributes of the **start** object that was saved will be missing, and will need to be defined manually.
+
+Create Empty Object
+===================
+
+If you instantiate without arguments, you will receive an empty **start** object that can be filled in manually using any of the available methods. For example, create an empty object then add a **directory** and **date_format**,
+
+.. code-block:: python
+
+    lrobject = lr.start()
+    lrobject.directory = '/path/to/directory/'
+    lrobject.date_format = 'YYMMDD'

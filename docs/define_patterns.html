@@ -40,7 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Reduce the Frame Using Patterns" href="reduce_names.html" />
+    <link rel="next" title="Reduce the Frame using Patterns" href="reduce_names.html" />
     <link rel="prev" title="Create a Start Object" href="create.html" /> 
 </head>
 
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -97,14 +97,20 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Defining Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Defining Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-str-or-list">Using str or list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-dict">Using dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modify-existing-frame">Modify Existing Frame</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -177,7 +183,10 @@
             
   <div class="section" id="defining-patterns">
 <h1>Defining Patterns<a class="headerlink" href="#defining-patterns" title="Permalink to this headline">¶</a></h1>
-<p>You may define patterns to classify by. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
+<p>You may define patterns to classify by.</p>
+<div class="section" id="using-str-or-list">
+<h2>Using str or list<a class="headerlink" href="#using-str-or-list" title="Permalink to this headline">¶</a></h2>
+<p>If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
@@ -185,6 +194,9 @@
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample3&#39;</span><span class="p">])</span> <span class="c1"># OR list of patterns</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="using-dict">
+<h2>Using dict<a class="headerlink" href="#using-dict" title="Permalink to this headline">¶</a></h2>
 <p>You may also use regular expressions to do more sophisticated pattern searches and classify by specific language rather than bool. To do this, use a dictionary rather than a list. The keys of the dict are the column names, the values are the expression to search for and classify by. This example creates a column called 'sample' and classifies by any one digit number found just to the right of the word 'sample',</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">})</span>
@@ -196,10 +208,14 @@
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">,</span> <span class="s1">&#39;blank_run&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="modify-existing-frame">
+<h2>Modify Existing Frame<a class="headerlink" href="#modify-existing-frame" title="Permalink to this headline">¶</a></h2>
 <p>You can also modify an existing object to classify by different patterns using the <strong>find_patterns()</strong> method. For example, if patterns were not originally defined, add <strong>patterns</strong> then update the frame,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">}</span>
 <span class="n">lrobject</span><span class="o">.</span><span class="n">find_patterns</span><span class="p">()</span>
 </pre></div>
+</div>
 </div>
 </div>
 
@@ -211,7 +227,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="reduce_names.html" class="btn btn-neutral float-right" title="Reduce the Frame Using Patterns" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="reduce_names.html" class="btn btn-neutral float-right" title="Reduce the Frame using Patterns" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="create.html" class="btn btn-neutral float-left" title="Create a Start Object" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

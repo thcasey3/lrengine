@@ -40,8 +40,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Save the Frame to csv" href="save.html" />
-    <link rel="prev" title="seaborn relplot" href="sea.html" /> 
+    <link rel="next" title="Create Frame from directory_map" href="map_to_frame.html" />
+    <link rel="prev" title="Call a Custom Function" href="drive.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -98,13 +98,14 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -189,12 +190,17 @@
 </div>
 <p>The <strong>map_directory()</strong> method can also deal with hidden or empty directories, and you may also toggle the <strong>os.walk</strong> topdown option. The available arguments are:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">map_directory</span><span class="p">(</span>
+                 <span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">skip</span><span class="o">=</span><span class="p">[],</span>
                   <span class="n">skip_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">skip_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">only_hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">walk_topdown</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="p">):</span>
+</pre></div>
+</div>
+<p>If a <strong>start</strong> object is instantiated without a <strong>directory</strong> attribute, specify the directory to map using the keyword arg <strong>directory=</strong> to get the same behavior,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="s1">&#39;path/to/directory&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -207,10 +213,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="save.html" class="btn btn-neutral float-right" title="Save the Frame to csv" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="map_to_frame.html" class="btn btn-neutral float-right" title="Create Frame from directory_map" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="sea.html" class="btn btn-neutral float-left" title="seaborn relplot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="drive.html" class="btn btn-neutral float-left" title="Call a Custom Function" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
