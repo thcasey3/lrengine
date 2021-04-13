@@ -171,7 +171,7 @@ class start:
         else:
             raise TypeError("This is not a path to a directory")
 
-    def map_to_frame(self, depth=None, type="any", to_frame=True):
+    def map_to_frame(self, depth=None, kind="any", to_frame=True):
 
         if hasattr(self, "directory_map"):
             if isinstance(depth, int):
@@ -182,34 +182,38 @@ class start:
                 and not any([isinstance(x, int) for x in depth])
             ):
                 raise TypeError("depth must be single int or list of int")
-
-            if depth is None and type == "dirs":
+            new_names = []
+            if depth is None and kind == "folders":
                 new_names = self.directory_map.keys()
-            elif isinstance(depth, list) and type == "dirs":
+            elif isinstance(depth, list) and kind == "folders":
                 new_names = [
                     x for x in self.directory_map.keys() if x.count(os.sep) in depth
                 ]
-            elif type == "files" or type == "any":
+            elif kind == "files" or kind == "any":
                 temp = []
                 for x in self.directory_map.keys():
-                    if type == "any":
+                    if kind == "any":
                         temp.append(x)
                     for y in self.directory_map[x]:
                         temp.append(os.path.join(x, y))
                 if isinstance(depth, list):
-                    new_names = []
                     for t in temp:
                         if t.count(os.sep) in depth:
                             new_names.append(t)
                 elif depth is None:
                     new_names = temp
 
-            frame = pd.DataFrame(new_names, columns=["name"])
+            if new_names:
+                frame = pd.DataFrame(new_names, columns=["name"])
 
-            if to_frame:
-                self.frame = frame
+                if to_frame:
+                    self.frame = frame
 
-            return frame
+                return frame
+            else:
+                raise ValueError(
+                    "The given options would return an empty directory_map"
+                )
         else:
             raise TypeError(
                 "You must map_directory() first in order to use the map_to_frame() method"

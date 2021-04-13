@@ -370,13 +370,34 @@ class startTester(unittest.TestCase):
         self.start_result.reduce_dates(strip_zeros=True)
         self.assertEqual(len(self.start_result.frame), 1)
 
-    def test_f_map_directory_method(self):
+    def test_f_map_directory_methods(self):
 
         self.start_result.map_directory()
         self.assertTrue(
             self.start_result.directory_map[self.start_result.directory].__contains__,
             "example.csv",
         )
+
+        lrobject = start()
+        lrobject.map_directory(directory=self.path)
+        lrobject.map_to_frame()
+        self.assertEqual(len(lrobject.frame), 5)
+        new = lrobject.map_to_frame(kind="files", to_frame=False)
+        self.assertEqual(len(lrobject.frame), 5)
+        self.assertEqual(len(new), 4)
+        with self.assertRaises(ValueError):
+            lrobject.map_to_frame(depth=1, kind="files", to_frame=True)
+
+        lrobject.map_directory(directory="./")
+        lrobject.map_to_frame(depth=3, kind="folders", to_frame=True)
+        self.assertEqual(len(lrobject.frame), 9)
+        lrobject.map_to_frame(depth=[1], kind="any", to_frame=True)
+        len1 = len(lrobject.frame)
+        self.assertTrue(len1 > 0)
+        lrobject.map_to_frame(depth=[1, 2, 3], kind="any", to_frame=True)
+        len2 = len(lrobject.frame)
+        self.assertTrue(len2 > 0)
+        self.assertTrue(len1 < len2)
 
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
