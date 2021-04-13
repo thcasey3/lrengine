@@ -131,6 +131,9 @@ class start:
         elif not hasattr(self, "directory") and directory is None:
             raise ValueError("No directory given to map!")
 
+        if isinstance(skip, str):
+            skip = [skip]
+
         if os.path.isdir(direct):
             self.directory_map = {}
             for root, dirs, files in os.walk(direct, topdown=walk_topdown):
@@ -141,9 +144,9 @@ class start:
 
             skip_list = []
             if only_hidden:
-                for ky in self.directory_map.keys():
-                    if not ky == "":
-                        skip_list.append(ky)
+                for x in self.directory_map.keys():
+                    if not x == "":
+                        skip_list.append(x)
                 if len(skip_list) == len(self.directory_map.keys()):
                     raise ValueError("No hidden directories were found")
             else:
@@ -153,13 +156,19 @@ class start:
                     except KeyError:
                         pass
 
-                for ky in self.directory_map.keys():
+                for x in self.directory_map.keys():
                     if skip_empty:
-                        if len(self.directory_map[ky]) == 0:
-                            skip_list.append(ky)
+                        if len(self.directory_map[x]) == 0:
+                            skip_list.append(x)
                     if skip:
-                        if any(map(ky.__contains__, skip)):
-                            skip_list.append(ky)
+                        if any(map(x.__contains__, skip)):
+                            skip_list.append(x)
+                        temp = [
+                            y
+                            for y in self.directory_map[x]
+                            if not any(map(y.__contains__, skip))
+                        ]
+                        self.directory_map[x] = temp
 
             skip_list = set(skip_list)
 
