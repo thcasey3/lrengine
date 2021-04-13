@@ -8,12 +8,6 @@ You may also reduce the frame to a specific date or range of dates using the **o
 
     lrobject.on_date(keep="1985-08-02")
 
-You may also give a list. For example, keep any element with either the date above or Feb. 8th 1988,
-
-.. code-block:: python
-
-    lrobject.on_date(keep=["1985-08-02", "1988-02-08"])
-
 
 To do the exact opposite and remove specific dates, use the keyword **remove=** instead,
 
@@ -21,12 +15,25 @@ To do the exact opposite and remove specific dates, use the keyword **remove=** 
 
     lrobject.on_date(remove="1985-08-02")
 
-Or,
+
+Use Lists
+=========
+
+You may also give a list. For example, keep any element with either the date above or Feb. 8th 1988,
+
+.. code-block:: python
+
+    lrobject.on_date(keep=["1985-08-02", "1988-02-08"])
+
+Or to do the opposite,
 
 .. code-block:: python
 
     lrobject.on_date(remove=["1985-08-02", "1988-02-08"])
 
+
+Use Ranges
+==========
 
 To specify a range or ranges rather than specific dates, use **in_range()** instead. Ranges must be two element lists. For example, to keep all elements having dates between Aug. 1st and Sept. 1st 1985, 
 
@@ -53,6 +60,10 @@ Or,
 .. code-block:: python
 
     lrobject.in_range(remove=[["1985-08-01", "1985-09-01"], ["1985-12-01", "1985-12-31"]])
+
+
+Remove Zeros
+============
 
 There is also an option to remove or keep any elements with 0 for date using the keyword arg **strip_zeros=**. Default is **True** for **on_date()** and **in_range()**.  For example,
 

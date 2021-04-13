@@ -2,6 +2,11 @@
 Version History
 ===============
 
+Version 0.0.5
+-------------
+* Added map_to_frame() method
+* bug fixes, updated docs, updated unittests
+
 Version 0.0.4
 -------------
 * Added on_date() and in_range() methods for narrowing the dates to specific dates or ranges

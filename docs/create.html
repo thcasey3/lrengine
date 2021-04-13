@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -96,15 +96,23 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Create a Start Object</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create a Start Object</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#look-for-patterns">Look for Patterns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#look-for-dates">Look for Dates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#add-function-outputs">Add Function Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-a-saved-frame">Load a Saved Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-empty-object">Create Empty Object</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -184,6 +192,8 @@
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="look-for-patterns">
+<h2>Look for Patterns<a class="headerlink" href="#look-for-patterns" title="Permalink to this headline">¶</a></h2>
 <p>You may define patterns to classify by. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s1">&#39;sample1&#39;</span><span class="p">)</span> <span class="c1"># single pattern</span>
@@ -206,6 +216,9 @@
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="look-for-dates">
+<h2>Look for Dates<a class="headerlink" href="#look-for-dates" title="Permalink to this headline">¶</a></h2>
 <p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
@@ -224,6 +237,9 @@
                     <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="add-function-outputs">
+<h2>Add Function Outputs<a class="headerlink" href="#add-function-outputs" title="Permalink to this headline">¶</a></h2>
 <p>You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
 
@@ -244,10 +260,24 @@
                     <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;par1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
                                    <span class="s1">&#39;par2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
                     <span class="p">)</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.</p>
-<p>If the path is to a <strong>.csv</strong> file that was saved using the <strong>save()</strong> method, the same frame that was created and saved will be re-created in the <strong>start</strong> object (assuming the <strong>.csv</strong> was not modified). However, the other attributes of the <strong>start</strong> object that was saved will be missing, and will need to be defined manually.</p>
+</div>
+<div class="section" id="load-a-saved-frame">
+<h2>Load a Saved Frame<a class="headerlink" href="#load-a-saved-frame" title="Permalink to this headline">¶</a></h2>
+<p>If the given path is to a <strong>.csv</strong> file that was saved using the <strong>save()</strong> method, the same frame that was created and saved will be re-created in the <strong>start</strong> object (assuming the <strong>.csv</strong> was not modified). However, the other attributes of the <strong>start</strong> object that was saved will be missing, and will need to be defined manually.</p>
+</div>
+<div class="section" id="create-empty-object">
+<h2>Create Empty Object<a class="headerlink" href="#create-empty-object" title="Permalink to this headline">¶</a></h2>
+<p>If you instantiate without arguments, you will receive an empty <strong>start</strong> object that can be filled in manually using any of the available methods. For example, create an empty object then add a <strong>directory</strong> and <strong>date_format</strong>,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="s1">&#39;YYMMDD&#39;</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 

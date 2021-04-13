@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>seaborn relplot &mdash; lrengine  documentation</title>
+  <title>Create Frame from directory_map &mdash; lrengine  documentation</title>
   
 
   
@@ -40,8 +40,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Save the Frame to csv" href="save.html" />
-    <link rel="prev" title="Create Frame from directory_map" href="map_to_frame.html" /> 
+    <link rel="next" title="seaborn relplot" href="sea.html" />
+    <link rel="prev" title="Map a Directory" href="map_directory.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -104,8 +104,8 @@
 <li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">seaborn relplot</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -157,13 +157,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>seaborn relplot</li>
+      <li>Create Frame from directory_map</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/sea.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/map_to_frame.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,22 +176,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="seaborn-relplot">
-<h1>seaborn relplot<a class="headerlink" href="#seaborn-relplot" title="Permalink to this headline">¶</a></h1>
-<p>With the <strong>sea()</strong> method a <strong>relplot</strong> is made using the <strong>lrobject.frame</strong>. Use the same argument names used in <strong>seaborn.relplot()</strong> as dictionary keys with their corresponding values being any allowed values according to the <strong>seaborn.relplot()</strong> docs,</p>
-<div class="figure align-center" id="id1">
-<a class="reference internal image-reference" href="_images/sea_df.png"><img alt="lrengine concept" src="_images/sea_df.png" style="width: 700px;" /></a>
-<p class="caption"><span class="caption-text"><strong>lrobject.frame</strong></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">sea</span><span class="p">(</span><span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="s1">&#39;output1&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;output2&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;hue&#39;</span><span class="p">:</span> <span class="s1">&#39;date_delta&#39;</span><span class="p">,</span>
-                      <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+  <div class="section" id="create-frame-from-directory-map">
+<h1>Create Frame from directory_map<a class="headerlink" href="#create-frame-from-directory-map" title="Permalink to this headline">¶</a></h1>
+<p>With the <strong>map_directory()</strong> method you get a comprehensive dictionary where the keys are the directories and the values are lists of files within the directory. This can be useful for defining the [&quot;name&quot;] column of the frame. Use the method <strong>map_to_frame()</strong> to create a <strong>frame</strong> in the  start object from the contents of the <strong>directory_map</strong>. For a given <strong>directory_map</strong> that has several layers of directories and files throughout, you may specify the <strong>depth</strong> to consider, whether to use <strong>&quot;files&quot;</strong>, <strong>&quot;folders&quot;</strong>, or <strong>&quot;any&quot;</strong>, and whether to replace the current <strong>frame</strong>. For example, consider a depth of two relative to the parent directory, accept files or folders, and replace the <strong>frame</strong> in the start object,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="figure align-center" id="id2">
-<a class="reference internal image-reference" href="_images/sea_scatter.png"><img alt="lrengine concept" src="_images/sea_scatter.png" style="width: 500px;" /></a>
-<p class="caption"><span class="caption-text">Scatterplot from seaborn.relplot()</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p>Or, consider a depth of three relative to the parent directory, accept only folders, and choose not replace the <strong>frame</strong> in the start object by setting <strong>to_frame=False</strong>, and return a new frame,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;folders&#39;</span><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may also consider multiple depths. For example, consider depths of one or four relative to the parent directory, accept only files, and replace the <strong>frame</strong> in the start object,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;files&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 
@@ -203,10 +200,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="save.html" class="btn btn-neutral float-right" title="Save the Frame to csv" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="sea.html" class="btn btn-neutral float-right" title="seaborn relplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="map_to_frame.html" class="btn btn-neutral float-left" title="Create Frame from directory_map" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="map_directory.html" class="btn btn-neutral float-left" title="Map a Directory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -27,3 +27,9 @@ The **map_directory()** method can also deal with hidden or empty directories, a
                       only_hidden=False,
                       walk_topdown=True,
                       ):
+
+If a **start** object is instantiated without a **directory** attribute, specify the directory to map using the keyword arg **directory=** to get the same behavior,
+
+.. code-block:: python
+
+    lrobject.map_directory(directory='path/to/directory')

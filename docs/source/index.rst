@@ -54,8 +54,9 @@ Features
    reduce_dates
    narrow_dates
    drive
-   sea
    map_directory
+   map_to_frame
+   sea
    save
    classes
    auto_examples/index

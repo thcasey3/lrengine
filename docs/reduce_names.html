@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reduce the Frame Using Patterns &mdash; lrengine  documentation</title>
+  <title>Reduce the Frame using Patterns &mdash; lrengine  documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -98,13 +98,18 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce the Frame Using Patterns</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce the Frame using Patterns</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#remove">Remove</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#keep">Keep</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="find_dates.html">Finding Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
 <li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -156,7 +161,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Reduce the Frame Using Patterns</li>
+      <li>Reduce the Frame using Patterns</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -176,8 +181,11 @@
            <div itemprop="articleBody">
             
   <div class="section" id="reduce-the-frame-using-patterns">
-<h1>Reduce the Frame Using Patterns<a class="headerlink" href="#reduce-the-frame-using-patterns" title="Permalink to this headline">¶</a></h1>
-<p>To filter the names by a given pattern or list of patterns, simply call the <strong>.reduce_names()</strong> method and give the patterns to use to decide which names to drop. This example drops from the frame any element having &quot;blank_sample&quot; in the name,</p>
+<h1>Reduce the Frame using Patterns<a class="headerlink" href="#reduce-the-frame-using-patterns" title="Permalink to this headline">¶</a></h1>
+<p>To filter the names by a given pattern or list of patterns, simply call the <strong>.reduce_names()</strong> method and give the patterns to use to decide which names to drop.</p>
+<div class="section" id="remove">
+<h2>Remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h2>
+<p>This example drops from the frame any element having &quot;blank_sample&quot; in the name,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -185,6 +193,9 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="keep">
+<h2>Keep<a class="headerlink" href="#keep" title="Permalink to this headline">¶</a></h2>
 <p>You may also do the reverse of remove and keep only elements with a given pattern in the name using the <strong>keep=</strong> keyword arg. For example, keep only elements with &quot;blank_sample&quot; in the name,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
 </pre></div>
@@ -192,6 +203,7 @@
 <p>Or keep any elements with &quot;blank&quot; or &quot;zero&quot; in the name,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
 </pre></div>
+</div>
 </div>
 </div>
 
