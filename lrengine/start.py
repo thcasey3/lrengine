@@ -121,10 +121,8 @@ class start:
         only_hidden=False,
         walk_topdown=True,
     ):
-        if hasattr(self, "directory") and directory is None:
-            direct = os.path.normpath(self.directory)
-        elif not hasattr(self, "directory") and directory is not None:
-            direct = os.path.normpath(directory)
+        if not hasattr(self, "directory") and directory is not None:
+            self.directory = os.path.normpath(directory)
         elif hasattr(self, "directory") and directory is not None:
             raise TypeError(
                 "Your object contains a directory, and you've given another directory. Please choose one by setting the attribute 'directory' to the directory you wish to map, and do not inlcude the directory keyword arg"
@@ -135,14 +133,14 @@ class start:
         if isinstance(skip, str):
             skip = [skip]
 
-        if os.path.isdir(direct):
+        if os.path.isdir(self.directory):
             self.directory_map = {}
-            for root, dirs, files in os.walk(direct, topdown=walk_topdown):
+            for root, dirs, files in os.walk(self.directory, topdown=walk_topdown):
                 root = os.path.normpath(root)
-                if root == direct:
+                if root == self.directory:
                     self.directory_map[root] = files
                 else:
-                    self.directory_map[root.replace(direct, "")] = files
+                    self.directory_map[root.replace(self.directory, "")] = files
 
             skip_list = []
             if only_hidden:
@@ -218,6 +216,12 @@ class start:
                     new_names = temp
 
             if new_names:
+                if hasattr(self, "directory"):
+                    new_names = [
+                        x.replace(self.directory, "").replace(os.sep, "")
+                        for x in new_names
+                    ]
+
                 frame = pd.DataFrame(new_names, columns=["name"])
 
                 if to_frame:
