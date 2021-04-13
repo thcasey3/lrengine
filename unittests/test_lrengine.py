@@ -399,7 +399,6 @@ class startTester(unittest.TestCase):
 
         lrobject.map_directory(self.path, skip=["short", ".DS_Store"])
         self.assertEqual(len(lrobject.directory_map.keys()), 1)
-        print(lrobject.directory_map[list(lrobject.directory_map.keys())[0]])
         self.assertEqual(
             len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 2
         )
