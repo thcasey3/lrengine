@@ -163,12 +163,13 @@ class start:
                     if skip:
                         if any(map(x.__contains__, skip)):
                             skip_list.append(x)
-                        temp = [
-                            y
-                            for y in self.directory_map[x]
-                            if not any(map(y.__contains__, skip))
-                        ]
-                        self.directory_map[x] = temp
+                        else:
+                            temp = [
+                                y
+                                for y in self.directory_map[x]
+                                if not any(map(y.__contains__, skip))
+                            ]
+                            self.directory_map[x] = temp
 
             skip_list = set(skip_list)
 

@@ -389,6 +389,12 @@ class startTester(unittest.TestCase):
             lrobject.map_to_frame(depth=1, kind="files", to_frame=True)
 
         lrobject.map_directory(directory="./")
+        len_map1 = [
+            len(lrobject.directory_map[x])
+            for x in lrobject.directory_map.keys()
+            if ".DS_Store" in lrobject.directory_map[x]
+        ]
+        self.assertTrue(sum(len_map1) != 0)
         lrobject.map_to_frame(depth=3, kind="folders", to_frame=True)
         self.assertEqual(len(lrobject.frame), 9)
         lrobject.map_to_frame(depth=[1], kind="any", to_frame=True)
@@ -399,6 +405,14 @@ class startTester(unittest.TestCase):
         len2 = len(new)
         self.assertTrue(len2 > 0)
         self.assertTrue(len2 > len1)
+
+        lrobject.map_directory(directory="./", skip=".DS_Store")
+        len_map2 = [
+            len(lrobject.directory_map[x])
+            for x in lrobject.directory_map.keys()
+            if ".DS_Store" in lrobject.directory_map[x]
+        ]
+        self.assertTrue(sum(len_map2) == 0)
 
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
