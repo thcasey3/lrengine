@@ -38,6 +38,7 @@ class start:
     ):
 
         if directory is None:
+            self.frame = pd.DataFrame({})
             self._empty_object()
         else:
             self.directory = directory
@@ -73,7 +74,7 @@ class start:
                 intake.patterns_filter(self, remove=self.skip)
 
     def _empty_object(self):
-        lrdata = {"frame": pd.DataFrame()}
+        lrdata = {"frame": self.frame}
         return lrdata
 
     def _checks_passed(self):

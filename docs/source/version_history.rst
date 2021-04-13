@@ -3,9 +3,10 @@ Version History
 ===============
 
 Version 0.0.5
--------------
+=============
 * Added map_to_frame() method
 * bug fixes, updated docs, updated unittests
+
 
 Version 0.0.4
 -------------
@@ -14,6 +15,7 @@ Version 0.0.4
 * Added "null" output for function errors in engine
 * Renamed "names" column of frame to "name" for consistency with other columns
 * updated examples, documentation, unittests, and fixed some bugs
+
 
 Version 0.0.3
 -------------
@@ -33,6 +35,7 @@ Version 0.0.2
 * some code cleanup
 * added to unittests
 * improved documentation and template script
+
 
 Version 0.0.1
 -------------

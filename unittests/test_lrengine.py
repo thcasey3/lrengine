@@ -379,40 +379,29 @@ class startTester(unittest.TestCase):
         )
 
         lrobject = start()
-        lrobject.map_directory(directory=self.path)
-        lrobject.map_to_frame()
-        self.assertEqual(len(lrobject.frame), 5)
-        new = lrobject.map_to_frame(kind="files", to_frame=False)
-        self.assertEqual(len(lrobject.frame), 5)
-        self.assertEqual(len(new), 4)
-        with self.assertRaises(ValueError):
-            lrobject.map_to_frame(depth=1, kind="files", to_frame=True)
+        lrobject.directory_map = {
+            "test_red": ["r", "re", "rd", "ed"],
+            "test_blue": ["b", "bl", "blu"],
+            "test_green": ["g", "gr"],
+            "test_red/maroon": ["r", "re", "rd", "ed"],
+            "test_blue/navy/sky": ["b", "bl", "blu"],
+            "test_green/winter/neon/forest": ["g", "gr"],
+        }
+        self.assertEqual(len(lrobject.frame), 0)
+        lrobject.map_to_frame(depth=2, kind="folders", to_frame=True)
+        self.assertEqual(len(lrobject.frame), 1)
+        new = lrobject.map_to_frame(depth=1, kind="files", to_frame=False)
+        self.assertEqual(len(new), 9)
+        new = lrobject.map_to_frame(depth=3, kind="files", to_frame=False)
+        self.assertEqual(len(new), 3)
+        lrobject.map_to_frame(depth=4, kind="any", to_frame=True)
+        self.assertEqual(len(lrobject.frame), 2)
 
-        lrobject.map_directory(directory="./")
-        len_map1 = [
-            len(lrobject.directory_map[x])
-            for x in lrobject.directory_map.keys()
-            if ".DS_Store" in lrobject.directory_map[x]
-        ]
-        self.assertTrue(sum(len_map1) != 0)
-        lrobject.map_to_frame(depth=3, kind="folders", to_frame=True)
-        self.assertEqual(len(lrobject.frame), 9)
-        lrobject.map_to_frame(depth=[1], kind="any", to_frame=True)
-        len1 = len(lrobject.frame)
-        self.assertTrue(len1 > 0)
-        new = lrobject.map_to_frame(depth=[1, 2, 3], kind="any", to_frame=False)
-        self.assertTrue(len(lrobject.frame) != len(new))
-        len2 = len(new)
-        self.assertTrue(len2 > 0)
-        self.assertTrue(len2 > len1)
-
-        lrobject.map_directory(directory="./", skip=".DS_Store")
-        len_map2 = [
-            len(lrobject.directory_map[x])
-            for x in lrobject.directory_map.keys()
-            if ".DS_Store" in lrobject.directory_map[x]
-        ]
-        self.assertTrue(sum(len_map2) == 0)
+        lrobject.map_directory("./data", skip="short")
+        self.assertEqual(len(lrobject.directory_map.keys()), 1)
+        self.assertEqual(
+            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 2
+        )
 
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
