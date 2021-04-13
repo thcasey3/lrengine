@@ -394,10 +394,11 @@ class startTester(unittest.TestCase):
         lrobject.map_to_frame(depth=[1], kind="any", to_frame=True)
         len1 = len(lrobject.frame)
         self.assertTrue(len1 > 0)
-        lrobject.map_to_frame(depth=[1, 2, 3], kind="any", to_frame=True)
-        len2 = len(lrobject.frame)
+        new = lrobject.map_to_frame(depth=[1, 2, 3], kind="any", to_frame=False)
+        self.assertTrue(len(lrobject.frame) != len(new))
+        len2 = len(new)
         self.assertTrue(len2 > 0)
-        self.assertTrue(len1 < len2)
+        self.assertTrue(len2 > len1)
 
         with self.assertRaises(ValueError):
             self.start_result.map_directory(only_hidden=True)
