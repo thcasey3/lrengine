@@ -196,16 +196,18 @@ class start:
                 raise TypeError("depth must be single int or list of int")
             new_names = []
             if depth is None and kind == "folders":
-                new_names = self.directory_map.keys()
+                new_names = [os.path.normpath(x) for x in self.directory_map.keys()]
             elif isinstance(depth, list) and kind == "folders":
                 new_names = [
-                    x for x in self.directory_map.keys() if x.count(os.sep) in depth
+                    os.path.normpath(x)
+                    for x in self.directory_map.keys()
+                    if x.count(os.sep) in depth
                 ]
             elif kind == "files" or kind == "any":
                 temp = []
                 for x in self.directory_map.keys():
                     if kind == "any":
-                        temp.append(x)
+                        temp.append(os.path.normpath(x))
                     for y in self.directory_map[x]:
                         temp.append(os.path.normpath(os.path.join(x, y)))
                 if isinstance(depth, list):
