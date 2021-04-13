@@ -398,7 +398,6 @@ class startTester(unittest.TestCase):
         self.assertEqual(len(lrobject.frame), 2)
 
         lrobject.map_directory(self.path, skip="short")
-        print(lrobject.directory_map)
         self.assertEqual(len(lrobject.directory_map.keys()), 1)
         self.assertEqual(
             len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 3
