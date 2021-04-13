@@ -1378,6 +1378,8 @@ class pattern_injectors:
     def __init__(self, lrdata):
 
         if lrdata.patterns:
+            if isinstance(lrdata.patterns, str):
+                lrdata.patterns = [lrdata.patterns]
             self._look_for_patterns(lrdata)
 
     def _look_for_patterns(self, lrdata):
@@ -1426,15 +1428,16 @@ class patterns_filter:
 
     def __init__(self, lrdata, remove=None, keep=None):
 
+        if isinstance(remove, str):
+            remove = [remove]
+        if isinstance(keep, str):
+            keep = [keep]
+
         self._take_out_names(lrdata, remove=remove, keep=keep)
 
     def _take_out_names(self, lrdata, remove, keep):
 
         if remove is not None or keep is not None:
-            if isinstance(remove, str):
-                remove = [remove]
-            if isinstance(keep, str):
-                keep = [keep]
             keep_indx = []
             for indx, subdir in enumerate(lrdata.frame["name"]):
                 if remove is not None and keep is None:
