@@ -9,7 +9,7 @@ from numpy.testing import assert_array_equal
 
 class startTester(unittest.TestCase):
     def setUp(self):
-        self.path = "./data/"
+        self.path = os.path.normpath("./data/")
         self.subd = os.listdir(self.path)
         self.meas = ["meas1", "meas2"]
         self.patt = ["patt1", "patt2"]
@@ -370,12 +370,37 @@ class startTester(unittest.TestCase):
         self.start_result.reduce_dates(strip_zeros=True)
         self.assertEqual(len(self.start_result.frame), 1)
 
-    def test_f_map_directory_method(self):
+    def test_f_map_directory_methods(self):
 
         self.start_result.map_directory()
         self.assertTrue(
             self.start_result.directory_map[self.start_result.directory].__contains__,
             "example.csv",
+        )
+
+        lrobject = start()
+        lrobject.directory_map = {
+            "test_red": ["r", "re", "rd", "ed"],
+            "test_blue": ["b", "bl", "blu"],
+            "test_green": ["g", "gr"],
+            os.path.join("test_red", "maroon"): ["r", "re", "rd", "ed"],
+            os.path.join("test_blue", "navy", "sky"): ["b", "bl", "blu"],
+            os.path.join("test_green", "winter", "neon", "forest"): ["g", "gr"],
+        }
+        self.assertEqual(len(lrobject.frame), 0)
+        lrobject.map_to_frame(depth=2, kind="folders", to_frame=True)
+        self.assertEqual(len(lrobject.frame), 1)
+        new = lrobject.map_to_frame(depth=1, kind="files", to_frame=False)
+        self.assertEqual(len(new), 9)
+        new = lrobject.map_to_frame(depth=3, kind="files", to_frame=False)
+        self.assertEqual(len(new), 3)
+        lrobject.map_to_frame(depth=4, kind="any", to_frame=True)
+        self.assertEqual(len(lrobject.frame), 2)
+
+        lrobject.map_directory(self.path, skip=["short", ".DS_Store"])
+        self.assertEqual(len(lrobject.directory_map.keys()), 1)
+        self.assertEqual(
+            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 2
         )
 
         with self.assertRaises(ValueError):
@@ -397,20 +422,20 @@ class startTester(unittest.TestCase):
             self.start_result.save(filename=100)
 
         if "utest.csv" in os.listdir(self.path):
-            os.remove(self.path + "utest.csv")
+            os.remove(os.path.join(self.path, "utest.csv"))
 
         self.start_result.save(filename=os.path.join(self.path, "utest"))
         self.assertTrue("utest.csv" in os.listdir(self.path))
 
-        os.remove(self.path + "utest.csv")
+        os.remove(os.path.join(self.path, "utest.csv"))
 
         self.start_result.save(filename=os.path.join(self.path, "utest.csv"))
         self.assertTrue("utest.csv" in os.listdir(self.path))
         self.assertFalse("utest.csv.csv" in os.listdir(self.path))
-        os.remove(self.path + "utest.csv")
+        os.remove(os.path.join(self.path, "utest.csv"))
 
         if "utest.csv.csv" in os.listdir(self.path):
-            os.remove(self.path + "utest.csv.csv")
+            os.remove(os.path.join(self.path, "utest.csv.csv"))
 
         if str(date.today()) + "_DataFrame.csv" in os.listdir(self.path):
             os.remove(os.path.join(self.path, str(date.today()) + "_DataFrame.csv"))

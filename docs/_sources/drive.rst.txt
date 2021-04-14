@@ -38,10 +38,14 @@ Call the **drive()** method
 
 and two new columns would be added called "output1" and "output2" with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.
 
-If the custom function errors, for example if it tries to operate on a file/folder in the path that is not compatible, it will return the string "null" for the classifier. This can be useful for avoiding tedious reorganizing of directories. Simply run **lrobject.drive()**, collect a frame full of successful runs or "null", then use something like,
+
+Handling Errors
+===============
+
+If the custom function errors, for example if it tries to operate on a file/folder in the path that is not compatible, it will return the string "null" for the classifier. This can be useful for avoiding tedious reorganizing of directories. Simply run **lrobject.drive()**, collect a frame full of successful runs or "null", then use something similar to,
 
 .. code-block:: python
 
-    lrobject.frame = lrobject.frame[lrobject.frame['par1'] != 'null']
+    lrobject.frame = lrobject.frame[lrobject.frame['output1'] != 'null']
 
 to reduce the frame to only compatible files/folders.

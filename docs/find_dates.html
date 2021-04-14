@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Reduce the Date Lists" href="reduce_dates.html" />
-    <link rel="prev" title="Reduce the Frame Using Patterns" href="reduce_names.html" /> 
+    <link rel="prev" title="Reduce the Frame using Patterns" href="reduce_names.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.4
+                0.0.5
               </div>
             
           
@@ -98,13 +98,18 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
-<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame Using Patterns</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Finding Dates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Finding Dates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#find-dates-method">Find Dates Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#allowed-formats">Allowed Formats</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_dates.html">Reduce the Date Lists</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Date Range</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
-<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="map_to_frame.html">Create Frame from directory_map</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
@@ -203,6 +208,8 @@
                     <span class="n">date_format</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;YYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
+<div class="section" id="find-dates-method">
+<h2>Find Dates Method<a class="headerlink" href="#find-dates-method" title="Permalink to this headline">¶</a></h2>
 <p>You can also modify an existing object to include dates or change to a different format using the <strong>find_dates()</strong> method. For example, change the <strong>date_format</strong> then update the dates information,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="s1">&#39;YYYY-MM-DD&#39;</span>
 <span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
@@ -213,11 +220,15 @@
 <span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="allowed-formats">
+<h2>Allowed Formats<a class="headerlink" href="#allowed-formats" title="Permalink to this headline">¶</a></h2>
 <p>The currently supported date_format options are,</p>
 <ul class="simple">
 <li><p>All possible combinations of four or two digit years, two or one digit months, and two or one digit days; with or without '-', '_', '/', ':', or ';' included. For example, any of these can be found: <strong>'YYYYMMDD'</strong>, <strong>'YYMD'</strong>, <strong>'DD-MM-YY'</strong>, <strong>'DMYY'</strong>, <strong>'DD:MM:YYYY'</strong>, <strong>'D/M/YYYY'</strong>, etc.</p></li>
 <li><p><strong>'any'</strong> will try all of the formats described above and give a list of all that are found if more than one</p></li>
 </ul>
+</div>
 </div>
 
 
@@ -231,7 +242,7 @@
         <a href="reduce_dates.html" class="btn btn-neutral float-right" title="Reduce the Date Lists" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="reduce_names.html" class="btn btn-neutral float-left" title="Reduce the Frame Using Patterns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="reduce_names.html" class="btn btn-neutral float-left" title="Reduce the Frame using Patterns" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

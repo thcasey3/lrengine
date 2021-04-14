@@ -37,37 +37,45 @@ class start:
         function_args=None,
     ):
 
-        self.directory = directory
-        self.patterns = patterns
-        self.skip = skip
-        self.date_format = date_format
-        self.classifiers = classifiers
-        self.function = function
-        self.function_args = function_args
-        self.frame = pd.DataFrame({})
-
-        if os.path.isfile(directory) and ".csv" in directory:
-            self.check_file(self.directory)
-            self.sub_directories = []
+        if directory is None:
+            self.frame = pd.DataFrame({})
+            self._empty_object()
         else:
-            self.sub_directories = os.listdir(self.directory)
-            self.check_directory(self.directory)
-            self.check_lists(self.patterns, "patterns")
-            self.check_lists(self.skip, "skip")
-            self.check_lists(self.classifiers, "classifiers")
-            self.check_function(self.function)
+            self.directory = os.path.normpath(directory)
+            self.patterns = patterns
+            self.skip = skip
+            self.date_format = date_format
+            self.classifiers = classifiers
+            self.function = function
+            self.function_args = function_args
+            self.frame = pd.DataFrame({})
 
-        if date_format:
-            self.check_date_format(date_format)
+            if os.path.isfile(directory) and ".csv" in directory:
+                self.check_file(self.directory)
+                self.sub_directories = []
+            else:
+                self.sub_directories = os.listdir(self.directory)
+                self.check_directory(self.directory)
+                self.check_lists(self.patterns, "patterns")
+                self.check_lists(self.skip, "skip")
+                self.check_lists(self.classifiers, "classifiers")
+                self.check_function(self.function)
 
-        self._checks_passed()
+            if date_format:
+                self.check_date_format(date_format)
 
-        if self.date_format:
-            intake.date_injectors(self)
-        if self.patterns:
-            intake.pattern_injectors(self)
-        if self.skip:
-            intake.patterns_filter(self, remove=self.skip)
+            self._checks_passed()
+
+            if self.date_format:
+                intake.date_injectors(self)
+            if self.patterns:
+                intake.pattern_injectors(self)
+            if self.skip:
+                intake.patterns_filter(self, remove=self.skip)
+
+    def _empty_object(self):
+        lrdata = {"frame": self.frame}
+        return lrdata
 
     def _checks_passed(self):
 
@@ -106,16 +114,29 @@ class start:
 
     def map_directory(
         self,
+        directory=None,
         skip=[],
         skip_empty=True,
         skip_hidden=True,
         only_hidden=False,
         walk_topdown=True,
     ):
+        if not hasattr(self, "directory") and directory is not None:
+            self.directory = os.path.normpath(directory)
+        elif hasattr(self, "directory") and directory is not None:
+            raise TypeError(
+                "Your object contains a directory, and you've given another directory. Please choose one by setting the attribute 'directory' to the directory you wish to map, and do not inlcude the directory keyword arg"
+            )
+        elif not hasattr(self, "directory") and directory is None:
+            raise ValueError("No directory given to map!")
+
+        if isinstance(skip, str):
+            skip = [skip]
 
         if os.path.isdir(self.directory):
             self.directory_map = {}
             for root, dirs, files in os.walk(self.directory, topdown=walk_topdown):
+                root = os.path.normpath(root)
                 if root == self.directory:
                     self.directory_map[root] = files
                 else:
@@ -123,9 +144,9 @@ class start:
 
             skip_list = []
             if only_hidden:
-                for ky in self.directory_map.keys():
-                    if not ky == "":
-                        skip_list.append(ky)
+                for x in self.directory_map.keys():
+                    if not x == "":
+                        skip_list.append(x)
                 if len(skip_list) == len(self.directory_map.keys()):
                     raise ValueError("No hidden directories were found")
             else:
@@ -135,13 +156,20 @@ class start:
                     except KeyError:
                         pass
 
-                for ky in self.directory_map.keys():
+                for x in self.directory_map.keys():
                     if skip_empty:
-                        if len(self.directory_map[ky]) == 0:
-                            skip_list.append(ky)
+                        if len(self.directory_map[x]) == 0:
+                            skip_list.append(x)
                     if skip:
-                        if any(map(ky.__contains__, skip)):
-                            skip_list.append(ky)
+                        if any(map(x.__contains__, skip)):
+                            skip_list.append(x)
+                        else:
+                            temp = [
+                                y
+                                for y in self.directory_map[x]
+                                if not any(map(y.__contains__, skip))
+                            ]
+                            self.directory_map[x] = temp
 
             skip_list = set(skip_list)
 
@@ -152,6 +180,71 @@ class start:
 
         else:
             raise TypeError("This is not a path to a directory")
+
+    def map_to_frame(self, depth=None, kind="any", to_frame=True):
+
+        if hasattr(self, "directory_map"):
+            if isinstance(depth, int):
+                depth = [depth]
+            if (
+                depth is not None
+                and not isinstance(depth, list)
+                and not any([isinstance(x, int) for x in depth])
+            ):
+                raise TypeError("depth must be single int or list of int")
+            new_names = []
+            if depth is None and kind == "folders":
+                new_names = [os.path.normpath(x) for x in self.directory_map.keys()]
+            elif depth == [0]:
+                new_names = self.directory_map[list(self.directory_map.keys())[0]]
+            elif isinstance(depth, list) and kind == "folders":
+                new_names = [
+                    os.path.normpath(x)
+                    for x in self.directory_map.keys()
+                    if x.count(os.sep) in depth
+                ]
+            elif kind == "files" or kind == "any":
+                temp = []
+                for x in self.directory_map.keys():
+                    if kind == "any":
+                        temp.append(os.path.normpath(x))
+                    for y in self.directory_map[x]:
+                        temp.append(os.path.normpath(os.path.join(x, y)))
+                if isinstance(depth, list):
+                    for t in temp:
+                        if 0 in depth:
+                            new_names = [
+                                x
+                                for x in self.directory_map[
+                                    list(self.directory_map.keys())[0]
+                                ]
+                            ]
+                            depth.pop(0)
+                        if t.count(os.sep) in depth:
+                            new_names.append(t)
+                elif depth is None:
+                    new_names = temp
+
+            if new_names:
+                if hasattr(self, "directory") and depth != [0]:
+                    new_names = [
+                        x.replace(self.directory, "").strip(os.sep) for x in new_names
+                    ]
+
+                frame = pd.DataFrame(new_names, columns=["name"])
+
+                if to_frame:
+                    self.frame = frame
+
+                return frame
+            else:
+                raise ValueError(
+                    "The given options would return an empty directory_map"
+                )
+        else:
+            raise TypeError(
+                "You must map_directory() first in order to use the map_to_frame() method"
+            )
 
     def sea(self, kind="relplot", seaborn_args={}):
 

@@ -37,6 +37,9 @@ Or just look for any of three formats,
                         date_format=['YYYYMMDD', 'YYMMDD', 'MMDDYYYY'])
 
 
+Find Dates Method
+=================
+
 You can also modify an existing object to include dates or change to a different format using the **find_dates()** method. For example, change the **date_format** then update the dates information,
 
 .. code-block:: python
@@ -51,6 +54,9 @@ You may use lists here as well,
     lrobject.date_format = ['YYYY-MM-DD', 'YY-MM-DD']
     lrobject.find_dates()
 
+
+Allowed Formats
+===============
 
 The currently supported date_format options are,
 
