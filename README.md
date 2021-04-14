@@ -1,7 +1,7 @@
 # lrengine - classify by dates and names
 
 [![https://thcasey3.github.io/lrengine/](https://img.shields.io/pypi/v/lrengine)](https://pypi.org/project/lrengine/)
-[![Website](https://img.shields.io/website?down_message=offline&label=Documentation&up_message=online&<https://thcasey3.github.io/lrengine/index>)](https://thcasey3.github.io/lrengine/)
+[![Website](https://img.shields.io/website?down_message=offline&label=Documentation&up_message=online&url=<https://thcasey3.github.io/lrengine/index.html>)](https://thcasey3.github.io/lrengine/)
 
 lrengine is an open-source Python package for correlating dates and specific language patterns in file and folder names either with eachother or with outputs of a user supplied function. 
 
