@@ -65,7 +65,6 @@ There is also an option to keep or remove any elements with 0 for date using the
 
 .. code-block:: python
 
-    lrobject.reduce_dates(remove='YYYYMMDD') #keeps date=0 elements
+    lrobject.reduce_dates(remove='YYYYMMDD') #keeps where date=0
     lrobject.reduce_dates(remove='YYYYMMDD', 
-                          strip_zeros=True)  #removes date=0 elements
-
+                          strip_zeros=True)  #removes where date=0

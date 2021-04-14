@@ -2,7 +2,7 @@
 Defining Patterns
 =================
 
-You may define patterns to classify by. 
+You may extract language patterns from file and folder names to use as classifiers. 
 
 Using str or list
 =================

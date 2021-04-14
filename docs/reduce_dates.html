@@ -224,9 +224,9 @@
 <div class="section" id="remove-zeros">
 <h2>Remove Zeros<a class="headerlink" href="#remove-zeros" title="Permalink to this headline">¶</a></h2>
 <p>There is also an option to keep or remove any elements with 0 for date using the keyword arg <strong>strip_zeros=</strong>. Default is <strong>strip_zeros=False</strong> for <strong>reduce_dates()</strong>.  For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#keeps date=0 elements</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#keeps where date=0</span>
 <span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
-                      <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#removes date=0 elements</span>
+                      <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#removes where date=0</span>
 </pre></div>
 </div>
 </div>

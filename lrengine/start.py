@@ -195,6 +195,8 @@ class start:
             new_names = []
             if depth is None and kind == "folders":
                 new_names = [os.path.normpath(x) for x in self.directory_map.keys()]
+            elif depth == [0]:
+                new_names = self.directory_map[list(self.directory_map.keys())[0]]
             elif isinstance(depth, list) and kind == "folders":
                 new_names = [
                     os.path.normpath(x)
@@ -210,16 +212,23 @@ class start:
                         temp.append(os.path.normpath(os.path.join(x, y)))
                 if isinstance(depth, list):
                     for t in temp:
+                        if 0 in depth:
+                            new_names = [
+                                x
+                                for x in self.directory_map[
+                                    list(self.directory_map.keys())[0]
+                                ]
+                            ]
+                            depth.pop(0)
                         if t.count(os.sep) in depth:
                             new_names.append(t)
                 elif depth is None:
                     new_names = temp
 
             if new_names:
-                if hasattr(self, "directory"):
+                if hasattr(self, "directory") and depth != [0]:
                     new_names = [
-                        x.replace(self.directory, "").replace(os.sep, "")
-                        for x in new_names
+                        x.replace(self.directory, "").strip(os.sep) for x in new_names
                     ]
 
                 frame = pd.DataFrame(new_names, columns=["name"])

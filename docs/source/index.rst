@@ -42,8 +42,12 @@ Features
 * Add classifiers using a custom function that processes contents of a parent directory
 * Visualize correlations between function outputs, dates, and language in file and folder names
 
+
+Guide
+=====
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    install
    introduction

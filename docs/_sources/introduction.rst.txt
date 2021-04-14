@@ -2,7 +2,7 @@
 Introduction to lrengine
 ========================
 
-The aim of lrengine is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names. Users can also define a function that operates on those files and/or folders and adds additional columns for **classifiers** returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.
+The aim of lrengine is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.
 
 General Overview
 ================
@@ -40,7 +40,7 @@ You may define patterns to use for classification. If a single pattern or list o
 
     path = '/path/to/directory/'
     lrobject = lr.start(path, patterns='sample1') # single pattern
-    lrobject = lr.start(path, patterns=['sample1', 'sample2', 'sample3']) # OR list of patterns
+    lrobject = lr.start(path, patterns=['sample1', 'sample2', 'sample3']) # list of patterns
 
 You may also use regular expressions to do more sophisticated pattern searches and classify by specific language rather than bool. To do this, use a dictionary rather than a list. The keys of the dict are the column names, the values are the expression to search for and classify by. This example creates a column called 'sample' and classifies by any one digit number found just to the right of the word 'sample',
 
