@@ -14,9 +14,19 @@ Or, consider a depth of three relative to the parent directory, accept only fold
 
     frame = lrobject.map_to_frame(depth=3, kind='folders', to_frame=False)
 
+
+Multiple Depths
+===============
+
 You may also consider multiple depths. For example, consider depths of one or four relative to the parent directory, accept only files, and replace the **frame** in the start object,
 
 .. code-block:: python
 
     lrobject.map_to_frame(depth=[1, 4], kind='files')
+
+
+Zero Depth
+==========
+
+If you set **depth=0**, this will return only files from the parent directory regardless of the **kind** that is set. To return only the folders that are in the parent directory, set **depth=1** and **kind='folders'**. To return files and folders that are in the parent directory use a list for depth, **depth=[0, 1]**, and set **kind='any'**.
 

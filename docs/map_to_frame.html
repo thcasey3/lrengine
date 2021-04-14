@@ -104,7 +104,11 @@
 <li class="toctree-l1"><a class="reference internal" href="narrow_dates.html">Narrow the Dates</a></li>
 <li class="toctree-l1"><a class="reference internal" href="drive.html">Call a Custom Function</a></li>
 <li class="toctree-l1"><a class="reference internal" href="map_directory.html">Map a Directory</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Frame from directory_map</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Create Frame from directory_map</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#multiple-depths">Multiple Depths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zero-depth">Zero Depth</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
@@ -186,9 +190,16 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;folders&#39;</span><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="section" id="multiple-depths">
+<h2>Multiple Depths<a class="headerlink" href="#multiple-depths" title="Permalink to this headline">¶</a></h2>
 <p>You may also consider multiple depths. For example, consider depths of one or four relative to the parent directory, accept only files, and replace the <strong>frame</strong> in the start object,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;files&#39;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="zero-depth">
+<h2>Zero Depth<a class="headerlink" href="#zero-depth" title="Permalink to this headline">¶</a></h2>
+<p>If you set <strong>depth=0</strong>, this will return only files from the parent directory regardless of the <strong>kind</strong> that is set. To return only the folders that are in the parent directory, set <strong>depth=1</strong> and <strong>kind='folders'</strong>. To return files and folders that are in the parent directory use a list for depth, <strong>depth=[0, 1]</strong>, and set <strong>kind='any'</strong>.</p>
 </div>
 </div>
 

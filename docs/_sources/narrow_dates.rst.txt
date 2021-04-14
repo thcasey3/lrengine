@@ -69,13 +69,13 @@ There is also an option to remove or keep any elements with 0 for date using the
 
 .. code-block:: python
 
-    lrobject.on_date(keep="1985-08-02")                    #removes date=0 elements
-    lrobject.on_date(keep="1985-08-02", strip_zeros=False) #keeps date=0 elements
+    lrobject.on_date(keep="1985-08-02")                    #removes where date=0
+    lrobject.on_date(keep="1985-08-02", strip_zeros=False) #keeps where date=0
 
 And,
 
 .. code-block:: python
 
-    lrobject.in_range(keep=["1985-08-01", "1985-09-01"])   #removes date=0
+    lrobject.in_range(keep=["1985-08-01", "1985-09-01"])   #removes where date=0
     lrobject.in_range(keep=["1985-08-01", "1985-09-01"], 
-                      strip_zeros=False)                   #keeps date=0
+                      strip_zeros=False)                   #keeps where date=0

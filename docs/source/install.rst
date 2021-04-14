@@ -36,6 +36,7 @@ To install the required packages with pip use the command:
 
 Installing with pip
 ===================
+Use the command:
 
 .. code-block:: bash
 
@@ -44,7 +45,7 @@ Installing with pip
 
 Confirm Successful Installation
 ===============================
-To confirm that your installation use the following command:
+Use the command:
 
 .. code-block:: bash
 
