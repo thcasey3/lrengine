@@ -32,4 +32,4 @@ pip install lrengine
 
 # Developement 
 
-  - Clone the git repository from https://github.com/thcasey3/lrengine/tree/master
+  - Clone the git repository from https://github.com/thcasey3/lrengine/tree/development
