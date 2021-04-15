@@ -22,7 +22,7 @@ Welcome to lrengine
 ===================
 |pypi| |GitHub| |IssuesTracker| |linkedin|
 
-lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names with eachother and with outputs of a user supplied function. 
+**lrengine** is an open-source Python package for correlating dates and specific language patterns within file and folder names with each other and with outputs of user-supplied functions. 
 
 Features
 ========
