@@ -38,11 +38,28 @@ Call the **drive()** method
 
 and two new columns would be added called "output1" and "output2" with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.
 
+You may also define the **classifiers**, **function**, and **function_args** in the call to **.drive()**. This will add to the **start** object if these attributes do not already exist, or will re-define them. For example, the following is equivalent to above,  
+
+.. code-block:: python
+
+    import lrengine as lr
+
+    lrobject = lr.start(path,
+                        patterns={'sample': '\d\d'}, 
+                        skip='sample7', 
+                        date_format='any'
+                        )
+
+    lrobject.drive(classifiers=['output1', 'output2'],
+                   function=function_handle,
+                   function_args={'par1': 1, 'par2': 2}
+                   )
+
 
 Handling Errors
 ===============
 
-If the custom function errors, for example if it tries to operate on a file/folder in the path that is not compatible, it will return the string "null" for the classifier. This can be useful for avoiding tedious reorganizing of directories. Simply run **lrobject.drive()**, collect a frame full of successful runs or "null", then use something similar to,
+If the custom function gives an error, for example if it tries to operate on a file/folder in the path that is not compatible, it will return the string "null" for the classifier. This can be useful for avoiding tedious reorganizing of directories. Simply run **lrobject.drive()**, collect a frame full of successful runs or "null", then use something similar to,
 
 .. code-block:: python
 

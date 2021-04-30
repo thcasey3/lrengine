@@ -19,7 +19,10 @@ class cylinders:
 
     def __init__(self, lrdata):
 
-        if not isinstance(lrdata.function_args, dict):
+        if (
+            not isinstance(lrdata.function_args, dict)
+            and lrdata.function_args is not None
+        ):
             raise TypeError("function_args must be a dictionary")
 
         if (lrdata.function is not None) and (lrdata.classifiers is not None):
