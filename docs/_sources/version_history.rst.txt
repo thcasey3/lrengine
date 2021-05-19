@@ -2,8 +2,13 @@
 Version History
 ===============
 
-Version 0.0.5
+Version 0.0.6
 =============
+* Added ability to define classifiers and arguments in drive() call
+
+
+Version 0.0.5
+-------------
 * Added map_to_frame() method
 * bug fixes, updated docs, updated unittests
 
