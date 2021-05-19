@@ -13,14 +13,11 @@
 .. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-red?style=flat-square
     :target: https://github.com/thcasey3/lrengine/issues
 
-.. |linkedin| image:: https://img.shields.io/badge/Author-LinkedIn-blue?style=flat-square
-    :target: https://linkedin.com/in/thcasey3
-
 
 ===================
 Welcome to lrengine
 ===================
-|pypi| |GitHub| |IssuesTracker| |linkedin|
+|pypi| |GitHub| |IssuesTracker|
 
 **lrengine** is an open-source Python package for correlating dates and specific language patterns within file and folder names with each other and with outputs of user-supplied functions. 
 

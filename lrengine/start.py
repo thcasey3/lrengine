@@ -103,11 +103,20 @@ class start:
 
         return lrdata
 
-    def drive(self):
+    def drive(self, classifiers=None, function=None, function_args=None):
+
+        if classifiers is not None:
+            self.classifiers = classifiers
+
+        if function is not None:
+            self.function = function
+
+        if function_args is not None:
+            self.function_args = function_args
 
         if not self.function:
             raise TypeError(
-                "this object was created from a csv, the .run() method is not allowed"
+                "this object does not have a function, the .drive() method is not allowed"
             )
         else:
             return engine.cylinders(self)
