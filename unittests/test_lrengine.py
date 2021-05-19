@@ -92,6 +92,13 @@ class startTester(unittest.TestCase):
         self.assertEqual(self.start_result.frame.columns[5], "meas1")
         self.assertEqual(self.start_result.frame.columns[6], "meas2")
 
+        result = start(self.path)
+        result.drive(
+            classifiers=["new1", "new2"], function=self.func, function_args=self.farg
+        )
+        self.assertEqual(result.frame.columns[1], "new1")
+        self.assertEqual(result.frame.columns[2], "new2")
+
         self.start_result.function = tools.utest2.proc_epr
         self.start_result.drive()
         self.assertTrue([x == "null" for x in self.start_result.frame["meas1"]])

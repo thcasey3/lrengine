@@ -7,10 +7,10 @@
 .. |pypi| image:: https://img.shields.io/pypi/v/lrengine.svg?style=flat-square
     :target: https://pypi.org/project/lrengine/
 
-.. |GitHub| image:: https://img.shields.io/badge/GitHub-dev-blue?style=flat-square
+.. |GitHub| image:: https://img.shields.io/badge/GitHub-development-blue?style=flat-square
     :target: https://github.com/thcasey3/lrengine/tree/development
 
-.. |IssuesTracker| image:: https://img.shields.io/badge/Issues-tracker-red?style=flat-square
+.. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-red?style=flat-square
     :target: https://github.com/thcasey3/lrengine/issues
 
 
@@ -19,7 +19,7 @@ Welcome to lrengine
 ===================
 |pypi| |GitHub| |IssuesTracker|
 
-lrengine is an open-source Python package for correlating dates and specific language patterns within file and folder names with eachother and with outputs of a user supplied function. 
+**lrengine** is an open-source Python package for correlating dates and specific language patterns within file and folder names with each other and with outputs of user-supplied functions. 
 
 Features
 ========
@@ -53,3 +53,5 @@ Guide
    planned
    version_history
 
+
+Documentation Build Date: |date|
