@@ -191,13 +191,14 @@
 <p>The <strong>map_directory()</strong> method can also deal with hidden or empty directories, and you may also toggle the <strong>os.walk</strong> topdown option. The available arguments are:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">map_directory</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                   <span class="n">skip</span><span class="o">=</span><span class="p">[],</span>
-                  <span class="n">skip_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">skip_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">skip_hidden</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="n">only_hidden</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                   <span class="n">walk_topdown</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                   <span class="p">):</span>
 </pre></div>
 </div>
+<p>The default behavior is to leave directories that do not contain files, but may contain sub-folders, in the directory_map. If <strong>skip_empty=</strong> is set to <strong>True</strong> the directory will be left out of the map if there are no files within, even if it contains sub-folders.</p>
 <p>If a <strong>start</strong> object is instantiated without a <strong>directory</strong> attribute, specify the directory to map using the keyword arg <strong>directory=</strong> to get the same behavior,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="s1">&#39;path/to/directory&#39;</span><span class="p">)</span>
 </pre></div>

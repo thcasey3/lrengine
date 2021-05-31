@@ -125,7 +125,7 @@ class start:
         self,
         directory=None,
         skip=[],
-        skip_empty=True,
+        skip_empty=False,
         skip_hidden=True,
         only_hidden=False,
         walk_topdown=True,

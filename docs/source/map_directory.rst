@@ -22,11 +22,14 @@ The **map_directory()** method can also deal with hidden or empty directories, a
 
     def map_directory(directory=None,
                       skip=[],
-                      skip_empty=True,
+                      skip_empty=False,
                       skip_hidden=True,
                       only_hidden=False,
                       walk_topdown=True,
                       ):
+
+
+The default behavior is to leave directories that do not contain files, but may contain sub-folders, in the directory_map. If **skip_empty=** is set to **True** the directory will be left out of the map if there are no files within, even if it contains sub-folders.
 
 If a **start** object is instantiated without a **directory** attribute, specify the directory to map using the keyword arg **directory=** to get the same behavior,
 
