@@ -167,7 +167,18 @@ class start:
 
                 for x in self.directory_map.keys():
                     if skip_empty:
-                        if len(self.directory_map[x]) == 0:
+                        if (
+                            len(self.directory_map[x]) == 0
+                            and len(
+                                [
+                                    dirs
+                                    for _, dirs, _ in os.walk(
+                                        os.path.join(self.directory + x)
+                                    )
+                                ][0]
+                            )
+                            == 0
+                        ):
                             skip_list.append(x)
                     if skip:
                         if any(map(x.__contains__, skip)):
