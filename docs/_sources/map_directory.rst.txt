@@ -22,11 +22,12 @@ The **map_directory()** method can also deal with hidden or empty directories, a
 
     def map_directory(directory=None,
                       skip=[],
-                      skip_empty=True,
+                      skip_empty=False,
                       skip_hidden=True,
                       only_hidden=False,
                       walk_topdown=True,
                       ):
+
 
 If a **start** object is instantiated without a **directory** attribute, specify the directory to map using the keyword arg **directory=** to get the same behavior,
 
