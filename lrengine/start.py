@@ -173,7 +173,10 @@ class start:
                                 [
                                     dirs
                                     for _, dirs, _ in os.walk(
-                                        os.path.join(self.directory + x)
+                                        os.path.normpath(
+                                            self.directory
+                                            + x.replace(self.directory, "")
+                                        )
                                     )
                                 ][0]
                             )
