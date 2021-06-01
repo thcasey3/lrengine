@@ -32,7 +32,7 @@ from datetime import datetime
 date = datetime.now().strftime(u"%m/%d/%Y, %H:%M:%S")
 
 # The short X.Y version
-version = u"0.0.6"
+version = u"0.0.7"
 
 print(u"Build Time: " + date)
 print(u"Version: " + version)
