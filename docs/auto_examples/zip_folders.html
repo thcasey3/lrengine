@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>lrengine Template &mdash; lrengine  documentation</title>
+  <title>zip folders &mdash; lrengine  documentation</title>
   
 
   
@@ -40,8 +40,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Han Lab ODNP data processing" href="han_lab.html" />
-    <link rel="prev" title="EPR data processing" href="process_EPR.html" /> 
+    <link rel="next" title="EPR data processing" href="process_EPR.html" />
+    <link rel="prev" title="lrengine Examples" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -109,9 +109,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">Classes</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">lrengine Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="zip_folders.html">zip folders</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">zip folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="process_EPR.html">EPR data processing</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">lrengine Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">lrengine Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="han_lab.html">Han Lab ODNP data processing</a></li>
 </ul>
 </li>
@@ -164,13 +164,13 @@
         
           <li><a href="index.html">lrengine Examples</a> &raquo;</li>
         
-      <li>lrengine Template</li>
+      <li>zip folders</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/auto_examples/template.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/auto_examples/zip_folders.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -185,75 +185,42 @@
             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-template-py"><span class="std std-ref">here</span></a>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-zip-folders-py"><span class="std std-ref">here</span></a>
 to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="lrengine-template">
-<span id="sphx-glr-auto-examples-template-py"></span><h1>lrengine Template<a class="headerlink" href="#lrengine-template" title="Permalink to this headline">¶</a></h1>
-<p>This Template serves as an example layout for a script using lrengine.</p>
-<p>Import lrengine and any other packages that may be needed for your function,</p>
+<div class="sphx-glr-example-title section" id="zip-folders">
+<span id="sphx-glr-auto-examples-zip-folders-py"></span><h1>zip folders<a class="headerlink" href="#zip-folders" title="Permalink to this headline">¶</a></h1>
+<p>This example demonstrates zipping the subfolders of a parent directory.</p>
+<p>Import lrengine, import shutil for creating the zip files, and import os for defining paths,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
-
-<span class="c1"># import numpy as np</span>
-<span class="c1"># etc.</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">os</span>
 </pre></div>
 </div>
-<p>Set the path to a parent directory,</p>
+<p>Set the path to a parent directory full of folders you would like to zip,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;../path/to/parent/directory&quot;</span>
 </pre></div>
 </div>
-<p>Define a function that accepts the parent directory and any additional arguments in the form of a dictionary and
-returns a list of outputs. The list must have a single value for each member of the list and have <strong>len()</strong>
-equal to the list of <strong>'classifiers'</strong> given during the creation of the <strong>start</strong> object below.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
-
-    <span class="c1"># insert code that acts on each file or sub-directory and makes output(s)</span>
-    <span class="c1"># output1 =</span>
-    <span class="c1"># output2 =</span>
-
-    <span class="k">return</span> <span class="p">[</span><span class="n">output1</span><span class="p">,</span> <span class="n">output2</span><span class="p">]</span>  <span class="c1"># make sure outputs are in a list</span>
-    <span class="c1"># len() outputs list must = len() classifiers list</span>
+<p>Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 and only consisting of folders. The means the names of the frame are a list of folders that are in the given path,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
+<span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;folders&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Create the <strong>start</strong> object,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span>
-    <span class="n">path</span><span class="p">,</span>
-    <span class="n">patterns</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># any patterns in the file or folder names to use as classifiers</span>
-    <span class="n">skip</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># any sub-strings in the names of file folders that should be skipped</span>
-    <span class="n">classifiers</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">&quot;output1&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;output2&quot;</span><span class="p">,</span>
-    <span class="p">],</span>  <span class="c1"># the column names corresponding to the function outputs</span>
-    <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>  <span class="c1"># complete the function above</span>
-    <span class="n">function_args</span><span class="o">=</span><span class="p">{},</span>  <span class="c1"># any arguments required by function_handle</span>
-    <span class="n">date_format</span><span class="o">=</span><span class="s2">&quot;YYYYMMDD&quot;</span><span class="p">,</span>  <span class="c1"># format of any date strings in the file or folder names</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-<p>Pass the <strong>start</strong> object to the user defined function to add classifiers to the <strong>.frame</strong>,
-then print the <strong>.head()</strong> of <strong>.frame</strong>,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
-</pre></div>
-</div>
-<p>Add a dictionary to the <strong>start</strong> object that is a map of the parent directory,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Create a seaborn.relplot correlating the two outputs. Replace <strong>'None'</strong> for hue with date_delta if it exists in
-your <strong>.frame</strong>, or maybe with a third output if you have more than two. The <strong>'seaborn_args'</strong> dictionary should have
-keys that are the arguments that would be given to <strong>seaborn.relplot</strong> and any allowed values according to <strong>seaborn.relplot</strong>
-documentation,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">sea</span><span class="p">(</span><span class="n">seaborn_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;output2&quot;</span><span class="p">,</span> <span class="s2">&quot;hue&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+<p>Loop over the names of the frame and create zip files from the corresponding directories,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">make_archive</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">name</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-template-py">
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-zip-folders-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/a8e7960d7e22f5dfa3f08b444c80d88c/template.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">template.py</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/09a24e613baee8e5356941cd53c8c16d/zip_folders.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">zip_folders.py</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/48f5b2de565d2bbd86b583bf6a124052/template.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">template.ipynb</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/50976222fd92ffdd6379d9b9fa5b1a20/zip_folders.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">zip_folders.ipynb</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -267,10 +234,10 @@ documentation,</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="han_lab.html" class="btn btn-neutral float-right" title="Han Lab ODNP data processing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="process_EPR.html" class="btn btn-neutral float-right" title="EPR data processing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="process_EPR.html" class="btn btn-neutral float-left" title="EPR data processing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="lrengine Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

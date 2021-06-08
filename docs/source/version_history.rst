@@ -2,8 +2,15 @@
 Version History
 ===============
 
-Version 0.0.6
+
+Version 0.0.7
 =============
+* Fixed bug that caused some folders to be missed when mapping directories
+* Improved handling of empty folders and hidden folders/files
+
+
+Version 0.0.6
+-------------
 * Added ability to define classifiers and arguments in drive() call
 
 
