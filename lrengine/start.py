@@ -125,7 +125,7 @@ class start:
         self,
         directory=None,
         skip=[],
-        skip_empty=True,
+        skip_empty=False,
         skip_hidden=True,
         only_hidden=False,
         walk_topdown=True,
@@ -154,20 +154,33 @@ class start:
             skip_list = []
             if only_hidden:
                 for x in self.directory_map.keys():
-                    if not x == "":
+                    name = os.path.basename(os.path.abspath(x))
+                    if not name.startswith("."):
                         skip_list.append(x)
                 if len(skip_list) == len(self.directory_map.keys()):
                     raise ValueError("No hidden directories were found")
             else:
-                if skip_hidden:
-                    try:
-                        self.directory_map.pop("")
-                    except KeyError:
-                        pass
-
                 for x in self.directory_map.keys():
+                    if skip_hidden:
+                        name = os.path.basename(os.path.abspath(x))
+                        if name.startswith("."):
+                            skip_list.append(x)
                     if skip_empty:
-                        if len(self.directory_map[x]) == 0:
+                        if (
+                            len(self.directory_map[x]) == 0
+                            and len(
+                                [
+                                    dirs
+                                    for _, dirs, _ in os.walk(
+                                        os.path.normpath(
+                                            self.directory
+                                            + x.replace(self.directory, "")
+                                        )
+                                    )
+                                ][0]
+                            )
+                            == 0
+                        ):
                             skip_list.append(x)
                     if skip:
                         if any(map(x.__contains__, skip)):

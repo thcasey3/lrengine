@@ -10,6 +10,27 @@ lrengine Examples
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates zipping the subfolders of a parent directory.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/images/thumb/sphx_glr_zip_folders_thumb.png
+     :alt: zip folders
+
+     :ref:`sphx_glr_auto_examples_zip_folders.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/zip_folders
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="An example user-defined function for processing EPR data with the DNPLab package.">
 
 .. only:: html
