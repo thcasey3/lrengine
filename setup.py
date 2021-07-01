@@ -13,7 +13,7 @@ setup(
     packages=setuptools.find_packages(),
     version=__version__,
     license="MIT",
-    description="lrengine - classify by dates and names",
+    description="lrengine - map, classify, frame",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Thomas Casey",

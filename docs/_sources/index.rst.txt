@@ -19,14 +19,15 @@ Welcome to lrengine
 ===================
 |pypi| |GitHub| |IssuesTracker|
 
-**lrengine** is an open-source Python package for correlating dates and specific language patterns within file and folder names with each other and with outputs of user-supplied functions. 
+**lrengine** is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
 
 Features
 ========
-* Organize DataFrames using dates and specific language in file and folder names
-* Find specific format date strings, or look for possible date strings, in file or folder names 
-* Add classifiers using a custom function that processes contents of a parent directory
-* Visualize correlations between function outputs, dates, and language in file and folder names
+* Create DataFrames that are maps of directories
+* Organize DataFrames using dates/language in file/folder names
+* Find possible dates in arbitrarily formatted file/folder names 
+* Construct DataFrames from a function that processes files/folders of a parent directory
+* Visualize correlations between dates/language in file/folder names and function outputs
 
 
 Guide

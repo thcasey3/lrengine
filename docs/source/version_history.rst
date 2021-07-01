@@ -3,8 +3,13 @@ Version History
 ===============
 
 
+Version 0.0.8
+-------------
+* Minor documentation cleanup
+
+
 Version 0.0.7
-=============
+-------------
 * Fixed bug that caused some folders to be missed when mapping directories
 * Improved handling of empty folders and hidden folders/files
 
