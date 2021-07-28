@@ -7,7 +7,7 @@ Version 1.0
 -----------
 * Rename to lsframe
 * Documentation cleanup
-* new 'max' default for depth of directory mapping
+* New 'max' default for depth of directory mapping
 
 
 Version 0.0.7

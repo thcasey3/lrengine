@@ -107,6 +107,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Create Frame from directory_map</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#multiple-depths">Multiple Depths</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#zero-depth">Zero Depth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maximum-depth">Maximum Depth</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
@@ -199,6 +200,10 @@
 <div class="section" id="zero-depth">
 <h2>Zero Depth<a class="headerlink" href="#zero-depth" title="Permalink to this headline">¶</a></h2>
 <p>If you set <strong>depth=0</strong>, this will return only files from the parent directory regardless of the <strong>kind</strong> that is set. To return only the folders that are in the parent directory, set <strong>depth=1</strong> and <strong>kind='folders'</strong>. To return files and folders that are in the parent directory use a list for depth, <strong>depth=[0, 1]</strong>, and set <strong>kind='any'</strong>.</p>
+</div>
+<div class="section" id="maximum-depth">
+<h2>Maximum Depth<a class="headerlink" href="#maximum-depth" title="Permalink to this headline">¶</a></h2>
+<p>The default depth setting is <strong>depth='max'</strong>. This will result in a dictionary that accounts for all folders and files under the parent directory.</p>
 </div>
 </div>
 

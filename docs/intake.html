@@ -187,11 +187,11 @@
 <span id="id1"></span><h1>intake<a class="headerlink" href="#intake" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="lsframe.intake.date_injectors">
-<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">date_injectors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lrdata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.date_injectors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">date_injectors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsdata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.date_injectors" title="Permalink to this definition">¶</a></dt>
 <dd><p>class for looking for dates in file or folder names</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lrdata</strong> (<em>start</em>) -- start object</p>
+<dd class="field-odd"><p><strong>lsdata</strong> (<em>start</em>) -- start object</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>updated start object</p>
@@ -201,12 +201,12 @@
 
 <dl class="py function">
 <dt id="lsframe.intake.dates_filter">
-<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">dates_filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lrdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strip_zeros</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">which</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.dates_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">dates_filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">only_unique</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strip_zeros</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">which</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.dates_filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>class for reducing dates lists from the &quot;all&quot; option</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lrdata</strong> (<em>start</em>) -- start object</p></li>
+<li><p><strong>lsdata</strong> (<em>start</em>) -- start object</p></li>
 <li><p><strong>remove</strong> (<em>str</em><em> or </em><em>list</em>) -- format(s) of dates to remove</p></li>
 <li><p><strong>keep</strong> (<em>str</em><em> or </em><em>list</em>) -- format(s) of dates to keep</p></li>
 <li><p><strong>only_unique</strong> (<em>bool</em>) -- keep or remove duplicate dates</p></li>
@@ -222,11 +222,11 @@
 
 <dl class="py function">
 <dt id="lsframe.intake.pattern_injectors">
-<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">pattern_injectors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lrdata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.pattern_injectors" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">pattern_injectors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsdata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.pattern_injectors" title="Permalink to this definition">¶</a></dt>
 <dd><p>class for looking for patterns in file or folder names</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lrdata</strong> (<em>start</em>) -- start object</p>
+<dd class="field-odd"><p><strong>lsdata</strong> (<em>start</em>) -- start object</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>updated start object</p>
@@ -236,12 +236,12 @@
 
 <dl class="py function">
 <dt id="lsframe.intake.patterns_filter">
-<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">patterns_filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lrdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.patterns_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">lsframe.intake.</span></code><code class="sig-name descname"><span class="pre">patterns_filter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lsdata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lsframe.intake.patterns_filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>class for filtering names based on patterns</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lrdata</strong> (<em>start</em>) -- start object</p></li>
+<li><p><strong>lsdata</strong> (<em>start</em>) -- start object</p></li>
 <li><p><strong>remove</strong> (<em>str</em><em> or </em><em>list</em>) -- pattern(s) to use to decide which names to remove</p></li>
 <li><p><strong>keep</strong> (<em>str</em><em> or </em><em>list</em>) -- pattern(s) to use to decide which names to keep</p></li>
 </ul>

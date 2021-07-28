@@ -11,28 +11,28 @@ class cylinders:
     class for interacting with a user-supplied functions
 
     Args:
-        lrdata (start): start object
+        lsdata (start): start object
 
     Returns:
         updated start object
     """
 
-    def __init__(self, lrdata):
+    def __init__(self, lsdata):
 
         if (
-            not isinstance(lrdata.function_args, dict)
-            and lrdata.function_args is not None
+            not isinstance(lsdata.function_args, dict)
+            and lsdata.function_args is not None
         ):
             raise TypeError("function_args must be a dictionary")
 
-        if (lrdata.function is not None) and (lrdata.classifiers is not None):
-            classifiers = self.run_function(lrdata)
-            classifiers = self.check_func_output(lrdata.classifiers, classifiers)
+        if (lsdata.function is not None) and (lsdata.classifiers is not None):
+            classifiers = self.run_function(lsdata)
+            classifiers = self.check_func_output(lsdata.classifiers, classifiers)
 
-            for indx1, meas_col in enumerate(lrdata.classifiers):
-                lrdata.frame[meas_col] = ""
+            for indx1, meas_col in enumerate(lsdata.classifiers):
+                lsdata.frame[meas_col] = ""
                 for indx2, meas_val in enumerate(classifiers):
-                    lrdata.frame.loc[lrdata.frame.index[indx2], meas_col] = meas_val[
+                    lsdata.frame.loc[lsdata.frame.index[indx2], meas_col] = meas_val[
                         indx1
                     ]
         else:
@@ -40,23 +40,23 @@ class cylinders:
                 "DataFrame will only classify by Names, dates if any exist in the Names, and patterns if any are given"
             )
 
-    def run_function(self, lrdata):
+    def run_function(self, lsdata):
 
         classifiers = []
-        for name in lrdata.frame.name:
+        for name in lsdata.frame.name:
             try:
                 classifiers.append(
-                    lrdata.function(
-                        os.path.join(lrdata.directory, name), lrdata.function_args
+                    lsdata.function(
+                        os.path.join(lsdata.directory, name), lsdata.function_args
                     )
                 )
             except:
-                classifiers.append(["null" for _ in range(len(lrdata.classifiers))])
+                classifiers.append(["null" for _ in range(len(lsdata.classifiers))])
 
         return classifiers
 
     @staticmethod
-    def check_func_output(lrdata_measures, classifiers):
+    def check_func_output(lsdata_measures, classifiers):
 
         if not isinstance(classifiers, list):
             if len(classifiers) == 1:
@@ -73,7 +73,7 @@ class cylinders:
             )
 
         for indx, _ in enumerate(classifiers):
-            if len(classifiers[indx]) != len(lrdata_measures):
+            if len(classifiers[indx]) != len(lsdata_measures):
                 raise ValueError(
                     "len of classifiers returned != len of classifiers given, this is not allowed"
                 )

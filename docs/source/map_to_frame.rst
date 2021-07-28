@@ -30,3 +30,9 @@ Zero Depth
 
 If you set **depth=0**, this will return only files from the parent directory regardless of the **kind** that is set. To return only the folders that are in the parent directory, set **depth=1** and **kind='folders'**. To return files and folders that are in the parent directory use a list for depth, **depth=[0, 1]**, and set **kind='any'**.
 
+
+Maximum Depth
+=============
+
+The default depth setting is **depth='max'**. This will result in a dictionary that accounts for all folders and files under the parent directory.
+

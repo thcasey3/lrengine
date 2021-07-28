@@ -18,9 +18,9 @@ The **find_dates()** method with the option **date_format='any'** may return lis
     :width: 600
     :align: center
 
-    **.head()** after reduction'
+    **.head()** after reduction
 
-or do the reverse of keep with the keyword arg **remove=**. This, for example,
+or do the reverse of keep with the keyword arg **remove=**,
 
 .. code-block:: python
 

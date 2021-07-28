@@ -74,14 +74,14 @@ class start:
                 intake.patterns_filter(self, remove=self.skip)
 
     def _empty_object(self):
-        lrdata = {"frame": self.frame}
-        return lrdata
+        lsdata = {"frame": self.frame}
+        return lsdata
 
     def _checks_passed(self):
 
         if os.path.isfile(self.directory) and ".csv" in self.directory:
             self.frame = pd.read_csv(self.directory)
-            lrdata = {
+            lsdata = {
                 "directory": self.directory,
                 "frame": self.frame,
             }
@@ -90,7 +90,7 @@ class start:
 
             self.frame = pd.DataFrame(df)
 
-            lrdata = {
+            lsdata = {
                 "directory": self.directory,
                 "patterns": self.patterns,
                 "skip": self.skip,
@@ -101,7 +101,7 @@ class start:
                 "frame": self.frame,
             }
 
-        return lrdata
+        return lsdata
 
     def drive(self, classifiers=None, function=None, function_args=None):
 
