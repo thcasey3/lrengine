@@ -1,25 +1,25 @@
-.. lrengine documentation master file, created by
+.. lsframe documentation master file, created by
    sphinx-quickstart on Fri Jan 10 17:26:18 2020.
 
 .. .. image:: logo.png
-..     :target: https://github.com/thcasey3/lrengine
+..     :target: https://github.com/thcasey3/lsframe
 
-.. |pypi| image:: https://img.shields.io/pypi/v/lrengine.svg?style=flat-square
-    :target: https://pypi.org/project/lrengine/
+.. |pypi| image:: https://img.shields.io/pypi/v/lsframe.svg?style=flat-square
+    :target: https://pypi.org/project/lsframe/
 
 .. |GitHub| image:: https://img.shields.io/badge/GitHub-development-blue?style=flat-square
-    :target: https://github.com/thcasey3/lrengine/tree/development
+    :target: https://github.com/thcasey3/lsframe/tree/development
 
 .. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-red?style=flat-square
-    :target: https://github.com/thcasey3/lrengine/issues
+    :target: https://github.com/thcasey3/lsframe/issues
 
 
 ===================
-Welcome to lrengine
+Welcome to lsframe
 ===================
 |pypi| |GitHub| |IssuesTracker|
 
-**lrengine** is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
+**lsframe** is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
 
 Features
 ========

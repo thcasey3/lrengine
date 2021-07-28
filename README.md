@@ -1,9 +1,9 @@
-# lrengine - map, classify, frame
+# lsframe - map, classify, frame
 
-[![https://thcasey3.github.io/lrengine/](https://img.shields.io/pypi/v/lrengine)](https://pypi.org/project/lrengine/)
-[![Website](https://img.shields.io/website?down_message=offline&label=Documentation&up_message=online&url=https%3A%2F%2Fthcasey3.github.io%2Flrengine%2Findex.html)](https://thcasey3.github.io/lrengine/)
+[![https://thcasey3.github.io/lsframe/](https://img.shields.io/pypi/v/lsframe)](https://pypi.org/project/lsframe/)
+[![Website](https://img.shields.io/website?down_message=offline&label=Documentation&up_message=online&url=https%3A%2F%2Fthcasey3.github.io%2Flsframe%2Findex.html)](https://thcasey3.github.io/lsframe/)
 
-lrengine is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
+lsframe is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
 
 # Features
 
@@ -25,16 +25,16 @@ pip install pandas numpy python-dateutil seaborn
 
 # Installation
 
-Install lrengine using pip:
+Install lsframe using pip:
 
 ```console
-pip install lrengine
+pip install lsframe
 ```
 
 # Documenation
 
-- Online documentation: https://thcasey3.github.io/lrengine/
+- Online documentation: https://thcasey3.github.io/lsframe/
 
 # Developement 
 
-  - Clone the git repository from https://github.com/thcasey3/lrengine/tree/development
+  - Clone the git repository from https://github.com/thcasey3/lsframe/tree/development

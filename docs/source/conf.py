@@ -23,8 +23,8 @@ print(sys.path)
 
 # -- Project information -----------------------------------------------------
 
-project = u"lrengine"
-copyright = u"2021, lrengine"
+project = u"lsframe"
+copyright = u"2021, lsframe"
 author = u"Thomas Casey"
 
 from datetime import datetime
@@ -32,7 +32,7 @@ from datetime import datetime
 date = datetime.now().strftime(u"%m/%d/%Y, %H:%M:%S")
 
 # The short X.Y version
-version = u"0.0.8"
+version = u"1.0"
 
 print(u"Build Time: " + date)
 print(u"Version: " + version)
@@ -181,7 +181,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, "lrengine.tex", u"lrengine Documentation", u"Thomas Casey", "Manual"),
+    (master_doc, "lsframe.tex", u"lsframe Documentation", u"Thomas Casey", "Manual"),
 ]
 
 
@@ -189,7 +189,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, "lrengine", u"lrengine Documentation", [author], 1)]
+man_pages = [(master_doc, "lsframe", u"lsframe Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -200,10 +200,10 @@ man_pages = [(master_doc, "lrengine", u"lrengine Documentation", [author], 1)]
 texinfo_documents = [
     (
         master_doc,
-        "lrengine",
-        u"lrengine Documentation",
+        "lsframe",
+        u"lsframe Documentation",
         author,
-        "lrengine",
+        "lsframe",
         "correlate elements of file and folder names with function outputs",
         "Miscellaneous",
     ),

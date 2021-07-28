@@ -6,7 +6,7 @@ Create an object that contains a DataFrame with at minimum one column that is th
 
 .. code-block:: python
     
-    import lrengine as lr
+    import lsframe as lr
 
     path = '/path/to/directory/'
     lrobject = lr.start(path)

@@ -18,7 +18,7 @@ Create the object,
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as lr
 
     lrobject = lr.start(path,
                         patterns={'sample': '\d\d'}, 
@@ -42,7 +42,7 @@ You may also define the **classifiers**, **function**, and **function_args** in 
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as lr
 
     lrobject = lr.start(path,
                         patterns={'sample': '\d\d'}, 

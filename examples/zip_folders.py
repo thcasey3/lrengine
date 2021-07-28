@@ -10,8 +10,8 @@ This example demonstrates zipping the subfolders of a parent directory.
 # %%
 
 # %% [markdown]
-# Import lrengine, import shutil for creating the zip files, and import os for defining paths,
-import lrengine as lr
+# Import lsframe, import shutil for creating the zip files, and import os for defining paths,
+import lsframe as lr
 import shutil
 import os
 

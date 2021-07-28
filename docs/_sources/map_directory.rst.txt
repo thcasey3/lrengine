@@ -6,7 +6,7 @@ Use the **map_directory()** method to add **.directory_map** to the **start** ob
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as lr
 
     lrobject.map_directory()
 

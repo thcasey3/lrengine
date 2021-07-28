@@ -11,7 +11,7 @@ If a single pattern or list of patterns is given, the columns will be named acco
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as lr
 
     path = '/path/to/directory/'
     lrobject = lr.start(path, patterns='sample1') # single pattern

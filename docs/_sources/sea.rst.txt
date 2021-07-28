@@ -6,7 +6,7 @@ With the **sea()** method a **relplot** is made using the **lrobject.frame**. Us
 
 .. figure:: _static/images/sea_df.png
     :width: 700
-    :alt: lrengine concept
+    :alt: lsframe concept
     :align: center
 
     **lrobject.frame**
@@ -20,7 +20,7 @@ With the **sea()** method a **relplot** is made using the **lrobject.frame**. Us
 
 .. figure:: _static/images/sea_scatter.png
     :width: 500
-    :alt: lrengine concept
+    :alt: lsframe concept
     :align: center
 
     Scatterplot from seaborn.relplot()

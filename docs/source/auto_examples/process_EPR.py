@@ -22,7 +22,7 @@ lrobject = lr.start(
 lrobject.drive()
 """
 # parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.
-# according to the lrengine docs. The function_args are empty in this case. Since DTA
+# according to the lsframe docs. The function_args are empty in this case. Since DTA
 # and spc files come with companion DSC, YGF, or par files and DNPLab uses any of these,
 # skip these files to avoid duplicates.
 # %%

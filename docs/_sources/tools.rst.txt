@@ -4,4 +4,4 @@
 tools
 =====
 
-.. autofunction:: lrengine.tools.sea_born.sea
+.. autofunction:: lsframe.tools.sea_born.sea

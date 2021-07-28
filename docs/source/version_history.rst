@@ -3,9 +3,11 @@ Version History
 ===============
 
 
-Version 0.0.8
--------------
-* Minor documentation cleanup
+Version 1.0
+-----------
+* Rename to lsframe
+* Documentation cleanup
+* new 'max' default for depth of directory mapping
 
 
 Version 0.0.7

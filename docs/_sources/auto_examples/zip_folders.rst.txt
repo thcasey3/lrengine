@@ -25,13 +25,13 @@ This example demonstrates zipping the subfolders of a parent directory.
 
 .. GENERATED FROM PYTHON SOURCE LINES 13-14
 
-Import lrengine, import shutil for creating the zip files, and import os for defining paths,
+Import lsframe, import shutil for creating the zip files, and import os for defining paths,
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-18
 
 .. code-block:: default
 
-    import lrengine as lr
+    import lsframe as lr
     import shutil
     import os
 

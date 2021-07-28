@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction to lrengine &mdash; lrengine  documentation</title>
+  <title>Introduction to lsframe &mdash; lsframe  documentation</title>
   
 
   
@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Create a Start Object" href="create.html" />
-    <link rel="prev" title="Installing lrengine" href="install.html" /> 
+    <link rel="prev" title="Installing lsframe" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.8
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to lrengine</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to lsframe</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-overview">General Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#language-patterns">Language Patterns</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#skip-files-or-folders">Skip Files or Folders</a></li>
@@ -118,7 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -135,7 +135,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -166,7 +166,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Introduction to lrengine</li>
+      <li>Introduction to lsframe</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -185,9 +185,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="introduction-to-lrengine">
-<h1>Introduction to lrengine<a class="headerlink" href="#introduction-to-lrengine" title="Permalink to this headline">¶</a></h1>
-<p>The aim of lrengine is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.</p>
+  <div class="section" id="introduction-to-lsframe">
+<h1>Introduction to lsframe<a class="headerlink" href="#introduction-to-lsframe" title="Permalink to this headline">¶</a></h1>
+<p>The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.</p>
 <div class="section" id="general-overview">
 <h2>General Overview<a class="headerlink" href="#general-overview" title="Permalink to this headline">¶</a></h2>
 <p>Imagine the directory,</p>
@@ -195,8 +195,8 @@
 <a class="reference internal image-reference" href="_images/dir.png"><img alt="_images/dir.png" src="_images/dir.png" style="width: 350px;" /></a>
 <p class="caption"><span class="caption-text">Example parent directory</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Import the lrengine package,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+<p>Import the lsframe package,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">lr</span>
 </pre></div>
 </div>
 <p>Create an object that contains a <strong>frame</strong> with at minimum one column that is the names of the files or folders in the supplied directory,</p>
@@ -304,7 +304,7 @@
         <a href="create.html" class="btn btn-neutral float-right" title="Create a Start Object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="install.html" class="btn btn-neutral float-left" title="Installing lrengine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-left" title="Installing lsframe" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -314,7 +314,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

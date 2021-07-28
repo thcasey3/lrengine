@@ -1,15 +1,15 @@
-.. |lrengineGitLink| raw:: html
+.. |lsframeGitLink| raw:: html
 
-   <a href="https://github.com/thcasey3/lrengine" target="_blank"> lrengine </a>
+   <a href="https://github.com/thcasey3/lsframe" target="_blank"> lsframe </a>
 
 
 ===================
-Installing lrengine
+Installing lsframe
 ===================
 
 Required Packages
 =================
-The following packages are required in order to use all features of lrengine:
+The following packages are required in order to use all features of lsframe:
 
 .. list-table::
    :widths: 40 60
@@ -40,7 +40,7 @@ Use the command:
 
 .. code-block:: bash
 
-   $ pip install lrengine
+   $ pip install lsframe
 
 
 Confirm Successful Installation
@@ -49,19 +49,19 @@ Use the command:
 
 .. code-block:: bash
 
-    $ pip show lrengine
+    $ pip show lsframe
 
 Confirm the output is similar to:
 
 .. code-block:: bash
 
-    Name: lrengine
+    Name: lsframe
     Version: 0.0.1
-    Summary: lrengine
-    Home-page: https://github.com/thcasey3/lrengine
+    Summary: lsframe
+    Home-page: https://github.com/thcasey3/lsframe
     Author: Thomas Casey
     Author-email: None
     License: MIT
-    Location: /path_to/lrengine
+    Location: /path_to/lsframe
     Requires: pandas, numpy, etc.
 

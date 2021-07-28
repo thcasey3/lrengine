@@ -1,17 +1,17 @@
 # sphinx_gallery_thumbnail_path = '_static/logo-white.png'
 # %% [markdown]
 """
-lrengine Template
+lsframe Template
 =================
 
-This Template serves as an example layout for a script using lrengine.
+This Template serves as an example layout for a script using lsframe.
 
 """
 # %%
 
 # %% [markdown]
-# Import lrengine and any other packages that may be needed for your function,
-import lrengine as lr
+# Import lsframe and any other packages that may be needed for your function,
+import lsframe as lr
 
 # import numpy as np
 # etc.

@@ -18,20 +18,20 @@
 .. _sphx_glr_auto_examples_template.py:
 
 
-lrengine Template
+lsframe Template
 =================
 
-This Template serves as an example layout for a script using lrengine.
+This Template serves as an example layout for a script using lsframe.
 
 .. GENERATED FROM PYTHON SOURCE LINES 13-14
 
-Import lrengine and any other packages that may be needed for your function,
+Import lsframe and any other packages that may be needed for your function,
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-18
 
 .. code-block:: default
 
-    import lrengine as lr
+    import lsframe as lr
 
     # import numpy as np
     # etc.

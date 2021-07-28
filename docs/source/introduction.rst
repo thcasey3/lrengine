@@ -1,8 +1,8 @@
 ========================
-Introduction to lrengine
+Introduction to lsframe
 ========================
 
-The aim of lrengine is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.
+The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.
 
 General Overview
 ================
@@ -16,11 +16,11 @@ Imagine the directory,
     Example parent directory
 
 
-Import the lrengine package,
+Import the lsframe package,
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as lr
 
 
 Create an object that contains a **frame** with at minimum one column that is the names of the files or folders in the supplied directory,

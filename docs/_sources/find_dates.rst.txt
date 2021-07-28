@@ -6,7 +6,7 @@ You may also classify by dates found in the file or folder names and the days el
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as lr
 
     path = '/path/to/directory/'
     lrobject = lr.start(path, 
