@@ -56,7 +56,7 @@ Confirm the output is similar to:
 .. code-block:: bash
 
     Name: lsframe
-    Version: 0.0.1
+    Version: 1.0
     Summary: lsframe
     Home-page: https://github.com/thcasey3/lsframe
     Author: Thomas Casey

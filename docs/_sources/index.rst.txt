@@ -14,9 +14,7 @@
     :target: https://github.com/thcasey3/lsframe/issues
 
 
-===================
-Welcome to lsframe
-===================
+
 |pypi| |GitHub| |IssuesTracker|
 
 **lsframe** is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
