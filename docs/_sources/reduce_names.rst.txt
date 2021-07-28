@@ -11,13 +11,13 @@ This example drops from the frame any element having "blank_sample" in the name,
 
 .. code-block:: python
 
-    lrobject.reduce_names(remove='blank_sample')
+    lsobject.reduce_names(remove='blank_sample')
 
 This next example drops any element having "blank" or "zero" in the name,
 
 .. code-block:: python
 
-    lrobject.reduce_names(remove=['blank', 'zero'])
+    lsobject.reduce_names(remove=['blank', 'zero'])
 
 Keep 
 ====
@@ -26,11 +26,11 @@ You may also do the reverse of remove and keep only elements with a given patter
 
 .. code-block:: python
 
-    lrobject.reduce_names(keep='blank_sample')
+    lsobject.reduce_names(keep='blank_sample')
 
 Or keep any elements with "blank" or "zero" in the name,
 
 .. code-block:: python
 
-    lrobject.reduce_names(keep=['blank', 'zero'])
+    lsobject.reduce_names(keep=['blank', 'zero'])
 

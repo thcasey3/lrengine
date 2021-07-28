@@ -186,11 +186,11 @@
 <div class="section" id="using-str-or-list">
 <h2>Using str or list<a class="headerlink" href="#using-str-or-list" title="Permalink to this headline">¶</a></h2>
 <p>If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating the pattern was or was not found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">lr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s1">&#39;sample1&#39;</span><span class="p">)</span> <span class="c1"># single pattern</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample3&#39;</span><span class="p">])</span> <span class="c1"># OR list of patterns</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s1">&#39;sample1&#39;</span><span class="p">)</span> <span class="c1"># single pattern</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample3&#39;</span><span class="p">])</span> <span class="c1"># OR list of patterns</span>
 </pre></div>
 </div>
 </div>
@@ -198,21 +198,21 @@
 <h2>Using dict<a class="headerlink" href="#using-dict" title="Permalink to this headline">¶</a></h2>
 <p>You may also use regular expressions to do more sophisticated pattern searches and classify by specific language rather than bool. To do this, use a dictionary rather than a list. The keys of the dict are the column names, the values are the expression to search for and classify by. This example creates a column called 'sample' and classifies by any one digit number found just to the right of the word 'sample',</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">})</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>If this patterning is not found, <strong>False</strong> is entered.</p>
 <p>To mix these behaviors, add 'bool' for the dict value and the column for the key is added with True or False added if the pattern is or is not found, respectively. This example makes a column for 'sample' and classifies by any one digit number as above, but also adds a column called 'blank_run' and classifies as <strong>True</strong> or <strong>False</strong>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">,</span> <span class="s1">&#39;blank_run&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">,</span> <span class="s1">&#39;blank_run&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="modify-existing-frame">
 <h2>Modify Existing Frame<a class="headerlink" href="#modify-existing-frame" title="Permalink to this headline">¶</a></h2>
 <p>You can also modify an existing object to classify by different patterns using the <strong>find_patterns()</strong> method. For example, if patterns were not originally defined, add <strong>patterns</strong> then update the frame,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">}</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">find_patterns</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">}</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">find_patterns</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

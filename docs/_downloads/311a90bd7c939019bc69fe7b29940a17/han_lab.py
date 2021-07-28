@@ -11,14 +11,14 @@ An example user-defined function for processing Han Lab ODNP data with the DNPLa
 # %% [markdown]
 # For the function below the call would look something like,
 """
-lrobject = lr.start(
+lsobject = ls.start(
     parent_directory,
     classifiers=["tcorr", "ksigma"],
     function=han_lab.calc_odnp,
     function_args=hyd_dict,
 )
 
-lrobject.drive()
+lsobject.drive()
 """
 # parent_directory contains folders of han_lab data collected using "rb_dnp1" at the CNSI
 # facility. Add patterns, skip, date searching, etc. according to the lsframe docs. The

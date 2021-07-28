@@ -192,7 +192,7 @@ to download the full example code</p>
 <span id="sphx-glr-auto-examples-template-py"></span><h1>lsframe Template<a class="headerlink" href="#lsframe-template" title="Permalink to this headline">¶</a></h1>
 <p>This Template serves as an example layout for a script using lsframe.</p>
 <p>Import lsframe and any other packages that may be needed for your function,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">lr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 
 <span class="c1"># import numpy as np</span>
 <span class="c1"># etc.</span>
@@ -216,7 +216,7 @@ equal to the list of <strong>'classifiers'</strong> given during the creation of
 </pre></div>
 </div>
 <p>Create the <strong>start</strong> object,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span>
     <span class="n">path</span><span class="p">,</span>
     <span class="n">patterns</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># any patterns in the file or folder names to use as classifiers</span>
     <span class="n">skip</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># any sub-strings in the names of file folders that should be skipped</span>
@@ -232,19 +232,19 @@ equal to the list of <strong>'classifiers'</strong> given during the creation of
 </div>
 <p>Pass the <strong>start</strong> object to the user defined function to add classifiers to the <strong>.frame</strong>,
 then print the <strong>.head()</strong> of <strong>.frame</strong>,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 </div>
 <p>Add a dictionary to the <strong>start</strong> object that is a map of the parent directory,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Create a seaborn.relplot correlating the two outputs. Replace <strong>'None'</strong> for hue with date_delta if it exists in
 your <strong>.frame</strong>, or maybe with a third output if you have more than two. The <strong>'seaborn_args'</strong> dictionary should have
 keys that are the arguments that would be given to <strong>seaborn.relplot</strong> and any allowed values according to <strong>seaborn.relplot</strong>
 documentation,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">sea</span><span class="p">(</span><span class="n">seaborn_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;output2&quot;</span><span class="p">,</span> <span class="s2">&quot;hue&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">sea</span><span class="p">(</span><span class="n">seaborn_args</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;output1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;output2&quot;</span><span class="p">,</span> <span class="s2">&quot;hue&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">})</span>
 </pre></div>
 </div>
 <p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.000 seconds)</p>

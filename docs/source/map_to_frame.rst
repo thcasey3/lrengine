@@ -6,13 +6,13 @@ With the **map_directory()** method you get a comprehensive dictionary where the
 
 .. code-block:: python
 
-    lrobject.map_to_frame(depth=2, kind='any')
+    lsobject.map_to_frame(depth=2, kind='any')
 
 Or, consider a depth of three relative to the parent directory, accept only folders, and choose not replace the **frame** in the start object by setting **to_frame=False**, and return a new frame,
 
 .. code-block:: python
 
-    frame = lrobject.map_to_frame(depth=3, kind='folders', to_frame=False)
+    frame = lsobject.map_to_frame(depth=3, kind='folders', to_frame=False)
 
 
 Multiple Depths
@@ -22,7 +22,7 @@ You may also consider multiple depths. For example, consider depths of one or fo
 
 .. code-block:: python
 
-    lrobject.map_to_frame(depth=[1, 4], kind='files')
+    lsobject.map_to_frame(depth=[1, 4], kind='files')
 
 
 Zero Depth

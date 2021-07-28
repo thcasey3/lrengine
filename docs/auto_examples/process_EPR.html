@@ -193,7 +193,7 @@ to download the full example code</p>
 <p>An example user-defined function for processing EPR data with the DNPLab package.</p>
 <p>For the function below the call would look something like,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">lrobject = lr.start(</span>
+<span class="sd">lsobject = ls.start(</span>
 <span class="sd">    parent_directory,</span>
 <span class="sd">    skip=[&quot;.DSC&quot;, &quot;.YGF&quot;, &quot;.par&quot;],  # otherwise duplicates</span>
 <span class="sd">    classifiers=[&quot;max_loc&quot;, &quot;frequency&quot;],</span>
@@ -201,7 +201,7 @@ to download the full example code</p>
 <span class="sd">    function_args={},</span>
 <span class="sd">)</span>
 
-<span class="sd">lrobject.drive()</span>
+<span class="sd">lsobject.drive()</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.</span>
 <span class="c1"># according to the lsframe docs. The function_args are empty in this case. Since DTA</span>

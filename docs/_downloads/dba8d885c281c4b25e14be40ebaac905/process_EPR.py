@@ -11,7 +11,7 @@ An example user-defined function for processing EPR data with the DNPLab package
 # %% [markdown]
 # For the function below the call would look something like,
 """
-lrobject = lr.start(
+lsobject = ls.start(
     parent_directory,
     skip=[".DSC", ".YGF", ".par"],  # otherwise duplicates
     classifiers=["max_loc", "frequency"],
@@ -19,7 +19,7 @@ lrobject = lr.start(
     function_args={},
 )
 
-lrobject.drive()
+lsobject.drive()
 """
 # parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.
 # according to the lsframe docs. The function_args are empty in this case. Since DTA

@@ -20,7 +20,7 @@ Import the lsframe package,
 
 .. code-block:: python
 
-    import lsframe as lr
+    import lsframe as ls
 
 
 Create an object that contains a **frame** with at minimum one column that is the names of the files or folders in the supplied directory,
@@ -28,7 +28,7 @@ Create an object that contains a **frame** with at minimum one column that is th
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path)
+    lsobject = ls.start(path)
 
 
 Language Patterns
@@ -39,15 +39,15 @@ You may define patterns to use for classification. If a single pattern or list o
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns='sample1') # single pattern
-    lrobject = lr.start(path, patterns=['sample1', 'sample2', 'sample3']) # list of patterns
+    lsobject = ls.start(path, patterns='sample1') # single pattern
+    lsobject = ls.start(path, patterns=['sample1', 'sample2', 'sample3']) # list of patterns
 
 You may also use regular expressions to do more sophisticated pattern searches and classify by specific language rather than bool. To do this, use a dictionary rather than a list. The keys of the dict are the column names, the values are the expression to search for and classify by. This example creates a column called 'sample' and classifies by any one digit number found just to the right of the word 'sample',
 
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns={'sample': 'sample\d'})
+    lsobject = ls.start(path, patterns={'sample': 'sample\d'})
 
 
 If this patterning is not found, **False** is entered. 
@@ -57,7 +57,7 @@ To mix these behaviors, add **bool** for the dict value and the column for the k
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
+    lsobject = ls.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
 
 
 Skip Files or Folders
@@ -68,7 +68,7 @@ You may skip directories according to specific language. This example classifies
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns={'sample': 'sample\d'}, skip='sample7')
+    lsobject = ls.start(path, patterns={'sample': 'sample\d'}, skip='sample7')
 
 
 Find Dates
@@ -79,7 +79,7 @@ You may also classify by dates found in the file or folder names and the days el
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, 
+    lsobject = ls.start(path, 
                         patterns={'sample': 'sample\d'}, 
                         skip='sample7', 
                         date_format='YYYYMMDD'
@@ -91,7 +91,7 @@ You can search for all possible dates by setting **date_format='any'**. This fin
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, 
+    lsobject = ls.start(path, 
                         patterns={'sample': 'sample\d'}, 
                         skip='sample7', 
                         date_format='any'
@@ -117,7 +117,7 @@ Create the object,
 
 .. code-block:: python
 
-    lrobject = lr.start(path,
+    lsobject = ls.start(path,
                         patterns={'sample': 'sample\d'}, 
                         skip='sample7', 
                         date_format='any'
@@ -131,7 +131,7 @@ Call the **drive()** method
 
 .. code-block:: python
 
-    lrobject.drive()
+    lsobject.drive()
 
 and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template. 
 
@@ -143,4 +143,4 @@ If the function errors on the specific file or folder "null" is returned for the
 
 .. code-block:: python
 
-    lrobject.frame = lrobject.frame[lrobject.frame['output1'] != 'null']
+    lsobject.frame = lsobject.frame[lsobject.frame['output1'] != 'null']

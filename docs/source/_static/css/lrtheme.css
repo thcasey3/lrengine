@@ -1,0 +1,55 @@
+:root {
+    --lr-dark-grey:           #262626;
+    --lr-light-grey:          #d9d9d9;
+    --lr-orange:              #fa7004;
+}
+
+/* General Settings */
+a{color: var(--lr-orange);}
+a:visited{color: var(--lr-orange);}
+a:hover{color: var(--lr-orange);}
+a:active{color: var(--lr-orange);}
+
+/* Side Panel  */
+.wy-side-nav-search{background-color:var(--lr-orange);}
+.wy-side-nav-search a{color: var(--lr-orange);}
+
+.wy-nav-top{background: var(--lr-orange);}
+.wy-nav-side{background:var(--lr-orange;}
+
+.wy-menu-vertical p.caption {
+    color: white;
+    font-weight: bold;
+}
+.wy-menu-vertical a{color: white;}
+.wy-menu-vertical  a:active{background: var(--lr-orange);}
+
+/* Note and warning top and backround */
+.rst-content .note .admonition-title{background: var(--lr-orange);}
+.rst-content .note {background: var(--lr-orange);}
+.rst-content .warning .admonition-title{background: var(--lr-orange);}
+.rst-content .warning{background: var(--lr-orange);}
+
+/* Background for code snippets */
+.highlight{background: #eaeaea;}
+
+/* Border and background for functions */
+.rst-content dl:not(.docutils) dt{
+    border-top-color: var(--lr-dark-grey);
+    background-color: var(--lr-light-grey);
+    color: var(--lr-dark-grey);
+}
+
+/* override table width restrictions */
+@media screen and (min-width: 767px) {
+
+    .wy-table-responsive table td {
+       /* !important prevents the common CSS stylesheets from overriding
+          this as on RTD they are loaded after this stylesheet */
+       white-space: normal !important;
+    }
+ 
+    .wy-table-responsive {
+       overflow: visible !important;
+    }
+ }

@@ -12,7 +12,7 @@ The **find_dates()** method with the option **date_format='any'** may return lis
 
 .. code-block:: python
 
-    lrobject.reduce_dates(keep='YYYYMMDD')
+    lsobject.reduce_dates(keep='YYYYMMDD')
 
 .. figure:: _static/images/reduced_dates.png
     :width: 600
@@ -24,7 +24,7 @@ or do the reverse of keep with the keyword arg **remove=**. This, for example,
 
 .. code-block:: python
 
-    lrobject.reduce_dates(remove='YYYYMMDD')
+    lsobject.reduce_dates(remove='YYYYMMDD')
 
 
 Use Lists
@@ -34,14 +34,14 @@ You may also keep more than one format by giving a list,
 
 .. code-block:: python
 
-    lrobject.reduce_dates(keep=['YYYYMMDD', 'MMDDYYYY'])
+    lsobject.reduce_dates(keep=['YYYYMMDD', 'MMDDYYYY'])
 
 
 keeps all formats except **'YYYYMMDD'**. You can use lists with remove too. For example,
 
 .. code-block:: python
 
-    lrobject.reduce_dates(remove=['YYYYMMDD', 'MMDDYYYY'])
+    lsobject.reduce_dates(remove=['YYYYMMDD', 'MMDDYYYY'])
 
 
 Handling Duplicates
@@ -51,11 +51,11 @@ You may also choose to remove or keep duplicate dates using the keyword arg **on
 
 .. code-block:: python
 
-    lrobject.reduce_dates(remove='YYYYMMDD') #removes duplicate dates
-    lrobject.reduce_dates()                  #removes duplicate dates
-    lrobject.reduce_dates(remove='YYYYMMDD', 
+    lsobject.reduce_dates(remove='YYYYMMDD') #removes duplicate dates
+    lsobject.reduce_dates()                  #removes duplicate dates
+    lsobject.reduce_dates(remove='YYYYMMDD', 
                           only_unique=False) #keeps all dates, even duplicates
-    lrobject.reduce_dates(only_unique=False) #keeps frame untouched
+    lsobject.reduce_dates(only_unique=False) #keeps frame untouched
 
 
 Remove Zeros
@@ -65,6 +65,6 @@ There is also an option to keep or remove any elements with 0 for date using the
 
 .. code-block:: python
 
-    lrobject.reduce_dates(remove='YYYYMMDD') #keeps where date=0
-    lrobject.reduce_dates(remove='YYYYMMDD', 
+    lsobject.reduce_dates(remove='YYYYMMDD') #keeps where date=0
+    lsobject.reduce_dates(remove='YYYYMMDD', 
                           strip_zeros=True)  #removes where date=0

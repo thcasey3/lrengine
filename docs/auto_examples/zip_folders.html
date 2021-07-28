@@ -192,7 +192,7 @@ to download the full example code</p>
 <span id="sphx-glr-auto-examples-zip-folders-py"></span><h1>zip folders<a class="headerlink" href="#zip-folders" title="Permalink to this headline">¶</a></h1>
 <p>This example demonstrates zipping the subfolders of a parent directory.</p>
 <p>Import lsframe, import shutil for creating the zip files, and import os for defining paths,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">lr</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">os</span>
 </pre></div>
@@ -202,15 +202,15 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 and only consisting of folders. The means the names of the frame are a list of folders that are in the given path,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;folders&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;folders&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Loop over the names of the frame and create zip files from the corresponding directories,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="n">shutil</span><span class="o">.</span><span class="n">make_archive</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">name</span>
 <span class="p">]</span>
 </pre></div>
 </div>

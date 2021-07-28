@@ -3,9 +3,9 @@
    <a href="https://github.com/thcasey3/lsframe" target="_blank"> lsframe </a>
 
 
-===================
+==================
 Installing lsframe
-===================
+==================
 
 Required Packages
 =================

@@ -11,11 +11,11 @@ If a single pattern or list of patterns is given, the columns will be named acco
 
 .. code-block:: python
 
-    import lsframe as lr
+    import lsframe as ls
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns='sample1') # single pattern
-    lrobject = lr.start(path, patterns=['sample1', 'sample2', 'sample3']) # OR list of patterns
+    lsobject = ls.start(path, patterns='sample1') # single pattern
+    lsobject = ls.start(path, patterns=['sample1', 'sample2', 'sample3']) # OR list of patterns
 
 
 Using dict
@@ -26,7 +26,7 @@ You may also use regular expressions to do more sophisticated pattern searches a
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns={'sample': 'sample\d'})
+    lsobject = ls.start(path, patterns={'sample': 'sample\d'})
 
 
 If this patterning is not found, **False** is entered. 
@@ -36,7 +36,7 @@ To mix these behaviors, add 'bool' for the dict value and the column for the key
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
+    lsobject = ls.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
 
 
 Modify Existing Frame
@@ -46,5 +46,5 @@ You can also modify an existing object to classify by different patterns using t
 
 .. code-block:: python
 
-    lrobject.patterns = {'sample': 'sample\d'}
-    lrobject.find_patterns()
+    lsobject.patterns = {'sample': 'sample\d'}
+    lsobject.find_patterns()

@@ -6,9 +6,9 @@ Use the **map_directory()** method to add **.directory_map** to the **start** ob
 
 .. code-block:: python
 
-    import lsframe as lr
+    import lsframe as ls
 
-    lrobject.map_directory()
+    lsobject.map_directory()
 
 .. figure:: _static/images/dir_map.png
     :width: 500
@@ -33,4 +33,4 @@ If a **start** object is instantiated without a **directory** attribute, specify
 
 .. code-block:: python
 
-    lrobject.map_directory(directory='path/to/directory')
+    lsobject.map_directory(directory='path/to/directory')
