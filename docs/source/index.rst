@@ -10,7 +10,7 @@
 .. |GitHub| image:: https://img.shields.io/badge/GitHub-development-blue?style=flat-square
     :target: https://github.com/thcasey3/lsframe/tree/development
 
-.. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-red?style=flat-square
+.. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-yellow?style=flat-square
     :target: https://github.com/thcasey3/lsframe/issues
 
 

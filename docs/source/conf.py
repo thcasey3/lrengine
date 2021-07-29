@@ -138,7 +138,7 @@ html_static_path = ["_static"]
 
 
 def setup(app):
-    app.add_css_file("css/lrtheme.css")
+    app.add_css_file("css/lstheme.css")
 
 
 # Custom sidebar templates, must be a dictionary that maps document names
@@ -157,7 +157,7 @@ html_logo = "_static/images/web_logo.png"
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "lrdoc"
+htmlhelp_basename = "lsdoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------

@@ -1,28 +1,32 @@
 :root {
     --lr-dark-grey:           #262626;
+    --lr-mid-grey:            #7E7E7E;
     --lr-light-grey:          #d9d9d9;
     --lr-orange:              #fa7004;
+    --lr-black:               #000000;
+    --lr-white:               #FFFFFF;
+    --lr-blue:                #0C7ECF;
 }
 
 /* General Settings */
-a{color: var(--lr-orange);}
-a:visited{color: var(--lr-orange);}
-a:hover{color: var(--lr-orange);}
-a:active{color: var(--lr-orange);}
+a{color: var(--lr-blue);}
+a:visited{color: var(--lr-blue);}
+a:hover{color: var(--lr-mid-grey);}
+a:active{color: var(--lr-blue);}
 
 /* Side Panel  */
-.wy-side-nav-search{background-color:var(--lr-orange);}
-.wy-side-nav-search a{color: var(--lr-orange);}
+.wy-side-nav-search{background-color: var(--lr-mid-grey);} /* logo area background */
+.wy-side-nav-search a{color: var(--lr-black);} /* home logo and name */
 
-.wy-nav-top{background: var(--lr-orange);}
-.wy-nav-side{background:var(--lr-orange;}
+.wy-nav-top{background: var(--lr-blue);}
+.wy-nav-side{background: var(--lr-light-grey);} /* menu background */
 
 .wy-menu-vertical p.caption {
-    color: white;
+    color: var(--lr-blue);
     font-weight: bold;
 }
-.wy-menu-vertical a{color: white;}
-.wy-menu-vertical  a:active{background: var(--lr-orange);}
+.wy-menu-vertical a{color: var(--lr-blue);}
+.wy-menu-vertical  a:active{background: var(--lr-blue);}
 
 /* Note and warning top and backround */
 .rst-content .note .admonition-title{background: var(--lr-orange);}
@@ -31,13 +35,13 @@ a:active{color: var(--lr-orange);}
 .rst-content .warning{background: var(--lr-orange);}
 
 /* Background for code snippets */
-.highlight{background: #eaeaea;}
+.highlight{background: var(--lr-light-grey);}
 
 /* Border and background for functions */
 .rst-content dl:not(.docutils) dt{
-    border-top-color: var(--lr-dark-grey);
+    border-top-color: var(--lr-light-grey);
     background-color: var(--lr-light-grey);
-    color: var(--lr-dark-grey);
+    color: var(--lr-black);
 }
 
 /* override table width restrictions */
