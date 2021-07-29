@@ -8,10 +8,10 @@ lsframe is an open-source Python package for mapping directories and correlating
 # Features
 
 - Create DataFrames that are maps of directories
-- Organize DataFrames using dates/language in file/folder names
-- Find possible dates in arbitrarily formatted file/folder names 
-- Construct DataFrames from a function that processes files/folders of a parent directory
-- Visualize correlations between dates/language in file/folder names and function outputs
+- Organize DataFrames using dates and language in file and folder names
+- Find possible dates in arbitrarily formatted file and folder names 
+- Construct DataFrames from a function that processes files and folders
+- Visualize correlations between dates or language and function outputs
 
 # Requirements
 
