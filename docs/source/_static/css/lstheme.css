@@ -29,8 +29,8 @@ a:active{color: var(--lr-blue);}
 .wy-menu-vertical  a:active{background: var(--lr-blue);}
 
 /* Note and warning top and backround */
-.rst-content .note .admonition-title{background: var(--lr-orange);}
-.rst-content .note {background: var(--lr-orange);}
+.rst-content .note .admonition-title{background: var(--lr-blue);}
+.rst-content .note {background: var(--lr-white);}
 .rst-content .warning .admonition-title{background: var(--lr-orange);}
 .rst-content .warning{background: var(--lr-orange);}
 
