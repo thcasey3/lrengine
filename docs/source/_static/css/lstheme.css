@@ -5,7 +5,7 @@
     --lr-orange:              #fa7004;
     --lr-black:               #000000;
     --lr-white:               #FFFFFF;
-    --lr-blue:                #0C7ECF;
+    --lr-blue:                #1768E2;
 }
 
 /* General Settings */
@@ -15,7 +15,7 @@ a:hover{color: var(--lr-mid-grey);}
 a:active{color: var(--lr-blue);}
 
 /* Side Panel  */
-.wy-side-nav-search{background-color: var(--lr-mid-grey);} /* logo area background */
+.wy-side-nav-search{background-color: var(--lr-light-grey);} /* logo area background */
 .wy-side-nav-search a{color: var(--lr-black);} /* home logo and name */
 
 .wy-nav-top{background: var(--lr-blue);}
