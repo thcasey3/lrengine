@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Finding Dates &mdash; lrengine  documentation</title>
+  <title>Finding Dates &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -112,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -129,7 +129,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -182,10 +182,10 @@
   <div class="section" id="finding-dates">
 <h1>Finding Dates<a class="headerlink" href="#finding-dates" title="Permalink to this headline">¶</a></h1>
 <p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
@@ -193,7 +193,7 @@
 </div>
 <p>You can search for any of a list of formats if you supply a list, or even look for all possible dates by setting <strong>date_format='any'</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
@@ -201,7 +201,7 @@
 </div>
 <p>Or just look for any of three formats,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;YYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
@@ -210,13 +210,13 @@
 <div class="section" id="find-dates-method">
 <h2>Find Dates Method<a class="headerlink" href="#find-dates-method" title="Permalink to this headline">¶</a></h2>
 <p>You can also modify an existing object to include dates or change to a different format using the <strong>find_dates()</strong> method. For example, change the <strong>date_format</strong> then update the dates information,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="s1">&#39;YYYY-MM-DD&#39;</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="s1">&#39;YYYY-MM-DD&#39;</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>You may use lists here as well,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">,</span> <span class="s1">&#39;YY-MM-DD&#39;</span><span class="p">]</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">date_format</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">,</span> <span class="s1">&#39;YY-MM-DD&#39;</span><span class="p">]</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">find_dates</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -251,7 +251,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

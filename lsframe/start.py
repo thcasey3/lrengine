@@ -74,14 +74,14 @@ class start:
                 intake.patterns_filter(self, remove=self.skip)
 
     def _empty_object(self):
-        lrdata = {"frame": self.frame}
-        return lrdata
+        lsdata = {"frame": self.frame}
+        return lsdata
 
     def _checks_passed(self):
 
         if os.path.isfile(self.directory) and ".csv" in self.directory:
             self.frame = pd.read_csv(self.directory)
-            lrdata = {
+            lsdata = {
                 "directory": self.directory,
                 "frame": self.frame,
             }
@@ -90,7 +90,7 @@ class start:
 
             self.frame = pd.DataFrame(df)
 
-            lrdata = {
+            lsdata = {
                 "directory": self.directory,
                 "patterns": self.patterns,
                 "skip": self.skip,
@@ -101,7 +101,7 @@ class start:
                 "frame": self.frame,
             }
 
-        return lrdata
+        return lsdata
 
     def drive(self, classifiers=None, function=None, function_args=None):
 
@@ -198,24 +198,26 @@ class start:
             for sl in skip_list:
                 self.directory_map.pop(sl)
 
+            self.max_depth = max([t.count(os.sep) for t in self.directory_map.keys()])
+
             return self.directory_map
 
         else:
             raise TypeError("This is not a path to a directory")
 
-    def map_to_frame(self, depth=None, kind="any", to_frame=True):
+    def map_to_frame(self, depth="max", kind="any", to_frame=True):
 
         if hasattr(self, "directory_map"):
             if isinstance(depth, int):
                 depth = [depth]
             if (
-                depth is not None
+                depth != "max"
                 and not isinstance(depth, list)
                 and not any([isinstance(x, int) for x in depth])
             ):
                 raise TypeError("depth must be single int or list of int")
             new_names = []
-            if depth is None and kind == "folders":
+            if depth == "max" and kind == "folders":
                 new_names = [os.path.normpath(x) for x in self.directory_map.keys()]
             elif depth == [0]:
                 new_names = self.directory_map[list(self.directory_map.keys())[0]]
@@ -244,7 +246,7 @@ class start:
                             depth.pop(0)
                         if t.count(os.sep) in depth:
                             new_names.append(t)
-                elif depth is None:
+                elif depth == "max":
                     new_names = temp
 
             if new_names:

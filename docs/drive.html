@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Call a Custom Function &mdash; lrengine  documentation</title>
+  <title>Call a Custom Function &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -111,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -128,7 +128,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -191,9 +191,9 @@
 </pre></div>
 </div>
 <p>Create the object,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;\d\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span>
@@ -205,20 +205,20 @@
 </pre></div>
 </div>
 <p>Call the <strong>drive()</strong> method</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>and two new columns would be added called &quot;output1&quot; and &quot;output2&quot; with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.</p>
 <p>You may also define the <strong>classifiers</strong>, <strong>function</strong>, and <strong>function_args</strong> in the call to <strong>.drive()</strong>. This will add to the <strong>start</strong> object if these attributes do not already exist, or will re-define them. For example, the following is equivalent to above,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;\d\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span>
                     <span class="p">)</span>
 
-<span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">(</span><span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="s1">&#39;output2&#39;</span><span class="p">],</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">drive</span><span class="p">(</span><span class="n">classifiers</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">,</span> <span class="s1">&#39;output2&#39;</span><span class="p">],</span>
                <span class="n">function</span><span class="o">=</span><span class="n">function_handle</span><span class="p">,</span>
                <span class="n">function_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;par1&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;par2&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
                <span class="p">)</span>
@@ -226,8 +226,8 @@
 </div>
 <div class="section" id="handling-errors">
 <h2>Handling Errors<a class="headerlink" href="#handling-errors" title="Permalink to this headline">¶</a></h2>
-<p>If the custom function gives an error, for example if it tries to operate on a file/folder in the path that is not compatible, it will return the string &quot;null&quot; for the classifier. This can be useful for avoiding tedious reorganizing of directories. Simply run <strong>lrobject.drive()</strong>, collect a frame full of successful runs or &quot;null&quot;, then use something similar to,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span><span class="p">]</span>
+<p>If the custom function gives an error, for example if it tries to operate on a file/folder in the path that is not compatible, it will return the string &quot;null&quot; for the classifier. This can be useful for avoiding tedious reorganizing of directories. Simply run <strong>lsobject.drive()</strong>, collect a frame full of successful runs or &quot;null&quot;, then use something similar to,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>to reduce the frame to only compatible files/folders.</p>
@@ -255,7 +255,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

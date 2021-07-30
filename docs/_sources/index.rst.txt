@@ -1,32 +1,31 @@
-.. lrengine documentation master file, created by
+.. lsframe documentation master file, created by
    sphinx-quickstart on Fri Jan 10 17:26:18 2020.
 
 .. .. image:: logo.png
-..     :target: https://github.com/thcasey3/lrengine
+..     :target: https://github.com/thcasey3/lsframe
 
-.. |pypi| image:: https://img.shields.io/pypi/v/lrengine.svg?style=flat-square
-    :target: https://pypi.org/project/lrengine/
+.. |pypi| image:: https://img.shields.io/pypi/v/lsframe.svg?style=flat-square
+    :target: https://pypi.org/project/lsframe/
 
 .. |GitHub| image:: https://img.shields.io/badge/GitHub-development-blue?style=flat-square
-    :target: https://github.com/thcasey3/lrengine/tree/development
+    :target: https://github.com/thcasey3/lsframe/tree/development
 
-.. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-red?style=flat-square
-    :target: https://github.com/thcasey3/lrengine/issues
+.. |IssuesTracker| image:: https://img.shields.io/badge/GitHub-Issues-yellow?style=flat-square
+    :target: https://github.com/thcasey3/lsframe/issues
 
 
-===================
-Welcome to lrengine
-===================
+
 |pypi| |GitHub| |IssuesTracker|
 
-**lrengine** is an open-source Python package for correlating dates and specific language patterns within file and folder names with each other and with outputs of user-supplied functions. 
+**lsframe** is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.
 
 Features
 ========
-* Organize DataFrames using dates and specific language in file and folder names
-* Find specific format date strings, or look for possible date strings, in file or folder names 
-* Add classifiers using a custom function that processes contents of a parent directory
-* Visualize correlations between function outputs, dates, and language in file and folder names
+* Create DataFrames that are maps of directories
+* Organize DataFrames using dates and language in file and folder names
+* Find possible dates in arbitrarily formatted file and folder names 
+* Construct DataFrames from a function that processes files and folders
+* Visualize correlations between dates or language and function outputs
 
 
 Guide

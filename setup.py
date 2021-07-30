@@ -4,25 +4,25 @@ from distutils.core import setup
 with open("README.md", "r") as f:
     long_description = f.read()
 
-with open("lrengine/version.py", "r") as f:
+with open("lsframe/version.py", "r") as f:
     # Define __version__
     exec(f.read())
 
 setup(
-    name="lrengine",
+    name="lsframe",
     packages=setuptools.find_packages(),
     version=__version__,
     license="MIT",
-    description="lrengine - classify by dates and names",
+    description="lsframe - map, classify, frame",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Thomas Casey",
-    url="https://github.com/thcasey3/lrengine",
-    download_url="https://github.com/thcasey3/lrengine/",
+    url="https://github.com/thcasey3/lsframe",
+    download_url="https://github.com/thcasey3/lsframe/",
     project_urls={
-        "Homepage": "https://thcasey3.github.io/lrengine/",
-        "Documentation": "https://thcasey3.github.io/lrengine/",
-        "Source": "https://github.com/thcasey3/lrengine/",
+        "Homepage": "https://thcasey3.github.io/lsframe/",
+        "Documentation": "https://thcasey3.github.io/lsframe/",
+        "Source": "https://github.com/thcasey3/lsframe/",
     },
     keywords=["classify language recognition"],
     python_requires=">=3.6",

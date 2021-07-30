@@ -4,8 +4,8 @@
 
 .. _sphx_glr_auto_examples:
 
-lrengine Examples
-=================
+lsframe Examples
+================
 
 
 .. raw:: html
@@ -52,12 +52,12 @@ lrengine Examples
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This Template serves as an example layout for a script using lrengine.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This Template serves as an example layout for a script using lsframe.">
 
 .. only:: html
 
  .. figure:: /auto_examples/images/thumb/sphx_glr_template_thumb.png
-     :alt: lrengine Template
+     :alt: lsframe Template
 
      :ref:`sphx_glr_auto_examples_template.py`
 

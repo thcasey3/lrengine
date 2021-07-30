@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Welcome to lrengine &mdash; lrengine  documentation</title>
+  <title>Features &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -40,7 +40,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installing lrengine" href="install.html" /> 
+    <link rel="next" title="Installing lsframe" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -54,7 +54,7 @@
           
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="#" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -93,8 +93,8 @@
             
             
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -107,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -124,7 +124,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">lrengine</a>
+          <a href="#">lsframe</a>
         
       </nav>
 
@@ -155,7 +155,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Welcome to lrengine</li>
+      <li>Features</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -174,25 +174,24 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="welcome-to-lrengine">
-<h1>Welcome to lrengine<a class="headerlink" href="#welcome-to-lrengine" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://pypi.org/project/lrengine/"><img alt="pypi" src="https://img.shields.io/pypi/v/lrengine.svg?style=flat-square" /></a> <a class="reference external" href="https://github.com/thcasey3/lrengine/tree/development"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-development-blue?style=flat-square" /></a> <a class="reference external" href="https://github.com/thcasey3/lrengine/issues"><img alt="IssuesTracker" src="https://img.shields.io/badge/GitHub-Issues-red?style=flat-square" /></a></p>
-<p><strong>lrengine</strong> is an open-source Python package for correlating dates and specific language patterns within file and folder names with each other and with outputs of user-supplied functions.</p>
+  <p><a class="reference external" href="https://pypi.org/project/lsframe/"><img alt="pypi" src="https://img.shields.io/pypi/v/lsframe.svg?style=flat-square" /></a> <a class="reference external" href="https://github.com/thcasey3/lsframe/tree/development"><img alt="GitHub" src="https://img.shields.io/badge/GitHub-development-blue?style=flat-square" /></a> <a class="reference external" href="https://github.com/thcasey3/lsframe/issues"><img alt="IssuesTracker" src="https://img.shields.io/badge/GitHub-Issues-yellow?style=flat-square" /></a></p>
+<p><strong>lsframe</strong> is an open-source Python package for mapping directories and correlating specific language patterns in file and folder names with each other and with outputs of user-supplied functions.</p>
 <div class="section" id="features">
-<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<h1>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>Organize DataFrames using dates and specific language in file and folder names</p></li>
-<li><p>Find specific format date strings, or look for possible date strings, in file or folder names</p></li>
-<li><p>Add classifiers using a custom function that processes contents of a parent directory</p></li>
-<li><p>Visualize correlations between function outputs, dates, and language in file and folder names</p></li>
+<li><p>Create DataFrames that are maps of directories</p></li>
+<li><p>Organize DataFrames using dates and language in file and folder names</p></li>
+<li><p>Find possible dates in arbitrarily formatted file and folder names</p></li>
+<li><p>Construct DataFrames from a function that processes files and folders</p></li>
+<li><p>Visualize correlations between dates or language and function outputs</p></li>
 </ul>
 </div>
 <div class="section" id="guide">
-<h2>Guide<a class="headerlink" href="#guide" title="Permalink to this headline">¶</a></h2>
+<h1>Guide<a class="headerlink" href="#guide" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -205,12 +204,11 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 </div>
-<p>Documentation Build Date: 06/07/2021, 22:59:02</p>
-</div>
+<p>Documentation Build Date: 07/30/2021, 12:41:06</p>
 </div>
 
 
@@ -221,7 +219,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="install.html" class="btn btn-neutral float-right" title="Installing lrengine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Installing lsframe" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>
@@ -232,7 +230,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

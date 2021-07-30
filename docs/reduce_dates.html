@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reduce the Date Lists &mdash; lrengine  documentation</title>
+  <title>Reduce the Date Lists &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -113,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -130,7 +130,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -187,44 +187,44 @@
 <a class="reference internal image-reference" href="_images/listed_dates.png"><img alt="_images/listed_dates.png" src="_images/listed_dates.png" style="width: 600px;" /></a>
 <p class="caption"><span class="caption-text"><strong>.head()</strong> with found dates added</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id2">
 <a class="reference internal image-reference" href="_images/reduced_dates.png"><img alt="_images/reduced_dates.png" src="_images/reduced_dates.png" style="width: 600px;" /></a>
-<p class="caption"><span class="caption-text"><strong>.head()</strong> after reduction'</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+<p class="caption"><span class="caption-text"><strong>.head()</strong> after reduction</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<p>or do the reverse of keep with the keyword arg <strong>remove=</strong>. This, for example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
+<p>or do the reverse of keep with the keyword arg <strong>remove=</strong>,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="use-lists">
 <h2>Use Lists<a class="headerlink" href="#use-lists" title="Permalink to this headline">¶</a></h2>
 <p>You may also keep more than one format by giving a list,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>keeps all formats except <strong>'YYYYMMDD'</strong>. You can use lists with remove too. For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span> <span class="s1">&#39;MMDDYYYY&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="handling-duplicates">
 <h2>Handling Duplicates<a class="headerlink" href="#handling-duplicates" title="Permalink to this headline">¶</a></h2>
 <p>You may also choose to remove or keep duplicate dates using the keyword arg <strong>only_unique=</strong>. Default is <strong>only_unique=True</strong> for <strong>reduce_dates()</strong>.  For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#removes duplicate dates</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">()</span>                  <span class="c1">#removes duplicate dates</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#removes duplicate dates</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">()</span>                  <span class="c1">#removes duplicate dates</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
                       <span class="n">only_unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps all dates, even duplicates</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">only_unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps frame untouched</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">only_unique</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps frame untouched</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="remove-zeros">
 <h2>Remove Zeros<a class="headerlink" href="#remove-zeros" title="Permalink to this headline">¶</a></h2>
 <p>There is also an option to keep or remove any elements with 0 for date using the keyword arg <strong>strip_zeros=</strong>. Default is <strong>strip_zeros=False</strong> for <strong>reduce_dates()</strong>.  For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#keeps where date=0</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span> <span class="c1">#keeps where date=0</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_dates</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">,</span>
                       <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1">#removes where date=0</span>
 </pre></div>
 </div>
@@ -252,7 +252,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

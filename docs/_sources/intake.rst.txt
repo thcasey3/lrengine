@@ -4,7 +4,7 @@
 intake
 ======
 
-.. autofunction:: lrengine.intake.date_injectors
-.. autofunction:: lrengine.intake.dates_filter
-.. autofunction:: lrengine.intake.pattern_injectors
-.. autofunction:: lrengine.intake.patterns_filter
+.. autofunction:: lsframe.intake.date_injectors
+.. autofunction:: lsframe.intake.dates_filter
+.. autofunction:: lsframe.intake.pattern_injectors
+.. autofunction:: lsframe.intake.patterns_filter

@@ -25,13 +25,13 @@ This example demonstrates zipping the subfolders of a parent directory.
 
 .. GENERATED FROM PYTHON SOURCE LINES 13-14
 
-Import lrengine, import shutil for creating the zip files, and import os for defining paths,
+Import lsframe, import shutil for creating the zip files, and import os for defining paths,
 
 .. GENERATED FROM PYTHON SOURCE LINES 14-18
 
 .. code-block:: default
 
-    import lrengine as lr
+    import lsframe as ls
     import shutil
     import os
 
@@ -54,9 +54,9 @@ Create the start object, create a directory_map, and make a frame from the direc
 
 .. code-block:: default
 
-    lrobject = lr.start(directory=path)
-    lrobject.map_directory()
-    lrobject.map_to_frame(depth=1, kind="folders")
+    lsobject = ls.start(directory=path)
+    lsobject.map_directory()
+    lsobject.map_to_frame(depth=1, kind="folders")
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-35
 
@@ -68,7 +68,7 @@ Loop over the names of the frame and create zip files from the corresponding dir
 
     [
         shutil.make_archive(os.path.join(path, name), "zip", os.path.join(path, name))
-        for name in lrobject.frame.name
+        for name in lsobject.frame.name
     ]
 
 

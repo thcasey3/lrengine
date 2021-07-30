@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Reduce the Frame using Patterns &mdash; lrengine  documentation</title>
+  <title>Reduce the Frame using Patterns &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Reduce the Frame using Patterns</a><ul>
@@ -112,7 +112,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -129,7 +129,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -185,22 +185,22 @@
 <div class="section" id="remove">
 <h2>Remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h2>
 <p>This example drops from the frame any element having &quot;blank_sample&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This next example drops any element having &quot;blank&quot; or &quot;zero&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="keep">
 <h2>Keep<a class="headerlink" href="#keep" title="Permalink to this headline">¶</a></h2>
 <p>You may also do the reverse of remove and keep only elements with a given pattern in the name using the <strong>keep=</strong> keyword arg. For example, keep only elements with &quot;blank_sample&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">&#39;blank_sample&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or keep any elements with &quot;blank&quot; or &quot;zero&quot; in the name,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">reduce_names</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;blank&#39;</span><span class="p">,</span> <span class="s1">&#39;zero&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -227,7 +227,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

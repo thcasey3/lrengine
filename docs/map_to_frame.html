@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Create Frame from directory_map &mdash; lrengine  documentation</title>
+  <title>Create Frame from directory_map &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -107,12 +107,13 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Create Frame from directory_map</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#multiple-depths">Multiple Depths</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#zero-depth">Zero Depth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maximum-depth">Maximum Depth</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -129,7 +130,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -182,23 +183,27 @@
   <div class="section" id="create-frame-from-directory-map">
 <h1>Create Frame from directory_map<a class="headerlink" href="#create-frame-from-directory-map" title="Permalink to this headline">¶</a></h1>
 <p>With the <strong>map_directory()</strong> method you get a comprehensive dictionary where the keys are the directories and the values are lists of files within the directory. This can be useful for defining the [&quot;name&quot;] column of the frame. Use the method <strong>map_to_frame()</strong> to create a <strong>frame</strong> in the  start object from the contents of the <strong>directory_map</strong>. For a given <strong>directory_map</strong> that has several layers of directories and files throughout, you may specify the <strong>depth</strong> to consider, whether to use <strong>&quot;files&quot;</strong>, <strong>&quot;folders&quot;</strong>, or <strong>&quot;any&quot;</strong>, and whether to replace the current <strong>frame</strong>. For example, consider a depth of two relative to the parent directory, accept files or folders, and replace the <strong>frame</strong> in the start object,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or, consider a depth of three relative to the parent directory, accept only folders, and choose not replace the <strong>frame</strong> in the start object by setting <strong>to_frame=False</strong>, and return a new frame,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;folders&#39;</span><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">frame</span> <span class="o">=</span> <span class="n">lsobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;folders&#39;</span><span class="p">,</span> <span class="n">to_frame</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="multiple-depths">
 <h2>Multiple Depths<a class="headerlink" href="#multiple-depths" title="Permalink to this headline">¶</a></h2>
 <p>You may also consider multiple depths. For example, consider depths of one or four relative to the parent directory, accept only files, and replace the <strong>frame</strong> in the start object,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;files&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;files&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="zero-depth">
 <h2>Zero Depth<a class="headerlink" href="#zero-depth" title="Permalink to this headline">¶</a></h2>
 <p>If you set <strong>depth=0</strong>, this will return only files from the parent directory regardless of the <strong>kind</strong> that is set. To return only the folders that are in the parent directory, set <strong>depth=1</strong> and <strong>kind='folders'</strong>. To return files and folders that are in the parent directory use a list for depth, <strong>depth=[0, 1]</strong>, and set <strong>kind='any'</strong>.</p>
+</div>
+<div class="section" id="maximum-depth">
+<h2>Maximum Depth<a class="headerlink" href="#maximum-depth" title="Permalink to this headline">¶</a></h2>
+<p>The default depth setting is <strong>depth='max'</strong>. This will result in a dictionary that accounts for all folders and files under the parent directory.</p>
 </div>
 </div>
 
@@ -223,7 +228,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

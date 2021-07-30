@@ -3,7 +3,7 @@ import numpy as np
 import os
 import pandas as pd
 from datetime import date
-from lrengine import start, intake, engine, tools
+from lsframe import start, intake, engine, tools
 from numpy.testing import assert_array_equal
 
 
@@ -385,8 +385,8 @@ class startTester(unittest.TestCase):
             "example.csv",
         )
 
-        lrobject = start()
-        lrobject.directory_map = {
+        lsobject = start()
+        lsobject.directory_map = {
             "test_red": ["r", "re", "rd", "ed"],
             "test_blue": ["b", "bl", "blu"],
             "test_green": ["g", "gr"],
@@ -394,20 +394,20 @@ class startTester(unittest.TestCase):
             os.path.join("test_blue", "navy", "sky"): ["b", "bl", "blu"],
             os.path.join("test_green", "winter", "neon", "forest"): ["g", "gr"],
         }
-        self.assertEqual(len(lrobject.frame), 0)
-        lrobject.map_to_frame(depth=2, kind="folders", to_frame=True)
-        self.assertEqual(len(lrobject.frame), 1)
-        new = lrobject.map_to_frame(depth=1, kind="files", to_frame=False)
+        self.assertEqual(len(lsobject.frame), 0)
+        lsobject.map_to_frame(depth=2, kind="folders", to_frame=True)
+        self.assertEqual(len(lsobject.frame), 1)
+        new = lsobject.map_to_frame(depth=1, kind="files", to_frame=False)
         self.assertEqual(len(new), 9)
-        new = lrobject.map_to_frame(depth=3, kind="files", to_frame=False)
+        new = lsobject.map_to_frame(depth=3, kind="files", to_frame=False)
         self.assertEqual(len(new), 3)
-        lrobject.map_to_frame(depth=4, kind="any", to_frame=True)
-        self.assertEqual(len(lrobject.frame), 2)
+        lsobject.map_to_frame(depth=4, kind="any", to_frame=True)
+        self.assertEqual(len(lsobject.frame), 2)
 
-        lrobject.map_directory(self.path, skip=["short", ".DS_Store"])
-        self.assertEqual(len(lrobject.directory_map.keys()), 1)
+        lsobject.map_directory(self.path, skip=["short", ".DS_Store"])
+        self.assertEqual(len(lsobject.directory_map.keys()), 1)
         self.assertEqual(
-            len(lrobject.directory_map[list(lrobject.directory_map.keys())[0]]), 2
+            len(lsobject.directory_map[list(lsobject.directory_map.keys())[0]]), 2
         )
 
         with self.assertRaises(ValueError):
