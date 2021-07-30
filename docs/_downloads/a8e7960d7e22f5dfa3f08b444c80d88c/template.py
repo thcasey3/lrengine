@@ -1,17 +1,17 @@
 # sphinx_gallery_thumbnail_path = '_static/logo-white.png'
 # %% [markdown]
 """
-lrengine Template
+lsframe Template
 =================
 
-This Template serves as an example layout for a script using lrengine.
+This Template serves as an example layout for a script using lsframe.
 
 """
 # %%
 
 # %% [markdown]
-# Import lrengine and any other packages that may be needed for your function,
-import lrengine as lr
+# Import lsframe and any other packages that may be needed for your function,
+import lsframe as ls
 
 # import numpy as np
 # etc.
@@ -40,7 +40,7 @@ def function_handle(directory, args_dict):
 
 # %% [markdown]
 # Create the **start** object,
-lrobject = lr.start(
+lsobject = ls.start(
     path,
     patterns=[],  # any patterns in the file or folder names to use as classifiers
     skip=[],  # any sub-strings in the names of file folders that should be skipped
@@ -57,13 +57,13 @@ lrobject = lr.start(
 # %% [markdown]
 # Pass the **start** object to the user defined function to add classifiers to the **.frame**,
 # then print the **.head()** of **.frame**,
-lrobject.drive()
-print(lrobject.frame.head())
+lsobject.drive()
+print(lsobject.frame.head())
 # %%
 
 # %% [markdown]
 # Add a dictionary to the **start** object that is a map of the parent directory,
-lrobject.map_directory()
+lsobject.map_directory()
 # %%
 
 # %% [markdown]
@@ -71,5 +71,5 @@ lrobject.map_directory()
 # your **.frame**, or maybe with a third output if you have more than two. The **'seaborn_args'** dictionary should have
 # keys that are the arguments that would be given to **seaborn.relplot** and any allowed values according to **seaborn.relplot**
 # documentation,
-lrobject.sea(seaborn_args={"x": "output1", "y": "output2", "hue": None, "s": 100})
+lsobject.sea(seaborn_args={"x": "output1", "y": "output2", "hue": None, "s": 100})
 # %%

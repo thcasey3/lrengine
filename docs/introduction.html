@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Introduction to lrengine &mdash; lrengine  documentation</title>
+  <title>Introduction to lsframe &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Create a Start Object" href="create.html" />
-    <link rel="prev" title="Installing lrengine" href="install.html" /> 
+    <link rel="prev" title="Installing lsframe" href="install.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to lrengine</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to lsframe</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-overview">General Overview</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#language-patterns">Language Patterns</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#skip-files-or-folders">Skip Files or Folders</a></li>
@@ -118,7 +118,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -135,7 +135,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -166,7 +166,7 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Introduction to lrengine</li>
+      <li>Introduction to lsframe</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -185,9 +185,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="introduction-to-lrengine">
-<h1>Introduction to lrengine<a class="headerlink" href="#introduction-to-lrengine" title="Permalink to this headline">¶</a></h1>
-<p>The aim of lrengine is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.</p>
+  <div class="section" id="introduction-to-lsframe">
+<h1>Introduction to lsframe<a class="headerlink" href="#introduction-to-lsframe" title="Permalink to this headline">¶</a></h1>
+<p>The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.</p>
 <div class="section" id="general-overview">
 <h2>General Overview<a class="headerlink" href="#general-overview" title="Permalink to this headline">¶</a></h2>
 <p>Imagine the directory,</p>
@@ -195,32 +195,32 @@
 <a class="reference internal image-reference" href="_images/dir.png"><img alt="_images/dir.png" src="_images/dir.png" style="width: 350px;" /></a>
 <p class="caption"><span class="caption-text">Example parent directory</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Import the lrengine package,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+<p>Import the lsframe package,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 </pre></div>
 </div>
 <p>Create an object that contains a <strong>frame</strong> with at minimum one column that is the names of the files or folders in the supplied directory,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="language-patterns">
 <h3>Language Patterns<a class="headerlink" href="#language-patterns" title="Permalink to this headline">¶</a></h3>
 <p>You may define patterns to use for classification. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating whether the pattern was or was not found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s1">&#39;sample1&#39;</span><span class="p">)</span> <span class="c1"># single pattern</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample3&#39;</span><span class="p">])</span> <span class="c1"># list of patterns</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s1">&#39;sample1&#39;</span><span class="p">)</span> <span class="c1"># single pattern</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample3&#39;</span><span class="p">])</span> <span class="c1"># list of patterns</span>
 </pre></div>
 </div>
 <p>You may also use regular expressions to do more sophisticated pattern searches and classify by specific language rather than bool. To do this, use a dictionary rather than a list. The keys of the dict are the column names, the values are the expression to search for and classify by. This example creates a column called 'sample' and classifies by any one digit number found just to the right of the word 'sample',</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">})</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>If this patterning is not found, <strong>False</strong> is entered.</p>
 <p>To mix these behaviors, add <strong>bool</strong> for the dict value and the column for the key is added with <strong>True</strong> or <strong>False</strong> added if the pattern is or is not found, respectively. This example makes a column for 'sample' and classifies by any one digit number as above, but also adds a column called 'blank_run' and classifies as <strong>True</strong> or <strong>False</strong>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">,</span> <span class="s1">&#39;blank_run&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">,</span> <span class="s1">&#39;blank_run&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
@@ -228,7 +228,7 @@
 <h3>Skip Files or Folders<a class="headerlink" href="#skip-files-or-folders" title="Permalink to this headline">¶</a></h3>
 <p>You may skip directories according to specific language. This example classifies by sample number but skips any file or folder with 'sample7' in the name,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">)</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span> <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -236,7 +236,7 @@
 <h3>Find Dates<a class="headerlink" href="#find-dates" title="Permalink to this headline">¶</a></h3>
 <p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span>
@@ -245,7 +245,7 @@
 </div>
 <p>You can search for all possible dates by setting <strong>date_format='any'</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
-<span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span>
@@ -266,7 +266,7 @@
 </pre></div>
 </div>
 <p>Create the object,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
                     <span class="n">skip</span><span class="o">=</span><span class="s1">&#39;sample7&#39;</span><span class="p">,</span>
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span>
@@ -278,7 +278,7 @@
 </pre></div>
 </div>
 <p>Call the <strong>drive()</strong> method</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">drive</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>and two new columns would be added called 'output1' and 'output2' with the values corresponding to the function outputs. Make sure to have the function accept a path and a single dictionary that contains any additional parameters needed. Also make sure the function returns the outputs in a list that is equal in length to the given list of classifiers. Use the above example function as a template.</p>
@@ -286,7 +286,7 @@
 <div class="section" id="handle-function-errors">
 <h3>Handle Function Errors<a class="headerlink" href="#handle-function-errors" title="Permalink to this headline">¶</a></h3>
 <p>If the function errors on the specific file or folder &quot;null&quot; is returned for the classifier to facilitate easy removal of any file or folder that is not compatible with the function using something similar to,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="p">[</span><span class="s1">&#39;output1&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;null&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -304,7 +304,7 @@
         <a href="create.html" class="btn btn-neutral float-right" title="Create a Start Object" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="install.html" class="btn btn-neutral float-left" title="Installing lrengine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-left" title="Installing lsframe" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -314,7 +314,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

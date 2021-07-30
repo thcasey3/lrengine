@@ -32,7 +32,7 @@ For the function below the call would look something like,
 .. code-block:: default
 
     """
-    lrobject = lr.start(
+    lsobject = ls.start(
         parent_directory,
         skip=[".DSC", ".YGF", ".par"],  # otherwise duplicates
         classifiers=["max_loc", "frequency"],
@@ -40,10 +40,10 @@ For the function below the call would look something like,
         function_args={},
     )
 
-    lrobject.drive()
+    lsobject.drive()
     """
     # parent_directory contains Bruker EPR data. Add patterns, skip, date searching, etc.
-    # according to the lrengine docs. The function_args are empty in this case. Since DTA
+    # according to the lsframe docs. The function_args are empty in this case. Since DTA
     # and spc files come with companion DSC, YGF, or par files and DNPLab uses any of these,
     # skip these files to avoid duplicates.
 

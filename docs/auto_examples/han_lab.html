@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Han Lab ODNP data processing &mdash; lrengine  documentation</title>
+  <title>Han Lab ODNP data processing &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Version History" href="../version_history.html" />
-    <link rel="prev" title="lrengine Template" href="template.html" /> 
+    <link rel="prev" title="lsframe Template" href="template.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -55,7 +55,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -108,10 +108,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">Classes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">lrengine Examples</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">lsframe Examples</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="zip_folders.html">zip folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="process_EPR.html">EPR data processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html">lrengine Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">lsframe Template</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Han Lab ODNP data processing</a></li>
 </ul>
 </li>
@@ -131,7 +131,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">lrengine</a>
+          <a href="../index.html">lsframe</a>
         
       </nav>
 
@@ -162,7 +162,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="index.html">lrengine Examples</a> &raquo;</li>
+          <li><a href="index.html">lsframe Examples</a> &raquo;</li>
         
       <li>Han Lab ODNP data processing</li>
     
@@ -193,17 +193,17 @@ to download the full example code</p>
 <p>An example user-defined function for processing Han Lab ODNP data with the DNPLab package.</p>
 <p>For the function below the call would look something like,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">lrobject = lr.start(</span>
+<span class="sd">lsobject = ls.start(</span>
 <span class="sd">    parent_directory,</span>
 <span class="sd">    classifiers=[&quot;tcorr&quot;, &quot;ksigma&quot;],</span>
 <span class="sd">    function=han_lab.calc_odnp,</span>
 <span class="sd">    function_args=hyd_dict,</span>
 <span class="sd">)</span>
 
-<span class="sd">lrobject.drive()</span>
+<span class="sd">lsobject.drive()</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># parent_directory contains folders of han_lab data collected using &quot;rb_dnp1&quot; at the CNSI</span>
-<span class="c1"># facility. Add patterns, skip, date searching, etc. according to the lrengine docs. The</span>
+<span class="c1"># facility. Add patterns, skip, date searching, etc. according to the lsframe docs. The</span>
 <span class="c1"># &quot;hyd_dict&quot; is the dictionary of input constants for dnpHydration, according to DNPLab</span>
 <span class="c1"># docs.</span>
 </pre></div>
@@ -496,7 +496,7 @@ to download the full example code</p>
         <a href="../version_history.html" class="btn btn-neutral float-right" title="Version History" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="template.html" class="btn btn-neutral float-left" title="lrengine Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="template.html" class="btn btn-neutral float-left" title="lsframe Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -506,7 +506,7 @@ to download the full example code</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

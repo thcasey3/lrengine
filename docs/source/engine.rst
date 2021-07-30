@@ -4,4 +4,4 @@
 engine
 ======
 
-.. autofunction:: lrengine.engine.cylinders
+.. autofunction:: lsframe.engine.cylinders

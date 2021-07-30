@@ -6,14 +6,14 @@ You may also reduce the frame to a specific date or range of dates using the **o
 
 .. code-block:: python
 
-    lrobject.on_date(keep="1985-08-02")
+    lsobject.on_date(keep="1985-08-02")
 
 
 To do the exact opposite and remove specific dates, use the keyword **remove=** instead,
 
 .. code-block:: python
 
-    lrobject.on_date(remove="1985-08-02")
+    lsobject.on_date(remove="1985-08-02")
 
 
 Use Lists
@@ -23,13 +23,13 @@ You may also give a list. For example, keep any element with either the date abo
 
 .. code-block:: python
 
-    lrobject.on_date(keep=["1985-08-02", "1988-02-08"])
+    lsobject.on_date(keep=["1985-08-02", "1988-02-08"])
 
 Or to do the opposite,
 
 .. code-block:: python
 
-    lrobject.on_date(remove=["1985-08-02", "1988-02-08"])
+    lsobject.on_date(remove=["1985-08-02", "1988-02-08"])
 
 
 Use Ranges
@@ -39,27 +39,27 @@ To specify a range or ranges rather than specific dates, use **in_range()** inst
 
 .. code-block:: python
 
-    lrobject.in_range(keep=["1985-08-01", "1985-09-01"])
+    lsobject.in_range(keep=["1985-08-01", "1985-09-01"])
 
 
 As with **on_date()**, you may also give a list of ranges (list of lists). For example, keep only elements either in the range above or in the month of Dec. 1985,
 
 .. code-block:: python
 
-    lrobject.in_range(keep=[["1985-08-01", "1985-09-01"], ["1985-12-01", "1985-12-31"]])
+    lsobject.in_range(keep=[["1985-08-01", "1985-09-01"], ["1985-12-01", "1985-12-31"]])
 
 Again, you may also do the exact opposite with the keyword arg **remove=**, 
 
 .. code-block:: python
 
-    lrobject.in_range(remove=["1985-08-01", "1985-09-01"])
+    lsobject.in_range(remove=["1985-08-01", "1985-09-01"])
 
 
 Or,
 
 .. code-block:: python
 
-    lrobject.in_range(remove=[["1985-08-01", "1985-09-01"], ["1985-12-01", "1985-12-31"]])
+    lsobject.in_range(remove=[["1985-08-01", "1985-09-01"], ["1985-12-01", "1985-12-31"]])
 
 
 Remove Zeros
@@ -69,13 +69,13 @@ There is also an option to remove or keep any elements with 0 for date using the
 
 .. code-block:: python
 
-    lrobject.on_date(keep="1985-08-02")                    #removes where date=0
-    lrobject.on_date(keep="1985-08-02", strip_zeros=False) #keeps where date=0
+    lsobject.on_date(keep="1985-08-02")                    #removes where date=0
+    lsobject.on_date(keep="1985-08-02", strip_zeros=False) #keeps where date=0
 
 And,
 
 .. code-block:: python
 
-    lrobject.in_range(keep=["1985-08-01", "1985-09-01"])   #removes where date=0
-    lrobject.in_range(keep=["1985-08-01", "1985-09-01"], 
+    lsobject.in_range(keep=["1985-08-01", "1985-09-01"])   #removes where date=0
+    lsobject.in_range(keep=["1985-08-01", "1985-09-01"], 
                       strip_zeros=False)                   #keeps where date=0

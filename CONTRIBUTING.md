@@ -1,4 +1,4 @@
-# Contributing to lrengine 
+# Contributing to lsframe 
 Please feel free to contribute by:
 
 - Reporting a bug
@@ -9,13 +9,13 @@ Please feel free to contribute by:
 
 ## Bug reports and enhancement requests
 I use GitHub issues to track public bugs and enhancement requests:
-[opening a new issue](https://github.com/thcasey3/lrengine/issues/new).
+[opening a new issue](https://github.com/thcasey3/lsframe/issues/new).
 
 ## Working with the code
 
 ### Git and Github
 
-I use git for version control, and github to host the lrengine code
+I use git for version control, and github to host the lsframe code
 base.
 
 Some resources for learning Git:
@@ -28,7 +28,7 @@ Some resources for learning GitHub:
 ### Forking and cloning
 
 After [creating your free github account](https://github.com/join), you
-can go to the [lrengine project page](https://github.com/thcasey3/lrengine)
+can go to the [lsframe project page](https://github.com/thcasey3/lsframe)
 and click the **Fork** button to creating a copy of the project to your
 own Github account.
 
@@ -39,9 +39,9 @@ sure you change to a directory with write permission).
 After forking,  copy the project from Github to your local
 machine by
 ```
-git clone https://github.com/<your-github-user-name>/lrengine lrengine-yourname
-cd lrengine-yourname
-git remote add upstream https://github.com/thcasey3/lrengine.git
+git clone https://github.com/<your-github-user-name>/lsframe lsframe-yourname
+cd lsframe-yourname
+git remote add upstream https://github.com/thcasey3/lsframe.git
 ```
 
 The `master` branch only hosts the latest release, make sure you are on
@@ -81,7 +81,7 @@ following:
 
 ### Branching, commiting and pushing
 When creating a new branch, make sure the `development` is up to
-date with lrengine project. You can do so by
+date with lsframe project. You can do so by
 ```
 git checkout development
 git pull upstream development
@@ -116,10 +116,10 @@ git push -u origin yourname-gh-##
 
 ### Pull requests
 After reviewing your changes, you can file a pull request for the
-maintainer of lrengine to review and approve. See
+maintainer of lsframe to review and approve. See
 [Github creating-a-pull-request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request)
 
-Make sure you are requesting to merge to `lrengine/development` from
+Make sure you are requesting to merge to `lsframe/development` from
 `your-github-username/yourname-gh-##`.
 
 Your changes will trigger multiple automatic checks to ensure it

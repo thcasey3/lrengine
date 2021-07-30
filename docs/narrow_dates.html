@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Narrow the Dates &mdash; lrengine  documentation</title>
+  <title>Narrow the Dates &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
@@ -55,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -113,7 +113,7 @@
 <li class="toctree-l1"><a class="reference internal" href="sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="classes.html">Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lrengine Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="auto_examples/index.html">lsframe Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="version_history.html">Version History</a></li>
 </ul>
 
@@ -130,7 +130,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">lrengine</a>
+          <a href="index.html">lsframe</a>
         
       </nav>
 
@@ -183,53 +183,53 @@
   <div class="section" id="narrow-the-dates">
 <h1>Narrow the Dates<a class="headerlink" href="#narrow-the-dates" title="Permalink to this headline">¶</a></h1>
 <p>You may also reduce the frame to a specific date or range of dates using the <strong>on_date()</strong> or <strong>in_range()</strong> methods. For example, to keep only the elements of a frame having the date Aug. 2nd 1985,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To do the exact opposite and remove specific dates, use the keyword <strong>remove=</strong> instead,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="use-lists">
 <h2>Use Lists<a class="headerlink" href="#use-lists" title="Permalink to this headline">¶</a></h2>
 <p>You may also give a list. For example, keep any element with either the date above or Feb. 8th 1988,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">,</span> <span class="s2">&quot;1988-02-08&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">,</span> <span class="s2">&quot;1988-02-08&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Or to do the opposite,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">,</span> <span class="s2">&quot;1988-02-08&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">,</span> <span class="s2">&quot;1988-02-08&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="use-ranges">
 <h2>Use Ranges<a class="headerlink" href="#use-ranges" title="Permalink to this headline">¶</a></h2>
 <p>To specify a range or ranges rather than specific dates, use <strong>in_range()</strong> instead. Ranges must be two element lists. For example, to keep all elements having dates between Aug. 1st and Sept. 1st 1985,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>As with <strong>on_date()</strong>, you may also give a list of ranges (list of lists). For example, keep only elements either in the range above or in the month of Dec. 1985,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;1985-12-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-12-31&quot;</span><span class="p">]])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;1985-12-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-12-31&quot;</span><span class="p">]])</span>
 </pre></div>
 </div>
 <p>Again, you may also do the exact opposite with the keyword arg <strong>remove=</strong>,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Or,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;1985-12-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-12-31&quot;</span><span class="p">]])</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">remove</span><span class="o">=</span><span class="p">[[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;1985-12-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-12-31&quot;</span><span class="p">]])</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="remove-zeros">
 <h2>Remove Zeros<a class="headerlink" href="#remove-zeros" title="Permalink to this headline">¶</a></h2>
 <p>There is also an option to remove or keep any elements with 0 for date using the keyword arg <strong>strip_zeros=</strong>. Default is <strong>True</strong> for <strong>on_date()</strong> and <strong>in_range()</strong>.  For example,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">)</span>                    <span class="c1">#removes where date=0</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">,</span> <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps where date=0</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">)</span>                    <span class="c1">#removes where date=0</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">on_date</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s2">&quot;1985-08-02&quot;</span><span class="p">,</span> <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1">#keeps where date=0</span>
 </pre></div>
 </div>
 <p>And,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">])</span>   <span class="c1">#removes where date=0</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">],</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">])</span>   <span class="c1">#removes where date=0</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">in_range</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;1985-08-01&quot;</span><span class="p">,</span> <span class="s2">&quot;1985-09-01&quot;</span><span class="p">],</span>
                   <span class="n">strip_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                   <span class="c1">#keeps where date=0</span>
 </pre></div>
 </div>
@@ -257,7 +257,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

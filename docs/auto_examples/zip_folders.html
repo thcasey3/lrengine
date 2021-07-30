@@ -7,13 +7,13 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>zip folders &mdash; lrengine  documentation</title>
+  <title>zip folders &mdash; lsframe  documentation</title>
   
 
   
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../_static/css/lrtheme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/lstheme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery-dataframe.css" type="text/css" />
@@ -41,7 +41,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="EPR data processing" href="process_EPR.html" />
-    <link rel="prev" title="lrengine Examples" href="index.html" /> 
+    <link rel="prev" title="lsframe Examples" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -55,7 +55,7 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> lrengine
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> lsframe
           
 
           
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.0.7
+                1.0
               </div>
             
           
@@ -94,8 +94,8 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing lrengine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to lrengine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installing lsframe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction to lsframe</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../create.html">Create a Start Object</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../define_patterns.html">Defining Patterns</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -108,10 +108,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../sea.html">seaborn relplot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../save.html">Save the Frame to csv</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../classes.html">Classes</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">lrengine Examples</a><ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">lsframe Examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">zip folders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="process_EPR.html">EPR data processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="template.html">lrengine Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">lsframe Template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="han_lab.html">Han Lab ODNP data processing</a></li>
 </ul>
 </li>
@@ -131,7 +131,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">lrengine</a>
+          <a href="../index.html">lsframe</a>
         
       </nav>
 
@@ -162,7 +162,7 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="index.html">lrengine Examples</a> &raquo;</li>
+          <li><a href="index.html">lsframe Examples</a> &raquo;</li>
         
       <li>zip folders</li>
     
@@ -191,8 +191,8 @@ to download the full example code</p>
 <div class="sphx-glr-example-title section" id="zip-folders">
 <span id="sphx-glr-auto-examples-zip-folders-py"></span><h1>zip folders<a class="headerlink" href="#zip-folders" title="Permalink to this headline">¶</a></h1>
 <p>This example demonstrates zipping the subfolders of a parent directory.</p>
-<p>Import lrengine, import shutil for creating the zip files, and import os for defining paths,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lrengine</span> <span class="k">as</span> <span class="nn">lr</span>
+<p>Import lsframe, import shutil for creating the zip files, and import os for defining paths,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">os</span>
 </pre></div>
@@ -202,15 +202,15 @@ to download the full example code</p>
 </pre></div>
 </div>
 <p>Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 and only consisting of folders. The means the names of the frame are a list of folders that are in the given path,</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lrobject</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
-<span class="n">lrobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;folders&quot;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">map_directory</span><span class="p">()</span>
+<span class="n">lsobject</span><span class="o">.</span><span class="n">map_to_frame</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;folders&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Loop over the names of the frame and create zip files from the corresponding directories,</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
     <span class="n">shutil</span><span class="o">.</span><span class="n">make_archive</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lrobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">lsobject</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">name</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -237,7 +237,7 @@ to download the full example code</p>
         <a href="process_EPR.html" class="btn btn-neutral float-right" title="EPR data processing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="lrengine Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="lsframe Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -247,7 +247,7 @@ to download the full example code</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2021, lrengine
+        &copy; Copyright 2021, lsframe
 
     </p>
   </div>

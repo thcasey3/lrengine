@@ -6,10 +6,10 @@ You may also classify by dates found in the file or folder names and the days el
 
 .. code-block:: python
 
-    import lrengine as lr
+    import lsframe as ls
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, 
+    lsobject = ls.start(path, 
                         patterns={'sample': 'sample\d'}, 
                         skip='sample7', 
                         date_format='YYYYMMDD')
@@ -20,7 +20,7 @@ You can search for any of a list of formats if you supply a list, or even look f
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, 
+    lsobject = ls.start(path, 
                         patterns={'sample': 'sample\d'}, 
                         skip='sample7', 
                         date_format='any')
@@ -31,7 +31,7 @@ Or just look for any of three formats,
 .. code-block:: python
 
     path = '/path/to/directory/'
-    lrobject = lr.start(path, 
+    lsobject = ls.start(path, 
                         patterns={'sample': 'sample\d'}, 
                         skip='sample7', 
                         date_format=['YYYYMMDD', 'YYMMDD', 'MMDDYYYY'])
@@ -44,15 +44,15 @@ You can also modify an existing object to include dates or change to a different
 
 .. code-block:: python
 
-    lrobject.date_format = 'YYYY-MM-DD'
-    lrobject.find_dates()
+    lsobject.date_format = 'YYYY-MM-DD'
+    lsobject.find_dates()
 
 You may use lists here as well,
 
 .. code-block:: python
 
-    lrobject.date_format = ['YYYY-MM-DD', 'YY-MM-DD']
-    lrobject.find_dates()
+    lsobject.date_format = ['YYYY-MM-DD', 'YY-MM-DD']
+    lsobject.find_dates()
 
 
 Allowed Formats

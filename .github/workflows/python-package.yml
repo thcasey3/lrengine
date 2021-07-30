@@ -44,7 +44,7 @@ jobs:
 #         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Check PEP-8 format for code consistency
       run: |
-        black lrengine --check
+        black lsframe --check
 
     - name: Test with pytest
       # pytest is compatible with unittest

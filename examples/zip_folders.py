@@ -10,8 +10,8 @@ This example demonstrates zipping the subfolders of a parent directory.
 # %%
 
 # %% [markdown]
-# Import lrengine, import shutil for creating the zip files, and import os for defining paths,
-import lrengine as lr
+# Import lsframe, import shutil for creating the zip files, and import os for defining paths,
+import lsframe as ls
 import shutil
 import os
 
@@ -25,15 +25,15 @@ path = "../path/to/parent/directory"
 
 # %% [markdown]
 # Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 and only consisting of folders. The means the names of the frame are a list of folders that are in the given path,
-lrobject = lr.start(directory=path)
-lrobject.map_directory()
-lrobject.map_to_frame(depth=1, kind="folders")
+lsobject = ls.start(directory=path)
+lsobject.map_directory()
+lsobject.map_to_frame(depth=1, kind="folders")
 # %%
 
 # %% [markdown]
 # Loop over the names of the frame and create zip files from the corresponding directories,
 [
     shutil.make_archive(os.path.join(path, name), "zip", os.path.join(path, name))
-    for name in lrobject.frame.name
+    for name in lsobject.frame.name
 ]
 # %%
