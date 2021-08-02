@@ -102,7 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#look-for-dates">Look for Dates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#add-function-outputs">Add Function Outputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#load-a-saved-frame">Load a Saved Frame</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#create-empty-object">Create Empty Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-an-empty-object">Create an Empty Object</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="define_patterns.html">Defining Patterns</a></li>
@@ -272,8 +272,8 @@
 <h2>Load a Saved Frame<a class="headerlink" href="#load-a-saved-frame" title="Permalink to this headline">¶</a></h2>
 <p>If the given path is to a <strong>.csv</strong> file that was saved using the <strong>save()</strong> method, the same frame that was created and saved will be re-created in the <strong>start</strong> object (assuming the <strong>.csv</strong> was not modified). However, the other attributes of the <strong>start</strong> object that was saved will be missing, and will need to be defined manually.</p>
 </div>
-<div class="section" id="create-empty-object">
-<h2>Create Empty Object<a class="headerlink" href="#create-empty-object" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="create-an-empty-object">
+<h2>Create an Empty Object<a class="headerlink" href="#create-an-empty-object" title="Permalink to this headline">¶</a></h2>
 <p>If you instantiate without arguments, you will receive an empty <strong>start</strong> object that can be filled in manually using any of the available methods. For example, create an empty object then add a <strong>directory</strong> and <strong>date_format</strong>,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 <span class="n">lsobject</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>

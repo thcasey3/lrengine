@@ -181,7 +181,13 @@
             
   <div class="section" id="finding-dates">
 <h1>Finding Dates<a class="headerlink" href="#finding-dates" title="Permalink to this headline">¶</a></h1>
-<p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,</p>
+<p>You may also classify by dates found in the file or folder names and the days elapsed since the found date.</p>
+<p>Imagine the previously used directory contained dates in the folder names,</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/dir_dates.png"><img alt="_images/dir_dates.png" src="_images/dir_dates.png" style="width: 350px;" /></a>
+<p class="caption"><span class="caption-text">Example parent directory</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+<p>In this case add a <strong>date_format</strong> to search for. If the date format is known and consistent, you may set the format to ensure the correct date is the only date chosen from the folder name.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
@@ -191,7 +197,7 @@
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;YYYYMMDD&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>You can search for any of a list of formats if you supply a list, or even look for all possible dates by setting <strong>date_format='any'</strong>. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,</p>
+<p>If the format is not known, or there is more than one format, you can search for any of a list of formats. For this behavior, supply a list of formats or look for all possible dates by setting <strong>date_format='any'</strong>. By using <strong>'any'</strong> all logical dates are listed, along with a date_delta list and a date_format list. For example,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
@@ -199,7 +205,7 @@
                     <span class="n">date_format</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Or just look for any of three formats,</p>
+<p>To just look for any of three formats,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>

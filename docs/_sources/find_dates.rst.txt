@@ -2,7 +2,18 @@
 Finding Dates
 =============
 
-You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,
+You may also classify by dates found in the file or folder names and the days elapsed since the found date.
+
+Imagine the previously used directory contained dates in the folder names,
+
+.. figure:: _static/images/dir_dates.png
+    :width: 350
+    :align: center
+
+    Example parent directory
+
+
+In this case add a **date_format** to search for. If the date format is known and consistent, you may set the format to ensure the correct date is the only date chosen from the folder name.
 
 .. code-block:: python
 
@@ -15,7 +26,7 @@ You may also classify by dates found in the file or folder names and the days el
                         date_format='YYYYMMDD')
 
 
-You can search for any of a list of formats if you supply a list, or even look for all possible dates by setting **date_format='any'**. This finds all logical dates and gives them as a list, along with a date_delta list and a date_format list. For example,
+If the format is not known, or there is more than one format, you can search for any of a list of formats. For this behavior, supply a list of formats or look for all possible dates by setting **date_format='any'**. By using **'any'** all logical dates are listed, along with a date_delta list and a date_format list. For example,
 
 .. code-block:: python
 
@@ -26,7 +37,7 @@ You can search for any of a list of formats if you supply a list, or even look f
                         date_format='any')
 
 
-Or just look for any of three formats,
+To just look for any of three formats,
 
 .. code-block:: python
 

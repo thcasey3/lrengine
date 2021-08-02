@@ -39,8 +39,8 @@ To mix these behaviors, add 'bool' for the dict value and the column for the key
     lsobject = ls.start(path, patterns={'sample': 'sample\d', 'blank_run': bool})
 
 
-Modify Existing Frame
-=====================
+Modify an Existing Frame
+========================
 
 You can also modify an existing object to classify by different patterns using the **find_patterns()** method. For example, if patterns were not originally defined, add **patterns** then update the frame,
 

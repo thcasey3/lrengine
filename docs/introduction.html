@@ -97,10 +97,10 @@
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installing lsframe</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to lsframe</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-overview">General Overview</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#language-patterns">Language Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-language-patterns">Use Language Patterns</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#skip-files-or-folders">Skip Files or Folders</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#find-dates">Find Dates</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#use-custom-function">Use Custom Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-a-custom-function">Use a Custom Function</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#handle-function-errors">Handle Function Errors</a></li>
 </ul>
 </li>
@@ -187,26 +187,24 @@
             
   <div class="section" id="introduction-to-lsframe">
 <h1>Introduction to lsframe<a class="headerlink" href="#introduction-to-lsframe" title="Permalink to this headline">¶</a></h1>
-<p>The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.</p>
+<p>The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by specific language and dates extracted from file and folder names, and populated with outputs of processing functions. Users establish a DataFrame using file and folder names then define a function that operates on those files and folders to return data that can be correlated with the language in the file and folder names. Built-in methods for organization, manipulation, and display of the data in the DataFrame make visualization of trends and correlations quick and simple.</p>
 <div class="section" id="general-overview">
 <h2>General Overview<a class="headerlink" href="#general-overview" title="Permalink to this headline">¶</a></h2>
-<p>Imagine the directory,</p>
+<p>Imagine this directory, and imagine you would like to analyze the contents of the folders as a function of the sample number.</p>
 <div class="figure align-center" id="id1">
 <a class="reference internal image-reference" href="_images/dir.png"><img alt="_images/dir.png" src="_images/dir.png" style="width: 350px;" /></a>
 <p class="caption"><span class="caption-text">Example parent directory</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<p>Import the lsframe package,</p>
+<p>First create an object that contains a <strong>frame</strong> with the first column being a list of names of the files or folders in a parent directory,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lsframe</span> <span class="k">as</span> <span class="nn">ls</span>
-</pre></div>
-</div>
-<p>Create an object that contains a <strong>frame</strong> with at minimum one column that is the names of the files or folders in the supplied directory,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
+
+<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="section" id="language-patterns">
-<h3>Language Patterns<a class="headerlink" href="#language-patterns" title="Permalink to this headline">¶</a></h3>
-<p>You may define patterns to use for classification. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating whether the pattern was or was not found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
+<div class="section" id="use-language-patterns">
+<h3>Use Language Patterns<a class="headerlink" href="#use-language-patterns" title="Permalink to this headline">¶</a></h3>
+<p>Next define the patterns to use for classification. If a single pattern or list of patterns is given, additional columns will be added with names according to the patterns. The most basic behavior provides a bool indicating whether or not the pattern was found. This example adds the column 'sample1' and puts <strong>True</strong> where found, <strong>False</strong> where not found,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="s1">&#39;sample1&#39;</span><span class="p">)</span> <span class="c1"># single pattern</span>
 <span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;sample1&#39;</span><span class="p">,</span> <span class="s1">&#39;sample2&#39;</span><span class="p">,</span> <span class="s1">&#39;sample3&#39;</span><span class="p">])</span> <span class="c1"># list of patterns</span>
@@ -234,7 +232,12 @@
 </div>
 <div class="section" id="find-dates">
 <h3>Find Dates<a class="headerlink" href="#find-dates" title="Permalink to this headline">¶</a></h3>
-<p>You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,</p>
+<p>Now imagine the folders contained dates in their names,</p>
+<div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/dir_dates.png"><img alt="_images/dir_dates.png" src="_images/dir_dates.png" style="width: 350px;" /></a>
+<p class="caption"><span class="caption-text">Example parent directory</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>You may also classify by dates found in file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/path/to/directory/&#39;</span>
 <span class="n">lsobject</span> <span class="o">=</span> <span class="n">ls</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
                     <span class="n">patterns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">},</span>
@@ -253,9 +256,9 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="use-custom-function">
-<h3>Use Custom Function<a class="headerlink" href="#use-custom-function" title="Permalink to this headline">¶</a></h3>
-<p>You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:</p>
+<div class="section" id="use-a-custom-function">
+<h3>Use a Custom Function<a class="headerlink" href="#use-a-custom-function" title="Permalink to this headline">¶</a></h3>
+<p>You can also use a custom function that operates on each element of the parent directory to add the outputs as classifiers, rather than just a bool. Do this by adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">function_handle</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">args_dict</span><span class="p">):</span>
 
     <span class="n">use_directory</span> <span class="o">=</span> <span class="n">directory</span>

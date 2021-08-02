@@ -2,12 +2,12 @@
 Introduction to lsframe
 ========================
 
-The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by dates or specific language extracted from file and/or folder names, and populated with values or booleans that can be used to classify. Users can also define a function that operates on those files and/or folders and adds additional columns for classifiers returned by the function. This provides an easy way to interact with directories of common data types and search for correlations between dates, language patterns in the file and/or folder names, and outputs of a user-defined functions that operate on the files and/or folders.
+The aim of lsframe is to provide a simple tool for building and interacting with pandas DataFrames that have columns defined by specific language and dates extracted from file and folder names, and populated with outputs of processing functions. Users establish a DataFrame using file and folder names then define a function that operates on those files and folders to return data that can be correlated with the language in the file and folder names. Built-in methods for organization, manipulation, and display of the data in the DataFrame make visualization of trends and correlations quick and simple.
 
 General Overview
 ================
 
-Imagine the directory,
+Imagine this directory, and imagine you would like to analyze the contents of the folders as a function of the sample number.
 
 .. figure:: _static/images/dir.png
     :width: 350
@@ -16,25 +16,20 @@ Imagine the directory,
     Example parent directory
 
 
-Import the lsframe package,
+First create an object that contains a **frame** with the first column being a list of names of the files or folders in a parent directory,
 
 .. code-block:: python
 
     import lsframe as ls
 
-
-Create an object that contains a **frame** with at minimum one column that is the names of the files or folders in the supplied directory,
-
-.. code-block:: python
-
     path = '/path/to/directory/'
     lsobject = ls.start(path)
 
 
-Language Patterns
------------------
+Use Language Patterns
+---------------------
 
-You may define patterns to use for classification. If a single pattern or list of patterns is given, the columns will be named according to the patterns and a bool will be supplied indicating whether the pattern was or was not found. This example adds the column 'sample1' and puts **True** where found, **False** where not found,
+Next define the patterns to use for classification. If a single pattern or list of patterns is given, additional columns will be added with names according to the patterns. The most basic behavior provides a bool indicating whether or not the pattern was found. This example adds the column 'sample1' and puts **True** where found, **False** where not found,
 
 .. code-block:: python
 
@@ -74,7 +69,16 @@ You may skip directories according to specific language. This example classifies
 Find Dates
 ----------
 
-You may also classify by dates found in the file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,
+Now imagine the folders contained dates in their names,
+
+.. figure:: _static/images/dir_dates.png
+    :width: 350
+    :align: center
+
+    Example parent directory
+
+
+You may also classify by dates found in file or folder names and the days elapsed since the found date. This example looks for dates of the format 'YYYYMMDD' and adds 'date' and 'date_delta' columns,
 
 .. code-block:: python
 
@@ -98,10 +102,10 @@ You can search for all possible dates by setting **date_format='any'**. This fin
                         )
 
 
-Use Custom Function
--------------------
+Use a Custom Function
+---------------------
 
-You can even use a custom function that operates on each element of the parent directory to add the outputs as classifiers. Do this my adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:
+You can also use a custom function that operates on each element of the parent directory to add the outputs as classifiers, rather than just a bool. Do this by adding the names of the classifier columns, defining the function call, and adding any needed arguments in the form of a dictionary. For example, if the function is:
 
 .. code-block:: python
 
