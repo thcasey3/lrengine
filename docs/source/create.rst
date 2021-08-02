@@ -116,8 +116,8 @@ Load a Saved Frame
 
 If the given path is to a **.csv** file that was saved using the **save()** method, the same frame that was created and saved will be re-created in the **start** object (assuming the **.csv** was not modified). However, the other attributes of the **start** object that was saved will be missing, and will need to be defined manually.
 
-Create Empty Object
-===================
+Create an Empty Object
+======================
 
 If you instantiate without arguments, you will receive an empty **start** object that can be filled in manually using any of the available methods. For example, create an empty object then add a **directory** and **date_format**,
 

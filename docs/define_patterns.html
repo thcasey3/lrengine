@@ -100,7 +100,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Defining Patterns</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#using-str-or-list">Using str or list</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-dict">Using dict</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#modify-existing-frame">Modify Existing Frame</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modify-an-existing-frame">Modify an Existing Frame</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="reduce_names.html">Reduce the Frame using Patterns</a></li>
@@ -208,8 +208,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="modify-existing-frame">
-<h2>Modify Existing Frame<a class="headerlink" href="#modify-existing-frame" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="modify-an-existing-frame">
+<h2>Modify an Existing Frame<a class="headerlink" href="#modify-an-existing-frame" title="Permalink to this headline">¶</a></h2>
 <p>You can also modify an existing object to classify by different patterns using the <strong>find_patterns()</strong> method. For example, if patterns were not originally defined, add <strong>patterns</strong> then update the frame,</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lsobject</span><span class="o">.</span><span class="n">patterns</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sample&#39;</span><span class="p">:</span> <span class="s1">&#39;sample\d&#39;</span><span class="p">}</span>
 <span class="n">lsobject</span><span class="o">.</span><span class="n">find_patterns</span><span class="p">()</span>
