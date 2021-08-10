@@ -69,7 +69,7 @@ You may skip directories according to specific language. This example classifies
 Find Dates
 ----------
 
-Now imagine the folders contained dates in their names,
+Now imagine the folder names include dates,
 
 .. figure:: _static/images/dir_dates.png
     :width: 350

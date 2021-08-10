@@ -4,7 +4,7 @@ Finding Dates
 
 You may also classify by dates found in the file or folder names and the days elapsed since the found date.
 
-Imagine the folders in a directory contain dates in their names,
+Imagine the folder names include dates,
 
 .. figure:: _static/images/dir_dates.png
     :width: 350
