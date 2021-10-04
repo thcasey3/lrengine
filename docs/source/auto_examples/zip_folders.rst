@@ -48,7 +48,7 @@ Set the path to a parent directory full of folders you would like to zip,
 
 .. GENERATED FROM PYTHON SOURCE LINES 27-28
 
-Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 and only consisting of folders. The means the names of the frame are a list of folders that are in the given path,
+Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 consisting only of folders. This means the names column of the frame consists of the names of the folders that reside at the given path,
 
 .. GENERATED FROM PYTHON SOURCE LINES 28-31
 
@@ -60,7 +60,7 @@ Create the start object, create a directory_map, and make a frame from the direc
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-35
 
-Loop over the names of the frame and create zip files from the corresponding directories,
+Scan through the names of the folders collected in the frame and create zip files of the contents,
 
 .. GENERATED FROM PYTHON SOURCE LINES 35-39
 

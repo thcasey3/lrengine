@@ -24,14 +24,14 @@ path = "../path/to/parent/directory"
 
 
 # %% [markdown]
-# Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 and only consisting of folders. The means the names of the frame are a list of folders that are in the given path,
+# Create the start object, create a directory_map, and make a frame from the directory_map with depth of 1 consisting only of folders. This means the names column of the frame consists of the names of the folders that reside at the given path,
 lsobject = ls.start(directory=path)
 lsobject.map_directory()
 lsobject.map_to_frame(depth=1, kind="folders")
 # %%
 
 # %% [markdown]
-# Loop over the names of the frame and create zip files from the corresponding directories,
+# Scan through the names of the folders collected in the frame and create zip files of the contents,
 [
     shutil.make_archive(os.path.join(path, name), "zip", os.path.join(path, name))
     for name in lsobject.frame.name
