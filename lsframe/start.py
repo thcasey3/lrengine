@@ -227,7 +227,7 @@ class start:
                     for x in self.directory_map.keys()
                     if x.count(os.sep) in depth
                 ]
-            elif kind == "files" or kind == "any":
+            elif kind in ["files", "any"]:
                 temp = []
                 for x in self.directory_map.keys():
                     if kind == "any":
