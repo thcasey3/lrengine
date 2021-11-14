@@ -280,7 +280,7 @@ class start:
             return tools.sea_born.sea(
                 df=self.frame, kind=kind, seaborn_args=seaborn_args
             )
-
+    
     def save(self, filename=None, header=True):
 
         if filename:
