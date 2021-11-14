@@ -310,7 +310,7 @@ class date_injectors:
         if date_string and isinstance(date_string, list):
             new_date_string = []
             for ds in date_string:
-                ds.replace("/", "-").replace("_", "-").replace(":", "-")
+                ds = ds.replace("/", "-").replace("_", "-").replace(":", "-")
                 test_date_string = self._map_date_string(ds, date_format)
                 test = self.parse_dates(test_date_string)
                 if test is not None:
