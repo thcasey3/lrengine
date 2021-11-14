@@ -1,5 +1,5 @@
 .. lsframe documentation master file, created by
-   sphinx-quickstart on Fri Jan 10 17:26:18 2020.
+   sphinx-quickstart on Sun Oct 31 12:00:00 2021.
 
 .. .. image:: logo.png
 ..     :target: https://github.com/thcasey3/lsframe
