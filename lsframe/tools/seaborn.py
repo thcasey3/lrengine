@@ -30,7 +30,7 @@ class sea:
         seaborn_args,
     ):
         sea_args = {
-            "theme": "darkgrid",
+            "theme": "white",
             "hue": None,
             "s": 25,
             "size": None,
@@ -40,10 +40,10 @@ class sea:
             "col_wrap": None,
             "row_order": None,
             "col_order": None,
-            "palette": None,
+            "palette": "muted",
             "hue_order": None,
             "hue_norm": None,
-            "sizes": None,
+            "sizes": (40, 400),
             "size_order": None,
             "size_norm": None,
             "markers": None,
@@ -53,6 +53,7 @@ class sea:
             "kind": "scatter",
             "height": 5,
             "aspect": 1,
+            "alpha": 0.5,
             "facet_kws": None,
             "units": None,
         }
@@ -85,6 +86,7 @@ class sea:
             kind="scatter",
             height=5,
             aspect=1,
+            alpha=sea_args["alpha"],
             facet_kws=sea_args["facet_kws"],
             units=sea_args["units"],
         )

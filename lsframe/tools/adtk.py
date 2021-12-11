@@ -17,27 +17,26 @@ class adtk:
     Returns:
     """
 
-    def __init__(self, time=[], variable=[], method="QuantileAD", adtk_args={}):
+    def __init__(self, time=[], variable=[], method="OutlierDetector", adtk_args={}):
 
         self._adtk(time=time, variable=variable, method=method, adtk_args=adtk_args)
 
-
     def _adtk(self, time, variable, method, adtk_args):
-        
+
         a_args = {
-            "detect_func":,
-        "detect_func_params":,
-        "k":,
-        "c":,
-        "side":,
-        "high":,
-        "low":,
-        "window":,
-        "n_steps":,
-        "step_size":,
-        "contamination":,
-        "target":,
-        "n_clusters":,
+            "detect_func": None,
+            "detect_func_params": None,
+            "k": 1,
+            "c": 3.0,
+            "side": "both",
+            "high": None,
+            "low": None,
+            "window": 3,
+            "n_steps": 1,
+            "step_size": 1,
+            "contamination": 0.025,
+            "target": "variable",
+            "n_clusters": 3,
         }
         a_args.update(adtk_args)
 
@@ -77,14 +76,16 @@ class adtk:
             )
         elif method == "OutlierDetector":
             AD = detector.OutlierDetector(
-                EllipticEnvelope(contamination=a_args["contamination"])
+                EllipticEnvelope(contamination=a_args["contamination"], random_state=42)
             )
         elif method == "RegressionAD":
             AD = detector.RegressionAD(
                 regressor=LinearRegression(), target=a_args["target"], c=a_args["c"]
             )
         elif method == "MinClusterDetector":
-            AD = detector.MinClusterDetector(KMeans(n_clusters=a_args["n_clusters"]))
+            AD = detector.MinClusterDetector(
+                KMeans(n_clusters=a_args["n_clusters"], random_state=42)
+            )
 
         if any(
             map(
@@ -125,6 +126,7 @@ class adtk:
                 anomaly_markersize=5,
                 anomaly_color="red",
                 anomaly_tag="marker",
+                curve_group="all",
             )
 
         plt.show()

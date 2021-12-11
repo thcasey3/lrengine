@@ -4,7 +4,6 @@ start module, checks and packages the inputs and sends them to intake
 
 import os
 import pandas as pd
-import numpy as np
 from datetime import date
 from . import intake, engine, tools
 
@@ -280,7 +279,7 @@ class start:
             return tools.sea_born.sea(
                 df=self.frame, kind=kind, seaborn_args=seaborn_args
             )
-    
+
     def save(self, filename=None, header=True):
 
         if filename:
