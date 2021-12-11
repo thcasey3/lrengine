@@ -56,7 +56,7 @@ class sea:
             "facet_kws": None,
             "units": None,
         }
-        sea_args = self.update_sea_args(sea_args, seaborn_args)
+        sea_args.update(seaborn_args)
         sns.set_theme(style=sea_args["theme"])
 
         sns.relplot(
@@ -88,11 +88,3 @@ class sea:
             facet_kws=sea_args["facet_kws"],
             units=sea_args["units"],
         )
-
-    @staticmethod
-    def update_sea_args(sea_args, seaborn_args):
-
-        for ky in seaborn_args.keys():
-            sea_args[ky] = seaborn_args[ky]
-
-        return sea_args

@@ -1,5 +1,7 @@
-pandas>=1.0.4
-numpy>=1.13.3
-python-dateutil>=2.6.1
-seaborn>=0.10
+pandas
+numpy
+python-dateutil
+seaborn
+scikit-learn
+adtk
 
