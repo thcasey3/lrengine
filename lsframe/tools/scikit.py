@@ -2,11 +2,18 @@
 scikit module, for using scikit-learn with lsobject.frame
 """
 import numpy as np
-from sklearn import tree, ensemble, svm, neural_network, neighbors
-from sklearn import isotonic, gaussian_process, cross_decomposition
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OrdinalEncoder, LabelEncoder
 from sklearn import (
+    metrics,
+    tree,
+    ensemble,
+    svm,
+    neural_network,
+    neighbors,
+    isotonic,
+    gaussian_process,
+    cross_decomposition,
     covariance,
     cluster,
     multioutput,
@@ -36,16 +43,16 @@ class scikit:
         X_columns (list): columns from frame to include in X
         y_column (list): columns from frame to include in y
     Returns:
-        lsdata (object): lsdata object with X, y, and sciframe added
+         (object):  object with X, y, and sciframe added
     """
 
     def __init__(
         self,
-        lsdata,
+        df=None,
         X_columns=None,
         y_column=None,
-        method="RandomForest",
-        type="Regression",
+        method="Linear",
+        type="regressor",
         ordinal_encode=True,
         label_encode=True,
         fit_outliers=True,
@@ -54,70 +61,118 @@ class scikit:
 
         sci_params = _scikit_params.update(scikit_params)
 
-        if X_columns is not None or y_column is not None:
-            lsdata.scikit_object = {}
+        if df is not None and (X_columns is not None or y_column is not None):
+            scikit_object = {}
 
-            self._Xy_split(lsdata, X_columns=X_columns, y_column=y_column)
-            lsdata.scikit_object["sciframe"] = lsdata.frame[X_columns + y_column]
+            if isinstance(y_column, str):
+                y_column = [y_column]
+
+            if X_columns is None:
+                X_columns = list(set(df.columns) - set(y_column))
+            if y_column is None:
+                y_column = list(set(df.columns) - set(X_columns))
+                if len(y_column) > 1:
+                    raise ValueError(
+                        "y must be a 1D array, consider giving an input for y_column="
+                    )
+
+            scikit_object["X"], scikit_object["y"] = self._Xy_split(
+                df, X_columns=X_columns, y_column=y_column
+            )
+            scikit_object["sciframe"] = df[X_columns + y_column]
 
             if fit_outliers:
-                lsdata.scikit_object["sciframe"] = self._fit_outliers(
-                    lsdata, fit_outliers, sci_params
+                scikit_object["sciframe"] = self._fit_outliers(
+                    df, y_column, fit_outliers, sci_params
                 )
-                lsdata.scikit_object["X"] = lsdata.scikit_object["sciframe"][X_columns]
-                lsdata.scikit_object["y"] = lsdata.scikit_object["sciframe"][y_column]
+                scikit_object["X"] = scikit_object["sciframe"][X_columns]
+                scikit_object["y"] = scikit_object["sciframe"][y_column]
 
             if ordinal_encode:
                 enc = OrdinalEncoder()
-                lsdata.scikit_object["OrdinalEncoder"] = enc.fit(
-                    lsdata.scikit_object["X"]
-                )
-                lsdata.scikit_object["X"] = enc.transform(lsdata.scikit_object["X"])
+                scikit_object["OrdinalEncoder"] = enc.fit(scikit_object["X"])
+                scikit_object["X"] = enc.transform(scikit_object["X"])
 
             if label_encode:
                 enc = LabelEncoder()
-                lsdata.scikit_object["LabelEncoder"] = enc.fit(
-                    lsdata.scikit_object["y"]
-                )
-                lsdata.scikit_object["y"] = enc.transform(lsdata.scikit_object["y"])
+                scikit_object["LabelEncoder"] = enc.fit(scikit_object["y"])
+                scikit_object["y"] = enc.transform(scikit_object["y"])
 
             X_train, X_test, y_train, y_test = train_test_split(
-                lsdata.scikit_object["X"],
-                lsdata.scikit_object["y"],
+                scikit_object["X"],
+                scikit_object["y"],
                 test_size=sci_params["test_size"],
                 random_state=sci_params["random_state"],
             )
 
-            if type == "Regression":
+            if type == "regressor":
                 (
-                    lsdata.scikit_object["fit"],
-                    lsdata.scikit_object["predict"],
-                    lsdata.scikit_object["score"],
+                    scikit_object["fit"],
+                    scikit_object["predict"],
+                    scikit_object["score"],
                 ) = self._scikit_regressors(
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
+            elif type == "classifier":
+                (
+                    scikit_object["fit"],
+                    scikit_object["predict"],
+                    scikit_object["score"],
+                ) = self._scikit_classifiers(
+                    self, X_train, X_test, y_train, y_test, method, sci_params
+                )
+            elif type == "neural_network":
+                (
+                    scikit_object["fit"],
+                    scikit_object["predict"],
+                    scikit_object["score"],
+                ) = self._scikit_neural_network(
+                    self, X_train, X_test, y_train, y_test, method, sci_params
+                )
+            elif type == "cluster":
+                (
+                    scikit_object["fit"],
+                    scikit_object["predict"],
+                    scikit_object["score"],
+                ) = self._scikit_clustering(
+                    self, X_train, X_test, y_train, y_test, method, sci_params
+                )
+            elif type == "semi_supervised":
+                (
+                    scikit_object["fit"],
+                    scikit_object["predict"],
+                    scikit_object["score"],
+                ) = self._scikit_semi_supervised(
+                    self, X_train, X_test, y_train, y_test, method, sci_params
+                )
 
-    def _Xy_split(self, lsdata, X_columns=None, y_column=None):
+            return scikit_object
+        else:
+            raise ValueError(
+                "You must give at least a DataFrame and either X_columns or y_column"
+            )
+
+    @staticmethod
+    def _Xy_split(df, X_columns=None, y_column=None):
 
         if X_columns is not None and y_column is not None:
-            lsdata.scikit_object["X"] = lsdata.scikit_object["sciframe"][X_columns]
-            lsdata.scikit_object["y"] = lsdata.scikit_object["sciframe"][y_column]
+            X = df[X_columns]
+            y = df[y_column]
         elif X_columns is None and y_column is not None:
-            lsdata.scikit_object["X"] = lsdata.scikit_object["sciframe"][
-                lsdata.scikit_object["sciframe"].columns.values - y_column
-            ]
-            lsdata.scikit_object["y"] = lsdata.scikit_object["sciframe"][y_column]
+            X = df[df.columns.values - y_column]
+            y = df[y_column]
         elif X_columns is not None and y_column is None:
-            lsdata.scikit_object["X"] = lsdata.scikit_object["sciframe"][X_columns]
-            lsdata.scikit_object["y"] = lsdata.scikit_object["sciframe"][
-                lsdata.sciframe.columns.values - X_columns
-            ]
+            X = df[X_columns]
+            y = df[df.columns.values - X_columns]
 
-    def _fit_outliers(self, lsdata, which, scikit_params):
+        return X, y
+
+    def _fit_outliers(self, df, ycol, which, scikit_params):
 
         try:
             return self._outlier_filter(
-                lsdata,
+                df,
+                ycol,
                 which,
                 scikit_params["outlier_method"],
                 scikit_params["contamination"],
@@ -129,7 +184,8 @@ class scikit:
                 try:
                     s_frac += 0.05
                     return self._outlier_filter(
-                        lsdata,
+                        df,
+                        ycol,
                         which,
                         scikit_params["outlier_method"],
                         scikit_params["contamination"],
@@ -138,43 +194,39 @@ class scikit:
                 except ValueError:
                     continue
             else:
-                return lsdata.scikit_object["sciframe"]
+                return df
 
     @staticmethod
-    def _outlier_filter(lsdata, which, method, threshold, s_frac):
+    def _outlier_filter(df, ycol, which, method, threshold, s_frac):
 
         if method == "EllipticEnvelope":
-            lsdata.scikit_object["OutlierFit"] = covariance.EllipticEnvelope(
+            out = covariance.EllipticEnvelope(
                 contamination=threshold,
                 support_fraction=s_frac,
                 random_state=_scikit_params["random_state"],
             )
         elif method == "OneClassSVM":
-            lsdata.scikit_object["OutlierFit"] = svm.OneClassSVM(
+            out = svm.OneClassSVM(
                 contamination=threshold,
                 support_fraction=s_frac,
                 random_state=_scikit_params["random_state"],
             )
         elif method == "LocalOutlierFactor":
-            lsdata.scikit_object["OutlierFit"] = neighbors.LocalOutlierFactor(
+            out = neighbors.LocalOutlierFactor(
                 contamination=threshold,
                 support_fraction=s_frac,
                 random_state=_scikit_params["random_state"],
             )
 
-        subjects = lsdata.scikit_object["y"].to_numpy().reshape(-1, 1)
-        result = lsdata.scikit_object["OutlierFit"].fit_predict(subjects)
-        lsdata.scikit_object["sciframe"]["outliers"] = result
+        subjects = df[ycol].to_numpy().reshape(-1, 1)
+        result = out.fit_predict(subjects)
+        df["outliers"] = result
         if which == "remove":
-            return lsdata.scikit_object["sciframe"][
-                lsdata.scikit_object["sciframe"]["outliers"] == 1
-            ].drop(labels="outliers", axis=1)
+            return df[df["outliers"] == 1].drop(labels="outliers", axis=1)
         elif which == "keep":
-            return lsdata.scikit_object["sciframe"][
-                lsdata.scikit_object["sciframe"]["outliers"] == -1
-            ].drop(labels="outliers", axis=1)
+            return df[df["outliers"] == -1].drop(labels="outliers", axis=1)
         else:
-            return lsdata.scikit_object["sciframe"]
+            return df
 
     def _scikit_clustering(
         self, X_train, X_test, y_train, y_test, method, scikit_params
@@ -329,7 +381,7 @@ class scikit:
                 max_iter=300,
             )
 
-        return self.scikit_obj(obj, X_train, X_test, y_train)
+        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "rand")
 
     def _scikit_regressors(
         self, X_train, X_test, y_train, y_test, method, scikit_params
@@ -749,7 +801,7 @@ class scikit:
         # elif method == "BiExponential":
         #     obj = custom_estimators.BiExponentialRegression()
 
-        return self.scikit_obj(obj, X_train, X_test, y_train)
+        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "mape")
 
     def _scikit_classifiers(
         self, X_train, X_test, y_train, y_test, method, scikit_params
@@ -1190,7 +1242,7 @@ class scikit:
         elif method == "MultinomialNB":
             obj = naive_bayes.MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
 
-        return self.scikit_obj(obj, X_train, X_test, y_train)
+        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "jaccard")
 
     def _scikit_neural_network(
         self, X_train, X_test, y_train, y_test, method, scikit_params
@@ -1206,7 +1258,7 @@ class scikit:
                 random_state=scikit_params["random_state"],
             )
 
-        return self.scikit_obj(obj, X_train, X_test, y_train)
+        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "score_samples")
 
     def _scikit_semi_supervised(
         self, X_train, X_test, y_train, y_test, method, scikit_params
@@ -1241,16 +1293,42 @@ class scikit:
                 n_jobs=scikit_params["n_jobs"],
             )
 
-        return self.scikit_obj(obj, X_train, X_test, y_train)
+        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "score")
 
     @staticmethod
-    def scikit_obj(obj, X_train, X_test, y_train):
+    def scikit_obj(obj, X_train, X_test, y_train, y_test, score_type):
 
         obj_fit = obj.fit(X_train, y_train)
         obj_predict = {"train": obj.predict(X_train), "test": obj.predict(X_test)}
-        obj_score = {
-            "train": obj.score(X_train, obj_predict["train"]),
-            "test": obj.score(X_test, obj_predict["test"]),
-        }
+
+        if score_type == "mape":
+            obj_score = {
+                "train": metrics.mean_absolute_percentage_error(
+                    y_train, obj_predict["train"]
+                ),
+                "test": metrics.mean_absolute_percentage_error(
+                    y_test, obj_predict["test"]
+                ),
+            }
+        elif score_type == "jaccard":
+            obj_score = {
+                "train": metrics.jaccard_score(y_train, obj_predict["train"]),
+                "test": metrics.jaccard_score(y_test, obj_predict["test"]),
+            }
+        elif score_type == "rand":
+            obj_score = {
+                "train": metrics.cluster.rand_score(y_train, obj_predict["train"]),
+                "test": metrics.cluster.rand_score(y_test, obj_predict["test"]),
+            }
+        elif score_type == "score":
+            obj_score = {
+                "train": obj.score(X_train, y_train),
+                "test": obj.score(X_test, y_test),
+            }
+        elif score_type == "score_samples":
+            obj_score = {
+                "train": obj.score_samples(X_train),
+                "test": obj.score_samples(X_test),
+            }
 
         return obj_fit, obj_predict, obj_score
