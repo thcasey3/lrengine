@@ -62,7 +62,7 @@ class scikit:
         sci_params = _scikit_params.update(scikit_params)
 
         if df is not None and (X_columns is not None or y_column is not None):
-            scikit_object = {}
+            self.scikit_object = {}
 
             if isinstance(y_column, str):
                 y_column = [y_column]
@@ -76,77 +76,77 @@ class scikit:
                         "y must be a 1D array, consider giving an input for y_column="
                     )
 
-            scikit_object["X"], scikit_object["y"] = self._Xy_split(
+            self.scikit_object["X"], self.scikit_object["y"] = self._Xy_split(
                 df, X_columns=X_columns, y_column=y_column
             )
-            scikit_object["sciframe"] = df[X_columns + y_column]
+            self.scikit_object["sciframe"] = df[X_columns + y_column]
 
             if fit_outliers:
-                scikit_object["sciframe"] = self._fit_outliers(
+                self.scikit_object["sciframe"] = self._fit_outliers(
                     df, y_column, fit_outliers, sci_params
                 )
-                scikit_object["X"] = scikit_object["sciframe"][X_columns]
-                scikit_object["y"] = scikit_object["sciframe"][y_column]
+                self.scikit_object["X"] = self.scikit_object["sciframe"][X_columns]
+                self.scikit_object["y"] = self.scikit_object["sciframe"][y_column]
 
             if ordinal_encode:
                 enc = OrdinalEncoder()
-                scikit_object["OrdinalEncoder"] = enc.fit(scikit_object["X"])
-                scikit_object["X"] = enc.transform(scikit_object["X"])
+                self.scikit_object["OrdinalEncoder"] = enc.fit(self.scikit_object["X"])
+                self.scikit_object["X"] = enc.transform(self.scikit_object["X"])
 
             if label_encode:
                 enc = LabelEncoder()
-                scikit_object["LabelEncoder"] = enc.fit(scikit_object["y"])
-                scikit_object["y"] = enc.transform(scikit_object["y"])
+                self.scikit_object["LabelEncoder"] = enc.fit(self.scikit_object["y"])
+                self.scikit_object["y"] = enc.transform(self.scikit_object["y"])
 
             X_train, X_test, y_train, y_test = train_test_split(
-                scikit_object["X"],
-                scikit_object["y"],
+                self.scikit_object["X"],
+                self.scikit_object["y"],
                 test_size=sci_params["test_size"],
                 random_state=sci_params["random_state"],
             )
 
             if type == "regressor":
                 (
-                    scikit_object["fit"],
-                    scikit_object["predict"],
-                    scikit_object["score"],
+                    self.scikit_object["fit"],
+                    self.scikit_object["predict"],
+                    self.scikit_object["score"],
                 ) = self._scikit_regressors(
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
             elif type == "classifier":
                 (
-                    scikit_object["fit"],
-                    scikit_object["predict"],
-                    scikit_object["score"],
+                    self.scikit_object["fit"],
+                    self.scikit_object["predict"],
+                    self.scikit_object["score"],
                 ) = self._scikit_classifiers(
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
             elif type == "neural_network":
                 (
-                    scikit_object["fit"],
-                    scikit_object["predict"],
-                    scikit_object["score"],
+                    self.scikit_object["fit"],
+                    self.scikit_object["predict"],
+                    self.scikit_object["score"],
                 ) = self._scikit_neural_network(
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
             elif type == "cluster":
                 (
-                    scikit_object["fit"],
-                    scikit_object["predict"],
-                    scikit_object["score"],
+                    self.scikit_object["fit"],
+                    self.scikit_object["predict"],
+                    self.scikit_object["score"],
                 ) = self._scikit_clustering(
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
             elif type == "semi_supervised":
                 (
-                    scikit_object["fit"],
-                    scikit_object["predict"],
-                    scikit_object["score"],
+                    self.scikit_object["fit"],
+                    self.scikit_object["predict"],
+                    self.scikit_object["score"],
                 ) = self._scikit_semi_supervised(
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
 
-            return scikit_object
+            return self.scikit_object
         else:
             raise ValueError(
                 "You must give at least a DataFrame and either X_columns or y_column"

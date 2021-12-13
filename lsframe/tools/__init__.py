@@ -1,3 +1,1 @@
-from . import sea_born
-from . import utest
-from . import utest2
+from . import seaborn, utest, utest2, adtk, scikit

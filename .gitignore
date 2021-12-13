@@ -1,3 +1,7 @@
+# Data
+data/
+.csv
+
 # VS Code
 .vscode/*
 
