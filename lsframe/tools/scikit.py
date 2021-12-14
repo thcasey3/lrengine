@@ -146,7 +146,6 @@ class scikit:
                     self, X_train, X_test, y_train, y_test, method, sci_params
                 )
 
-            return self.scikit_object
         else:
             raise ValueError(
                 "You must give at least a DataFrame and either X_columns or y_column"

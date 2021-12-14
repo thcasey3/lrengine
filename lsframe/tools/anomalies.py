@@ -17,11 +17,46 @@ class adtk:
     Returns:
     """
 
-    def __init__(self, time=[], variable=[], method="OutlierDetector", adtk_args={}):
+    def __init__(
+        self,
+        df=None,
+        time=None,
+        series=None,
+        method="OutlierDetector",
+        adtk_args={},
+        plot=True,
+    ):
 
-        self._adtk(time=time, variable=variable, method=method, adtk_args=adtk_args)
+        if isinstance(time, list) and isinstance(series, list):
+            df = pd.DataFrame({"time": time, "series": series})
+            time_col = "time"
+            series_col = "series"
+        else:
+            time_col = time
+            series_col = series
 
-    def _adtk(self, time, variable, method, adtk_args):
+        if df is not None:
+            if not df[time_col].dtype == "datetime64[ns]":
+                try:
+                    new_time = pd.to_datetime(
+                        df[time_col], infer_datetime_format=True, errors="coerce"
+                    )
+                except:
+                    new_time = df[time_col]
+                    pass
+            else:
+                new_time = df[time_col]
+            ts_df = pd.DataFrame({"time": new_time, "series": df[series_col]})
+            ts_df.set_index("time", inplace=True)
+            ts_df.dropna(inplace=True)
+        else:
+            raise ValueError(
+                "you must give a df with column names for time and series, or lists for time and series"
+            )
+
+        self.adtk_object = {}
+        self.adtk_object["method"] = method
+        self.adtk_object["df"] = ts_df
 
         if "n_clusters" in adtk_args.keys():
             n_clus = adtk_args["n_clusters"]
@@ -43,6 +78,10 @@ class adtk:
             lo = adtk_args["low"]
         else:
             lo = 0.005
+        if "support_fraction" in adtk_args.keys():
+            sup_frac = adtk_args["support_fraction"]
+        else:
+            sup_frac = None
 
         a_args = {
             "detect_func": None,
@@ -50,7 +89,7 @@ class adtk:
             "fit_func": None,
             "fit_func_params": None,
             "k": 1,
-            "c": 5.0,
+            "c": 3.0,
             "side": "both",
             "high": None,
             "low": None,
@@ -58,7 +97,7 @@ class adtk:
             "n_steps": 1,
             "step_size": 1,
             "contamination": 0.025,
-            "target": "variable",
+            "target": "series",
             "n_clusters": 3,
             "regressor": None,
             "min_periods": None,
@@ -67,7 +106,7 @@ class adtk:
             "freq": None,
             "mincluster_model": KMeans(n_clusters=n_clus, random_state=rand_st),
             "outlier_model": EllipticEnvelope(
-                contamination=contam, random_state=rand_st
+                contamination=contam, support_fraction=sup_frac, random_state=rand_st
             ),
             "steps": [
                 ("deseasonal", transformer.ClassicSeasonalDecomposition()),
@@ -75,18 +114,14 @@ class adtk:
             ],
         }
         a_args.update(adtk_args)
+        self.adtk_object["adtk_args"] = a_args
 
-        df = pd.DataFrame({"time": time, "variable": variable})
-        if not df["time"].dtype == "datetime64[ns]":
-            try:
-                df["time"] = pd.to_datetime(
-                    df["time"], infer_datetime_format=True, errors="coerce"
-                )
-            except:
-                pass
-        df.set_index("time")
+        self._adtk(ts_df, method, a_args, plot)
+
+    def _adtk(self, df, method, a_args, plot):
 
         series_data = data.validate_series(df, check_categorical=True)
+        self.adtk_object["series"] = series_data.copy()
 
         if method == "Pipeline":
             AD = pipe.Pipeline(a_args["steps"])
@@ -159,6 +194,18 @@ class adtk:
             anomalies = AD.detect(series_data)
         else:
             anomalies = AD.fit_detect(series_data)
+
+        self.adtk_object["detector"] = AD
+        self.adtk_object["anomalies"] = anomalies
+
+        if plot:
+            self.plot()
+
+    def plot(self, series_data=None, anomalies=None):
+
+        if series_data is None and anomalies is None:
+            series_data = self.adtk_object["series"]
+            anomalies = self.adtk_object["anomalies"]
 
         visualization.plot(
             series_data,
