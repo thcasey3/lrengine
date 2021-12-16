@@ -73,7 +73,10 @@ def group(df, col, on, kind):
     return new_df, agg_val_lst.index
 
 
-def resample(df, col, on, freq, kind):
+def resample(df, col, on, freq, interp, kind):
+
+    if freq == "infer":
+        raise ValueError("to resample, you must specify a freq and not use 'infer'")
 
     if kind == "mean":
         resamp = df.resample(freq).mean()
@@ -89,6 +92,9 @@ def resample(df, col, on, freq, kind):
         resamp = df.resample(freq).first()
     elif kind == "last":
         resamp = df.resample(freq).last()
+
+    if interp:
+        resamp = resamp.interpolate(interp)
 
     new_df = pd.DataFrame({on: resamp.index, col: resamp.values.reshape(-1)}).dropna()
     return new_df, resamp.index
@@ -162,21 +168,8 @@ def decoder(X, encoder):
     return encoder.inverse_transform(X)
 
 
-def predictable_list(
-    df,
-    threshold=1,
-    count_column="",
-    date_column="",
-    cost_column="",
-):
+def predictable_list(df, threshold=2, count_column=""):
 
-    df1 = df[df[cost_column] > 0]
-    if df1[date_column].dtype in ["int64", "float64"]:
-        df2 = df1[df1[date_column] > 0]
-    elif df1[date_column].dtype == "datetime64[ns]":
-        df2 = df1[df1[date_column] < datetime.datetime.today()]
-
-    df2.drop_duplicates(inplace=True)
-    df3 = df2[df2[count_column].map(df2[count_column].value_counts()) > threshold]
-    series = df3[count_column].value_counts().to_frame().index
-    return series.to_list()
+    df2 = df[df[count_column].map(df[count_column].value_counts()) > threshold]
+    series = df2[count_column].value_counts().to_frame().index
+    return series

@@ -13,6 +13,7 @@ class statsmodels:
         time=None,
         group=False,
         resample=False,
+        interpolate="time",
         time_range=None,
         exog=None,
         endog=None,
@@ -37,31 +38,27 @@ class statsmodels:
             if time_range:
                 df = utilities.time_filter(df, time, (time_range[0], time_range[1]))
             if group:
-                df, group_indx = utilities.group(df, endog, time, kind=group)
+                df, _ = utilities.group(df, endog, time, kind=group)
             if resample:
-                new_df, df_indx = utilities.datetime_index(df, time, freq="infer")
-                df, resamp_indx = utilities.resample(
-                    new_df, endog, time, freq, kind=resample
+                new_df, _ = utilities.datetime_index(df, time, freq="infer")
+                df, _ = utilities.resample(
+                    new_df, endog, time, freq, interpolate, kind=resample
                 )
 
             try:
-                new_df, df_indx = utilities.datetime_index(df, time, freq=freq)
-                if not df_indx.freq:
-                    try:
-                        df, resamp_indx = utilities.resample(
-                            new_df, endog, time, freq, kind=resample
-                        )
-                        df, df_indx = utilities.datetime_index(df, time, freq=freq)
-                    except:
-                        pass
-                    if not df_indx.freq:
-                        print("not able to assign freq to DatetimeIndex")
-                else:
-                    df = new_df.copy()
+                df, df_indx = utilities.datetime_index(df, time, freq=freq)
             except:
-                df, df_indx = utilities.datetime_index(df, time, freq="infer")
-                if not df_indx.freq:
-                    print("not able to assign freq to DatetimeIndex")
+                df, flag = self.try_fix_freq(df, time)
+                if flag:
+                    print(f"your index matched '{flag}' freq, setting to {freq[-1]}")
+                else:
+                    print(
+                        "Your index freq doesn't match any common frequencies, try using resample"
+                    )
+                    df, df_indx = utilities.datetime_index(df, time, freq="infer")
+
+            if not df.index.freq:
+                print("not able to assign freq to DatetimeIndex")
 
             df.drop(time, axis=1, inplace=True)
 
@@ -98,10 +95,26 @@ class statsmodels:
                 formula = self.build_formula(endog[0], exog)
             self.formula = formula
 
-    def fit_formula(self, model="AutoReg", plot=False):
+    @staticmethod
+    def try_fix_freq(df, time):
+
+        flag = []
+        for f in ["N", "U", "L", "S", "T", "H", "D", "W", "M", "Q", "Y"]:
+            try:
+                test_df, _ = utilities.datetime_index(df, time, freq=f)
+                flag.append(f)
+            except:
+                continue
+
+        if flag:
+            df, _ = utilities.datetime_index(df, time, freq=flag[-1])
+
+        return df, flag
+
+    def fit_formula(self, model="AutoReg"):
 
         self._stats_timeseries_formula(
-            self.df, self.formula, model, self.statsmodels_params, plot
+            self.df, self.formula, model, self.statsmodels_params
         )
 
     def fit(self, model="ARIMA", target="data", plot=False, s_params={}):
@@ -111,10 +124,40 @@ class statsmodels:
         else:
             self.statsmodels_params = s_params
 
-        self.seasonal_decomposition = self.make_seasonal_decomp(
-            self.df, self.statsmodels_params
-        )
-        self._stats_timeseries(self.df, model, target, self.statsmodels_params, plot)
+        try:
+            self.seasonal_decomposition = self.make_seasonal_decomp(
+                self.df, self.statsmodels_params
+            )
+        except:
+            print("seasonal decomposition failed.")
+            pass
+        if plot and hasattr(self, "seasonal_decomposition"):
+            plt.rc("figure", figsize=(10, 6))
+            plt.rc("font", size=12)
+            self.seasonal_decomposition.plot()
+            plt.show()
+
+        if not hasattr(self, "seasonal_decomposition") or target not in [
+            "seasonal",
+            "seasonal",
+            "resid",
+        ]:
+            df = self.df
+        elif target == "seasonal":
+            df = self.seasonal_decomposition.seasonal
+        elif target == "trend":
+            df = self.seasonal_decomposition.trend
+        elif target == "resid":
+            df = self.seasonal_decomposition.resid
+
+        self._stats_timeseries(df, model, self.statsmodels_params)
+
+        if plot:
+            plt.figure(figsize=(10, 6))
+            plt.plot(df, label="Data")
+            plt.plot(self.predict, label="Prediction")
+            plt.legend()
+            plt.show()
 
     def forecast(
         self, target="data", type="STLForecast", model="ARIMA", s_params={}, plot=False
@@ -125,25 +168,45 @@ class statsmodels:
         else:
             self.statsmodels_params = s_params
 
-        self.seasonal_decomposition = self.make_seasonal_decomp(
-            self.df, self.statsmodels_params
-        )
-        if target == "seasonal":
-            df = self.seasonal_decomposition.seasonal
-        elif target == "trend":
-            df = self.seasonal_decomposition.trend
-        elif target == "resid":
-            df = self.seasonal_decomposition.resid
-        else:
-            df = self.df
+        try:
+            self.seasonal_decomposition = self.make_seasonal_decomp(
+                self.df, self.statsmodels_params
+            )
+        except:
+            print("seasonal decomposition failed.")
+            pass
 
         if type == "predict":
-            if hasattr(self, "fit"):
-                self.forecast = self.fit.forecast(
-                    steps=self.statsmodels_params["steps"]
+            if hasattr(self, "fit") and isinstance(target, (list, tuple, pd.DataFrame)):
+                if isinstance(target, (list, tuple)):
+                    self.forecast = self.fit.predict(start=target[0], end=target[1])
+                elif isinstance(target, pd.DataFrame):
+                    self.forecast = self.fit.predict(
+                        start=target.index[0], end=target.index[-1]
+                    )
+                self.forecast_fit = self.fit
+                self.forecast_summary = self.forecast_fit.summary()
+                df = target
+            else:
+                raise TypeError(
+                    "you must use fit first, and target must be a list, tuple, or pd.DateFrame"
                 )
 
         elif type == "STLForecast":
+
+            if not hasattr(self, "seasonal_decomposition") or target not in [
+                "seasonal",
+                "seasonal",
+                "resid",
+            ]:
+                df = self.df
+            elif target == "seasonal":
+                df = self.seasonal_decomposition.seasonal
+            elif target == "trend":
+                df = self.seasonal_decomposition.trend
+            elif target == "resid":
+                df = self.seasonal_decomposition.resid
+
             if model == "ARIMA":
                 mod = tsa.arima.model.ARIMA
 
@@ -168,12 +231,13 @@ class statsmodels:
             self.forecast = self.forecast_fit.forecast(
                 steps=self.statsmodels_params["steps"]
             )
+            self.forecast_summary = self.forecast_fit.summary()
 
-            if plot:
-                plt.plot(df, color="g", label="Data")
-                plt.plot(self.forecast, color="r", label="Forecast")
-                plt.legend()
-                plt.show()
+        if plot:
+            plt.plot(df, color="g", label="Data")
+            plt.plot(self.forecast, color="r", label="Forecast")
+            plt.legend()
+            plt.show()
 
     @staticmethod
     def make_seasonal_decomp(df, s_params):
@@ -191,7 +255,7 @@ class statsmodels:
     def build_formula(endog, exog):
         return "".join([endog, " ~ ", " ".join([f"{x} +" for x in exog]).strip(" +")])
 
-    def _stats_timeseries_formula(self, df, formula, model, s_params, plot):
+    def _stats_timeseries_formula(self, df, formula, model, s_params):
 
         if model == "AutoReg":
             smod = tsa.ar_model.AutoReg.from_formula(formula=formula, data=df)
@@ -199,16 +263,9 @@ class statsmodels:
         elif model == "ARIMA":
             smod = tsa.arima_model.ARIMA.from_formula(formula=formula, data=df)
 
-        self._fit_predict(smod, s_params, plot)
+        self._fit_predict(smod, s_params)
 
-    def _stats_timeseries(self, df, model, target, s_params, plot):
-
-        if target == "seasonal":
-            df = self.seasonal_decomposition.seasonal
-        elif target == "trend":
-            df = self.seasonal_decomposition.trend
-        elif target == "resid":
-            df = self.seasonal_decomposition.resid
+    def _stats_timeseries(self, df, model, s_params):
 
         if model == "AutoReg":
             smod = tsa.ar_model.AutoReg(df, s_params["lags"])
@@ -219,34 +276,10 @@ class statsmodels:
         elif model == "ARIMA":
             smod = tsa.arima.model.ARIMA(df, order=s_params["order"])
 
-        self._fit_predict(smod, s_params, plot)
+        self._fit_predict(smod, s_params)
 
-    def _fit_predict(self, smod, s_params, plot):
+    def _fit_predict(self, smod, s_params):
 
         self.fit = smod.fit()
         self.predict = self.fit.predict()
         self.summary = self.fit.summary()
-
-        if plot:
-            self.plot()
-
-    def plot(self, df=None, label=None):
-
-        plt.figure(figsize=(10, 6))
-        if df is None:
-            plt.plot(self.df, label="Data")
-            plt.plot(self.predict, label="Prediction")
-        else:
-            if isinstance(df, (list, tuple)):
-                for ind, x in enumerate(df):
-                    plt.plot(x, label=label[ind])
-            else:
-                plt.plot(df, label=label)
-        plt.legend()
-        plt.show()
-
-        if hasattr(self, "seasonal_decomposition"):
-            plt.rc("figure", figsize=(10, 6))
-            plt.rc("font", size=12)
-            self.seasonal_decomposition.plot()
-            plt.show()
