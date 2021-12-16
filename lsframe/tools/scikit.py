@@ -1,194 +1,234 @@
-"""
-scikit module, for using scikit-learn with lsobject.frame
-"""
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OrdinalEncoder, LabelEncoder
-from sklearn import (
-    metrics,
-    tree,
-    ensemble,
-    svm,
-    neural_network,
-    neighbors,
-    isotonic,
-    gaussian_process,
-    cross_decomposition,
-    covariance,
-    cluster,
-    multioutput,
-    linear_model,
-    kernel_ridge,
-    semi_supervised,
-    multiclass,
-    naive_bayes,
-)
+import pandas as pd
+from datetime import datetime
+import matplotlib.pyplot as plt
 
-_scikit_params = {
-    "base_estimator": None,
-    "estimator": None,
-    "estimators": None,
-    "final_estimator": None,
-    "random_state": 42,
-    "n_jobs": -1,
-    "verbose": False,
-}
+from sklearn import preprocessing, metrics, covariance
+from sklearn.model_selection import train_test_split
+
+from . import utilities, scikit_models
+from scikit_models import config
 
 
 class scikit:
-    """
-    class for using scikit-learn with lsobject.frame
+    def __init__(self, update_config=False):
 
-    Args:
-        X_columns (list): columns from frame to include in X
-        y_column (list): columns from frame to include in y
-    Returns:
-         (object):  object with X, y, and sciframe added
-    """
+        if "model_selection" in update_config.keys():
+            model_select = update_config["model_selection"]
+        else:
+            model_select = config.LEARNING_PARAMS["model_selection"]
 
-    def __init__(
+        if model_select == "classify":
+            self.scikit_params = {**config.LEARNING_PARAMS, **config.CLASSIFYING_PARAMS}
+        elif model_select == "regress":
+            self.scikit_params = {**config.LEARNING_PARAMS, **config.REGRESSING_PARAMS}
+        elif model_select == "cluster":
+            self.scikit_params = {**config.LEARNING_PARAMS, **config.CLUSTERING_PARAMS}
+        elif model_select == "semi_supervised":
+            self.scikit_params = {
+                **config.LEARNING_PARAMS,
+                **config.SEMI_SUPERVISED_PARAMS,
+            }
+
+        if update_config:
+            self.scikit_params.update(update_config)
+        self.scikit_object = {}
+        self.df = {}
+
+    def learn(
         self,
-        df=None,
-        X_columns=None,
-        y_column=None,
-        method="Linear",
-        type="regressor",
-        ordinal_encode=True,
-        label_encode=True,
-        fit_outliers=True,
-        scikit_params={},
+        select="all",
+        append_object=False,
+        plot="plot",
+        survey=False,
+        aggregate=False,
     ):
 
-        sci_params = _scikit_params.update(scikit_params)
+        self.scores_dict = {"Name": [], "score": [], "method": []}
+        if select == "all":
+            self.prepare(select="all", aggregate=aggregate)
+            self.train(select="all")
+            self.predict_score(select="all")
+            if plot == "plot":
+                self.plot(select="all")
+            elif plot == "scatter":
+                self.scatter(select="all")
+        else:
+            itm_col = list(select.keys())[0]
+            if isinstance(select[itm_col], str):
+                select[itm_col] = [select[itm_col]]
 
-        if df is not None and (X_columns is not None or y_column is not None):
-            self.scikit_object = {}
+            if survey:
+                survey_par = [x for x in list(survey.keys()) if x != "item"][0]
+                for par in survey[survey_par]:
+                    self.scikit_params.update({survey_par: par})
+                    self.prepare(
+                        select=survey["item"], column=itm_col, aggregate=aggregate
+                    )
+                    self.train(select=survey["item"])
+                    self.predict_score(select=survey["item"])
+                self.scores_dict[survey_par] = survey[survey_par]
+            else:
+                for itm in select[itm_col]:
+                    if not append_object:
+                        self.scikit_object = {}
+                    self.prepare(select=itm, column=itm_col, aggregate=aggregate)
+                    self.train(select=itm)
+                    self.predict_score(select=itm)
+                    if plot:
+                        self.plot(select=itm)
 
-            if isinstance(y_column, str):
-                y_column = [y_column]
+    def prepare(self, select="all", column=False, aggregate=False):
 
-            if X_columns is None:
-                X_columns = list(set(df.columns) - set(y_column))
-            if y_column is None:
-                y_column = list(set(df.columns) - set(X_columns))
-                if len(y_column) > 1:
-                    raise ValueError(
-                        "y must be a 1D array, consider giving an input for y_column="
+        if select != "all":
+            df = self.df[self.df[column] == select]
+        elif select == "all":
+            df = self.df.copy()
+
+        if aggregate:
+            self.scikit_params["Xcolumns"] = [aggregate[0]]
+
+        if self.scikit_params["handle_na"] == "fill":
+            for col in df.columns:
+                if df[col].dtype == "float64":
+                    df[col].fillna(value=42.42, inplace=True)
+                elif df[col].dtype == "int64":
+                    df[col].fillna(value=4242, inplace=True)
+                elif df[col].dtype == "object":
+                    df[col].fillna(value="4242", inplace=True)
+                elif df[col].dtype == "datetime64[ns]":
+                    df[col].fillna(
+                        value=datetime(1942, 4, 2).replace(tzinfo=None), inplace=True
                     )
 
-            self.scikit_object["X"], self.scikit_object["y"] = self._Xy_split(
-                df, X_columns=X_columns, y_column=y_column
-            )
-            self.scikit_object["sciframe"] = df[X_columns + y_column]
+        elif self.scikit_params["handle_na"] == "drop":
+            df.dropna(subset=self.scikit_params["Xcolumns"], how="any", inplace=True)
 
-            if fit_outliers:
-                self.scikit_object["sciframe"] = self._fit_outliers(
-                    df, y_column, fit_outliers, sci_params
-                )
-                self.scikit_object["X"] = self.scikit_object["sciframe"][X_columns]
-                self.scikit_object["y"] = self.scikit_object["sciframe"][y_column]
+        if len(df) > 0:
+            self.scikit_object[select] = {}
 
-            if ordinal_encode:
-                enc = OrdinalEncoder()
-                self.scikit_object["OrdinalEncoder"] = enc.fit(self.scikit_object["X"])
-                self.scikit_object["X"] = enc.transform(self.scikit_object["X"])
+            if self.scikit_params["outliers"] and len(df) > 1:
+                inputs = list(self.scikit_params["outliers"].items())
+                df = self.fit_outliers(df, inputs[0][0], inputs[0][1])
 
-            if label_encode:
-                enc = LabelEncoder()
-                self.scikit_object["LabelEncoder"] = enc.fit(self.scikit_object["y"])
-                self.scikit_object["y"] = enc.transform(self.scikit_object["y"])
+            if aggregate:
+                xcol = [aggregate[0]]
+                train_df, predict_df = self.train_predict_split(df=df)
+                train_df, agg_lst = utilities.aggregate(
+                    train_df,
+                    self.scikit_params["ycolumn"][0],
+                    aggregate[0],
+                    aggregate[1],
+                )
+                X_predict_df = pd.DataFrame({xcol[0]: agg_lst})
+            else:
+                xcol = self.scikit_params["Xcolumns"]
+                if self.scikit_params["drop_uniform"]:
+                    df, cols = self.drop_uniform(df)
+                    if len(cols) > 0:
+                        self.scikit_object[select]["uniform_columns"] = cols
+                        xcol = [
+                            x for x in self.scikit_params["Xcolumns"] if x not in cols
+                        ]
 
-            X_train, X_test, y_train, y_test = train_test_split(
-                self.scikit_object["X"],
-                self.scikit_object["y"],
-                test_size=sci_params["test_size"],
-                random_state=sci_params["random_state"],
-            )
+                if self.scikit_params["split_column"]:
+                    for col in self.scikit_params["split_column"].keys():
+                        df, wrd_lst = utilities.split_cols(
+                            df=df,
+                            base_column=col,
+                            use_top=self.scikit_params["split_column"][col],
+                        )
+                        xcol = xcol + wrd_lst
 
-            if type == "regressor":
-                (
-                    self.scikit_object["fit"],
-                    self.scikit_object["predict"],
-                    self.scikit_object["score"],
-                ) = self._scikit_regressors(
-                    self, X_train, X_test, y_train, y_test, method, sci_params
-                )
-            elif type == "classifier":
-                (
-                    self.scikit_object["fit"],
-                    self.scikit_object["predict"],
-                    self.scikit_object["score"],
-                ) = self._scikit_classifiers(
-                    self, X_train, X_test, y_train, y_test, method, sci_params
-                )
-            elif type == "neural_network":
-                (
-                    self.scikit_object["fit"],
-                    self.scikit_object["predict"],
-                    self.scikit_object["score"],
-                ) = self._scikit_neural_network(
-                    self, X_train, X_test, y_train, y_test, method, sci_params
-                )
-            elif type == "cluster":
-                (
-                    self.scikit_object["fit"],
-                    self.scikit_object["predict"],
-                    self.scikit_object["score"],
-                ) = self._scikit_clustering(
-                    self, X_train, X_test, y_train, y_test, method, sci_params
-                )
-            elif type == "semi_supervised":
-                (
-                    self.scikit_object["fit"],
-                    self.scikit_object["predict"],
-                    self.scikit_object["score"],
-                ) = self._scikit_semi_supervised(
-                    self, X_train, X_test, y_train, y_test, method, sci_params
-                )
+                train_df, predict_df = self.train_predict_split(df=df)
+                X_predict_df = predict_df[xcol]
 
+            self.scikit_object[select]["df"] = df.copy()
+
+            X_df = df[xcol]
+            X_train_df = train_df[xcol]
+            if self.scikit_params["encode_X"]:
+                enc = preprocessing.OrdinalEncoder()
+                self.scikit_object[select]["X_encoder"] = enc.fit(X_df)
+                X_df = self.scikit_object[select]["X_encoder"].transform(X_df)
+                if len(X_train_df) > 0:
+                    X_train_df = self.scikit_object[select]["X_encoder"].transform(
+                        X_train_df
+                    )
+                if len(X_predict_df) > 0:
+                    X_predict_df = self.scikit_object[select]["X_encoder"].transform(
+                        X_predict_df
+                    )
+            else:
+                self.scikit_object[select]["X_encoder"] = None
+
+            if self.scikit_params["scale"]:
+                if self.scikit_params["scale"] == "robust":
+                    scl = preprocessing.RobustScaler()
+                else:
+                    scl = preprocessing.StandardScaler()
+
+                self.scikit_object[select]["scaler"] = scl.fit(X_df)
+                X_df = self.scikit_object[select]["scaler"].transform(X_df)
+                if len(X_train_df) > 0:
+                    X_train_df = self.scikit_object[select]["scaler"].transform(
+                        X_train_df
+                    )
+                if len(X_predict_df) > 0:
+                    X_predict_df = self.scikit_object[select]["scaler"].transform(
+                        X_predict_df
+                    )
+            else:
+                self.scikit_object[select]["scaler"] = None
+
+            if self.scikit_params["normalize"]:
+                nrm = preprocessing.Normalizer()
+                self.scikit_object[select]["normalizer"] = nrm.fit(X_df)
+                if len(X_train_df) > 0:
+                    X_train_df = self.scikit_object[select]["normalizer"].transform(
+                        X_train_df
+                    )
+                if len(X_predict_df) > 0:
+                    X_predict_df = self.scikit_object[select]["normalizer"].transform(
+                        X_predict_df
+                    )
+            else:
+                self.scikit_object[select]["normalizer"] = None
+
+            if len(X_train_df) > 0:
+                self.scikit_object[select]["X"] = pd.DataFrame(
+                    data=X_train_df, columns=xcol
+                )
+                if self.scikit_params["encode_y"]:
+                    enc = preprocessing.LabelEncoder()
+                    self.scikit_object[select]["y_encoder"] = enc.fit(
+                        train_df[self.scikit_params["ycolumn"]]
+                    )
+                    self.scikit_object[select]["y"] = self.scikit_object[select][
+                        "y_encoder"
+                    ].transform(train_df[self.scikit_params["ycolumn"]])
+                else:
+                    self.scikit_object[select]["y"] = train_df[
+                        self.scikit_params["ycolumn"]
+                    ].to_numpy()
+
+            if len(X_predict_df) > 0:
+                self.scikit_object[select]["X_predict"] = pd.DataFrame(
+                    data=X_predict_df, columns=xcol
+                )
         else:
-            raise ValueError(
-                "You must give at least a DataFrame and either X_columns or y_column"
-            )
+            self.scikit_object[select] = {select: None}
 
-    @staticmethod
-    def _Xy_split(df, X_columns=None, y_column=None):
-
-        if X_columns is not None and y_column is not None:
-            X = df[X_columns]
-            y = df[y_column]
-        elif X_columns is None and y_column is not None:
-            X = df[df.columns.values - y_column]
-            y = df[y_column]
-        elif X_columns is not None and y_column is None:
-            X = df[X_columns]
-            y = df[df.columns.values - X_columns]
-
-        return X, y
-
-    def _fit_outliers(self, df, ycol, which, scikit_params):
+    def fit_outliers(self, df, which, threshold):
 
         try:
-            return self._outlier_filter(
-                df,
-                ycol,
-                which,
-                scikit_params["outlier_method"],
-                scikit_params["contamination"],
-                None,
-            )
+            return self.outlier_filter(df, which, threshold, None, self.scikit_params)
         except ValueError:
             s_frac = 0
             while s_frac <= 1:
                 try:
                     s_frac += 0.05
-                    return self._outlier_filter(
-                        df,
-                        ycol,
-                        which,
-                        scikit_params["outlier_method"],
-                        scikit_params["contamination"],
-                        s_frac,
+                    return self.outlier_filter(
+                        df, which, threshold, s_frac, self.scikit_params
                     )
                 except ValueError:
                     continue
@@ -196,1138 +236,574 @@ class scikit:
                 return df
 
     @staticmethod
-    def _outlier_filter(df, ycol, which, method, threshold, s_frac):
+    def outlier_filter(df, which, threshold, s_frac, scikit_params):
 
-        if method == "EllipticEnvelope":
-            out = covariance.EllipticEnvelope(
-                contamination=threshold,
-                support_fraction=s_frac,
-                random_state=_scikit_params["random_state"],
-            )
-        elif method == "OneClassSVM":
-            out = svm.OneClassSVM(
-                contamination=threshold,
-                support_fraction=s_frac,
-                random_state=_scikit_params["random_state"],
-            )
-        elif method == "LocalOutlierFactor":
-            out = neighbors.LocalOutlierFactor(
-                contamination=threshold,
-                support_fraction=s_frac,
-                random_state=_scikit_params["random_state"],
-            )
-
-        subjects = df[ycol].to_numpy().reshape(-1, 1)
+        out = covariance.EllipticEnvelope(
+            contamination=threshold, support_fraction=s_frac, random_state=42
+        )
+        subjects = df[scikit_params["ycolumn"]].to_numpy().reshape(-1, 1)
         result = out.fit_predict(subjects)
         df["outliers"] = result
         if which == "remove":
             return df[df["outliers"] == 1].drop(labels="outliers", axis=1)
-        elif which == "keep":
+        elif which == "select":
             return df[df["outliers"] == -1].drop(labels="outliers", axis=1)
-        else:
-            return df
 
-    def _scikit_clustering(
-        self, X_train, X_test, y_train, y_test, method, scikit_params
-    ):
+    def train(self, select=False):
 
-        if method == "Spectral":
-            obj = cluster.SpectralClustering(
-                n_clusters=8,
-                eigen_solver=None,
-                n_components=None,
-                random_state=scikit_params["random_state"],
-                n_init=10,
-                gamma=1.0,
-                affinity="rbf",
-                n_neighbors=10,
-                eigen_tol=0.0,
-                assign_labels="kmeans",
-                degree=3,
-                coef0=1,
-                kernel_params=None,
-                n_jobs=scikit_params["n_jobs"],
-                verbose=scikit_params["verbose"],
+        method, _ = self.pre_qualify_lists(self.scikit_params["method"], [])
+        if all(map(list(self.scikit_object[select].keys()).__contains__, ["X", "y"])):
+            if len(self.scikit_object[select]["X"]) > 10:
+                (
+                    self.scikit_object[select]["X_train"],
+                    self.scikit_object[select]["X_test"],
+                    y_train,
+                    y_test,
+                ) = train_test_split(
+                    self.scikit_object[select]["X"],
+                    self.scikit_object[select]["y"],
+                    test_size=self.scikit_params["test_size"],
+                    random_state=1,
+                )
+                self.scikit_object[select]["y_train"] = y_train.reshape(-1)
+                self.scikit_object[select]["y_test"] = y_test.reshape(-1)
+
+            else:
+                self.scikit_object[select]["X_train"] = self.scikit_object[select]["X"]
+                self.scikit_object[select]["y_train"] = self.scikit_object[select]["y"]
+
+            for meth in method:
+                if isinstance(meth, dict):
+                    for key in meth.keys():
+                        self.scikit_object[select][key] = {}
+                        for val in meth[key]:
+                            self.scikit_object[select][key][val] = self.scikit_fit(
+                                self.scikit_object[select]["X_train"],
+                                self.scikit_object[select]["y_train"],
+                                key,
+                                base_estimator=val,
+                            )
+                else:
+                    self.scikit_object[select][meth] = self.scikit_fit(
+                        self.scikit_object[select]["X_train"],
+                        self.scikit_object[select]["y_train"],
+                        meth,
+                    )
+
+    def scikit_fit(self, X_train, y_train, method, base_estimator=False):
+
+        if self.scikit_params["model_selection"] == "regress":
+            return scikit_models.regression_methods.scikit_regression(
+                X_train,
+                y_train,
+                method,
+                self.scikit_params,
+                base_estimator=base_estimator,
             )
-        elif method == "SpectralBi":
-            obj = cluster.SpectralBiclustering(
-                n_clusters=3,
-                method="bistochastic",
-                n_components=6,
-                n_best=3,
-                svd_method="randomized",
-                n_svd_vecs=None,
-                mini_batch=False,
-                init="k-means++",
-                n_init=10,
-                random_state=scikit_params["random_state"],
+        elif self.scikit_params["model_selection"] == "classify":
+            return scikit_models.classification_methods.scikit_classification(
+                X_train,
+                y_train,
+                method,
+                self.scikit_params,
+                base_estimator=base_estimator,
             )
-        elif method == "SpectralCo":
-            obj = cluster.SpectralCoclustering(
-                n_clusters=3,
-                svd_method="randomized",
-                n_svd_vecs=None,
-                mini_batch=False,
-                init="k-means++",
-                n_init=10,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "KMeans":
-            obj = cluster.KMeans(
-                n_clusters=8,
-                init="k-means++",
-                n_init=10,
-                max_iter=300,
-                tol=0.0001,
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-                copy_x=True,
-                algorithm="auto",
-            )
-        elif method == "Agglomerative":
-            obj = cluster.AgglomerativeClustering(
-                n_clusters=2,
-                affinity="euclidean",
-                memory=None,
-                connectivity=None,
-                compute_full_tree="auto",
-                linkage="ward",
-                distance_threshold=None,
-                compute_distances=False,
-            )
-        elif method == "DBSCAN":
-            obj = cluster.DBSCAN(
-                eps=0.5,
-                min_samples=5,
-                metric="euclidean",
-                metric_params=None,
-                algorithm="auto",
-                leaf_size=30,
-                p=None,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "OPTICS":
-            obj = cluster.OPTICS(
-                min_samples=5,
-                max_eps=np.inf,
-                metric="minkowski",
-                p=2,
-                metric_params=None,
-                cluster_method="xi",
-                eps=None,
-                xi=0.05,
-                predecessor_correction=True,
-                min_cluster_size=None,
-                algorithm="auto",
-                leaf_size=30,
-                memory=None,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "AffinityPropagation":
-            obj = cluster.AffinityPropagation(
-                damping=0.5,
-                max_iter=200,
-                convergence_iter=15,
-                copy=True,
-                preference=None,
-                affinity="euclidean",
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "Birch":
-            obj = cluster.Birch(
-                threshold=0.5,
-                branching_factor=50,
-                n_clusters=3,
-                compute_labels=True,
-                copy=True,
-            )
-        elif method == "MiniBatchKMeans":
-            obj = cluster.MiniBatchKMeans(
-                n_clusters=8,
-                init="k-means++",
-                max_iter=100,
-                batch_size=1024,
-                verbose=scikit_params["verbose"],
-                compute_labels=True,
-                random_state=scikit_params["random_state"],
-                tol=0.0,
-                max_no_improvement=10,
-                init_size=None,
-                n_init=3,
-                reassignment_ratio=0.01,
-            )
-        elif method == "FeatureAgglomeration":
-            obj = cluster.FeatureAgglomeration(
-                n_clusters=2,
-                affinity="euclidean",
-                memory=None,
-                connectivity=None,
-                compute_full_tree="auto",
-                linkage="ward",
-                pooling_func=np.mean,
-                distance_threshold=None,
-                compute_distances=False,
-            )
-        elif method == "MeanShift":
-            obj = cluster.MeanShift(
-                bandwidth=None,
-                seeds=None,
-                bin_seeding=False,
-                min_bin_freq=1,
-                cluster_all=True,
-                n_jobs=scikit_params["n_jobs"],
-                max_iter=300,
+        elif self.scikit_params["model_selection"] == "cluster":
+            return scikit_models.clustering_methods.scikit_clustering(
+                X_train, y_train, method, self.scikit_params
             )
 
-        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "rand")
-
-    def _scikit_regressors(
-        self, X_train, X_test, y_train, y_test, method, scikit_params
-    ):
-
-        if method == "AdaBoost":
-            obj = ensemble.AdaBoostRegressor(
-                base_estimator=scikit_params["base_estimator"],
-                n_estimators=50,
-                learning_rate=1.0,
-                loss="linear",
-                random_state=scikit_params["random_state"],
+        elif self.scikit_params["model_selection"] == "semi_supervised":
+            return scikit_models.semi_supervised_methods.scikit_semi_supervised(
+                X_train, y_train, method, self.scikit_params
             )
-        if method == "Bagging":
-            obj = ensemble.BaggingRegressor(
-                base_estimator=scikit_params["base_estimator"],
-                n_estimators=10,
-                max_samples=1.0,
-                max_features=1.0,
-                bootstrap=True,
-                bootstrap_features=False,
-                oob_score=False,
-                warm_start=False,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                verbose=scikit_params["verbose"],
-            )
-
-        elif method == "DecisionTree":
-            obj = tree.DecisionTreeRegressor(
-                criterion="squared_error",
-                splitter="best",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features=None,
-                random_state=scikit_params["random_state"],
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                ccp_alpha=0.0,
-            )
-        elif method == "ExtraTree":
-            obj = tree.ExtraTreeRegressor(
-                criterion="squared_error",
-                splitter="random",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features="auto",
-                random_state=scikit_params["random_state"],
-                min_impurity_decrease=0.0,
-                max_leaf_nodes=None,
-                ccp_alpha=0.0,
-            )
-        elif method == "ExtraTrees":
-            obj = ensemble.ExtraTreesRegressor(
-                n_estimators=100,
-                criterion="squared_error",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features="auto",
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                bootstrap=False,
-                oob_score=False,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                ccp_alpha=0.0,
-                max_samples=None,
-            )
-        elif method == "GradientBoosting":
-            obj = ensemble.GradientBoostingRegressor(
-                loss="squared_error",
-                learning_rate=0.1,
-                n_estimators=100,
-                subsample=1.0,
-                criterion="friedman_mse",
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_depth=3,
-                min_impurity_decrease=0.0,
-                init=None,
-                random_state=scikit_params["random_state"],
-                max_features=None,
-                alpha=0.9,
-                verbose=scikit_params["verbose"],
-                max_leaf_nodes=None,
-                warm_start=False,
-                validation_fraction=0.1,
-                n_iter_no_change=None,
-                tol=0.0001,
-                ccp_alpha=0.0,
-            )
-        elif method == "HistGradientBoosting":
-            obj = ensemble.HistGradientBoostingRegressor(
-                loss="squared_error",
-                learning_rate=0.1,
-                max_iter=100,
-                max_leaf_nodes=31,
-                max_depth=None,
-                min_samples_leaf=20,
-                l2_regularization=0.0,
-                max_bins=255,
-                categorical_features=None,
-                monotonic_cst=None,
-                warm_start=False,
-                early_stopping="auto",
-                scoring="loss",
-                validation_fraction=0.1,
-                n_iter_no_change=10,
-                tol=1e-07,
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "RandomForest":
-            obj = ensemble.RandomForestRegressor(
-                n_estimators=100,
-                criterion="squared_error",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features="auto",
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                bootstrap=True,
-                oob_score=False,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                ccp_alpha=0.0,
-                max_samples=None,
-            )
-        elif method == "Stacking":
-            obj = ensemble.StackingRegressor(
-                estimators=scikit_params["estimators"],
-                final_estimator=scikit_params["final_estimator"],
-                cv=None,
-                n_jobs=scikit_params["n_jobs"],
-                passthrough=False,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "Voting":
-            obj = ensemble.VotingRegressor(
-                estimators=scikit_params["estimators"],
-                weights=None,
-                n_jobs=scikit_params["n_jobs"],
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "MultiOutput":
-            obj = multioutput.MultiOutputRegressor(
-                estimator=scikit_params["estimator"], n_jobs=scikit_params["n_jobs"]
-            )
-        elif method == "Chain":
-            obj = multioutput.RegressorChain(
-                base_estimator=scikit_params["base_estimator"],
-                order=None,
-                cv=None,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "LinearSVR":
-            obj = svm.LinearSVR(
-                epsilon=0.0,
-                tol=0.0001,
-                C=1.0,
-                loss="epsilon_insensitive",
-                fit_intercept=True,
-                intercept_scaling=1.0,
-                dual=True,
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-                max_iter=1000,
-            )
-        elif method == "NuSVR":
-            obj = svm.NuSVR(
-                nu=0.5,
-                C=1.0,
-                kernel="rbf",
-                degree=3,
-                gamma="scale",
-                coef0=0.0,
-                shrinking=True,
-                tol=0.001,
-                cache_size=200,
-                verbose=scikit_params["verbose"],
-                max_iter=-1,
-            )
-        elif method == "SVR":
-            obj = svm.SVR(
-                kernel="rbf",
-                degree=3,
-                gamma="scale",
-                coef0=0.0,
-                tol=0.001,
-                C=1.0,
-                epsilon=0.1,
-                shrinking=True,
-                cache_size=200,
-                verbose=scikit_params["verbose"],
-                max_iter=-1,
-            )
-        elif method == "MLP":
-            obj = neural_network.MLPRegressor(
-                hidden_layer_sizes=(100),
-                activation="relu",
-                solver="adam",
-                alpha=0.0001,
-                batch_size="auto",
-                learning_rate="constant",
-                learning_rate_init=0.001,
-                power_t=0.5,
-                max_iter=200,
-                shuffle=True,
-                random_state=scikit_params["random_state"],
-                tol=0.0001,
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                momentum=0.9,
-                nesterovs_momentum=True,
-                early_stopping=False,
-                validation_fraction=0.1,
-                beta_1=0.9,
-                beta_2=0.999,
-                epsilon=1e-08,
-                n_iter_no_change=10,
-                max_fun=15000,
-            )
-        elif method == "KNeighbors":
-            obj = neighbors.KNeighborsRegressor(
-                n_neighbors=5,
-                weights="uniform",
-                algorithm="auto",
-                leaf_size=30,
-                p=2,
-                metric="minkowski",
-                metric_params=None,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "RadiusNeighbors":
-            obj = neighbors.RadiusNeighborsRegressor(
-                radius=1.0,
-                weights="uniform",
-                algorithm="auto",
-                leaf_size=30,
-                p=2,
-                metric="minkowski",
-                metric_params=None,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "Isotonic":
-            obj = isotonic.IsotonicRegression(
-                y_min=None, y_max=None, increasing=True, out_of_bounds="nan"
-            )
-        elif method == "GaussianProcess":
-            obj = gaussian_process.GaussianProcessRegressor(
-                kernel=None,
-                alpha=1e-10,
-                optimizer="fmin_l_bfgs_b",
-                n_restarts_optimizer=0,
-                normalize_y=False,
-                copy_X_train=True,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "PLS":
-            obj = cross_decomposition.PLSRegression(
-                n_components=2, scale=True, max_iter=500, tol=1e-06, copy=True
-            )
-        elif method == "Linear":
-            obj = linear_model.LinearRegression(
-                fit_intercept=True,
-                normalize="deprecated",
-                copy_X=True,
-                n_jobs=scikit_params["n_jobs"],
-                positive=False,
-            )
-        elif method == "SGD":
-            obj = linear_model.SGDRegressor(
-                loss="squared_error",
-                penalty="l2",
-                alpha=0.0001,
-                l1_ratio=0.15,
-                fit_intercept=True,
-                max_iter=1000,
-                tol=0.001,
-                shuffle=True,
-                verbose=scikit_params["verbose"],
-                epsilon=0.1,
-                random_state=scikit_params["random_state"],
-                learning_rate="invscaling",
-                eta0=0.01,
-                power_t=0.25,
-                early_stopping=False,
-                validation_fraction=0.1,
-                n_iter_no_change=5,
-                warm_start=False,
-                average=False,
-            )
-        elif method == "ARD":
-            obj = linear_model.ARDRegression(
-                n_iter=300,
-                tol=0.001,
-                alpha_1=1e-06,
-                alpha_2=1e-06,
-                lambda_1=1e-06,
-                lambda_2=1e-06,
-                compute_score=False,
-                threshold_lambda=10000.0,
-                fit_intercept=True,
-                normalize="deprecated",
-                copy_X=True,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "BayesianRidge":
-            obj = linear_model.BayesianRidge(
-                n_iter=300,
-                tol=0.001,
-                alpha_1=1e-06,
-                alpha_2=1e-06,
-                lambda_1=1e-06,
-                lambda_2=1e-06,
-                alpha_init=None,
-                lambda_init=None,
-                compute_score=False,
-                fit_intercept=True,
-                normalize="deprecated",
-                copy_X=True,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "Huber":
-            obj = linear_model.HuberRegressor(
-                epsilon=1.35,
-                max_iter=100,
-                alpha=0.0001,
-                warm_start=False,
-                fit_intercept=True,
-                tol=1e-05,
-            )
-        elif method == "TheilSen":
-            obj = linear_model.TheilSenRegressor(
-                fit_intercept=True,
-                copy_X=True,
-                max_subpopulation=10000.0,
-                n_subsamples=None,
-                max_iter=300,
-                tol=0.001,
-                random_state=scikit_params["random_state"],
-                n_jobs=scikit_params["n_jobs"],
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "Poisson":
-            obj = linear_model.PoissonRegressor(
-                alpha=1.0,
-                fit_intercept=True,
-                max_iter=100,
-                tol=0.0001,
-                warm_start=False,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "Tweedie":
-            obj = linear_model.TweedieRegressor(
-                power=0.0,
-                alpha=1.0,
-                fit_intercept=True,
-                link="auto",
-                max_iter=100,
-                tol=0.0001,
-                warm_start=False,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "Gamma":
-            obj = linear_model.GammaRegressor(
-                alpha=1.0,
-                fit_intercept=True,
-                max_iter=100,
-                tol=0.0001,
-                warm_start=False,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "PassiveAggressive":
-            obj = linear_model.PassiveAggressiveRegressor(
-                C=1.0,
-                fit_intercept=True,
-                max_iter=1000,
-                tol=0.001,
-                early_stopping=False,
-                validation_fraction=0.1,
-                n_iter_no_change=5,
-                shuffle=True,
-                verbose=scikit_params["verbose"],
-                loss="epsilon_insensitive",
-                epsilon=0.1,
-                random_state=scikit_params["random_state"],
-                warm_start=False,
-                average=False,
-            )
-        elif method == "KernelRidge":
-            obj = kernel_ridge.KernelRidge(
-                alpha=1,
-                kernel="linear",
-                gamma=None,
-                degree=3,
-                coef0=1,
-                kernel_params=None,
-            )
-        # elif method == "Polynomial":
-        #     obj = custom_estimators.PolynomialRegression()
-        # elif method == "Exponential":
-        #     obj = custom_estimators.ExponentialRegression()
-        # elif method == "BiExponential":
-        #     obj = custom_estimators.BiExponentialRegression()
-
-        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "mape")
-
-    def _scikit_classifiers(
-        self, X_train, X_test, y_train, y_test, method, scikit_params
-    ):
-
-        if method == "AdaBoost":
-            obj = ensemble.AdaBoostClassifier(
-                base_estimator=scikit_params["base_estimator"],
-                n_estimators=50,
-                learning_rate=1.0,
-                algorithm="SAMME.R",
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "Bagging":
-            obj = ensemble.BaggingClassifier(
-                base_estimator=scikit_params["base_estimator"],
-                n_estimators=10,
-                max_samples=1.0,
-                max_features=1.0,
-                bootstrap=True,
-                bootstrap_features=False,
-                oob_score=False,
-                warm_start=False,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                verbose=scikit_params["verbose"],
-            )
-
-        elif method == "DecisionTree":
-            obj = tree.DecisionTreeClassifier(
-                criterion="gini",
-                splitter="best",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features=None,
-                random_state=scikit_params["random_state"],
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                class_weight=None,
-                ccp_alpha=0.0,
-            )
-        elif method == "ExtraTree":
-            obj = tree.ExtraTreeClassifier(
-                criterion="gini",
-                splitter="random",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features="auto",
-                random_state=scikit_params["random_state"],
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                class_weight=None,
-                ccp_alpha=0.0,
-            )
-        elif method == "ExtraTrees":
-            obj = ensemble.ExtraTreesClassifier(
-                n_estimators=100,
-                criterion="gini",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features="auto",
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                bootstrap=False,
-                oob_score=False,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                class_weight=None,
-                ccp_alpha=0.0,
-                max_samples=None,
-            )
-        elif method == "GradientBoosting":
-            obj = ensemble.GradientBoostingClassifier(
-                loss="deviance",
-                learning_rate=0.1,
-                n_estimators=100,
-                subsample=1.0,
-                criterion="friedman_mse",
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_depth=3,
-                min_impurity_decrease=0.0,
-                init=None,
-                random_state=scikit_params["random_state"],
-                max_features=None,
-                verbose=scikit_params["verbose"],
-                max_leaf_nodes=None,
-                warm_start=False,
-                validation_fraction=0.1,
-                n_iter_no_change=None,
-                tol=0.0001,
-                ccp_alpha=0.0,
-            )
-        elif method == "HistGradientBoosting":
-            obj = ensemble.HistGradientBoostingClassifier(
-                loss="auto",
-                learning_rate=0.1,
-                max_iter=100,
-                max_leaf_nodes=31,
-                max_depth=None,
-                min_samples_leaf=20,
-                l2_regularization=0.0,
-                max_bins=255,
-                categorical_features=None,
-                monotonic_cst=None,
-                warm_start=False,
-                early_stopping="auto",
-                scoring="loss",
-                validation_fraction=0.1,
-                n_iter_no_change=10,
-                tol=1e-07,
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "RandomForest":
-            obj = ensemble.RandomForestClassifier(
-                n_estimators=100,
-                criterion="gini",
-                max_depth=None,
-                min_samples_split=2,
-                min_samples_leaf=1,
-                min_weight_fraction_leaf=0.0,
-                max_features="auto",
-                max_leaf_nodes=None,
-                min_impurity_decrease=0.0,
-                bootstrap=True,
-                oob_score=False,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                class_weight=None,
-                ccp_alpha=0.0,
-                max_samples=None,
-            )
-        elif method == "Stacking":
-            obj = ensemble.StackingClassifier(
-                scikit_params["estimators"],
-                final_estimator=None,
-                cv=None,
-                stack_method="auto",
-                n_jobs=scikit_params["n_jobs"],
-                passthrough=False,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "Voting":
-            obj = ensemble.VotingClassifier(
-                scikit_params["estimators"],
-                voting="hard",
-                weights=None,
-                n_jobs=scikit_params["n_jobs"],
-                flatten_transform=True,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "MultiOutput":
-            obj = multioutput.MultiOutputClassifier(
-                estimator=scikit_params["estimator"], n_jobs=scikit_params["n_jobs"]
-            )
-        elif method == "Chain":
-            obj = multioutput.ClassifierChain(
-                scikit_params["base_estimator"],
-                order=None,
-                cv=None,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "MLP":
-            obj = neural_network.MLPClassifier(
-                hidden_layer_sizes=(100),
-                activation="relu",
-                solver="adam",
-                alpha=0.0001,
-                batch_size="auto",
-                learning_rate="constant",
-                learning_rate_init=0.001,
-                power_t=0.5,
-                max_iter=200,
-                shuffle=True,
-                random_state=scikit_params["random_state"],
-                tol=0.0001,
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                momentum=0.9,
-                nesterovs_momentum=True,
-                early_stopping=False,
-                validation_fraction=0.1,
-                beta_1=0.9,
-                beta_2=0.999,
-                epsilon=1e-08,
-                n_iter_no_change=10,
-                max_fun=15000,
-            )
-        elif method == "KNeighbors":
-            obj = neighbors.KNeighborsClassifier(
-                n_neighbors=5,
-                weights="uniform",
-                algorithm="auto",
-                leaf_size=30,
-                p=2,
-                metric="minkowski",
-                metric_params=None,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "RadiusNeighbors":
-            obj = neighbors.RadiusNeighborsClassifier(
-                radius=1.0,
-                weights="uniform",
-                algorithm="auto",
-                leaf_size=30,
-                p=2,
-                metric="minkowski",
-                outlier_label=None,
-                metric_params=None,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "GaussianProcess":
-            obj = gaussian_process.GaussianProcessClassifier(
-                kernel=None,
-                optimizer="fmin_l_bfgs_b",
-                n_restarts_optimizer=0,
-                max_iter_predict=100,
-                warm_start=False,
-                copy_X_train=True,
-                random_state=scikit_params["random_state"],
-                multi_class="one_vs_rest",
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "LinearSVC":
-            obj = svm.LinearSVC(
-                penalty="l2",
-                loss="squared_hinge",
-                dual=True,
-                tol=0.0001,
-                C=1.0,
-                multi_class="ovr",
-                fit_intercept=True,
-                intercept_scaling=1,
-                class_weight=None,
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-                max_iter=1000,
-            )
-        elif method == "NuSVC":
-            obj = svm.NuSVC(
-                nu=0.5,
-                kernel="rbf",
-                degree=3,
-                gamma="scale",
-                coef0=0.0,
-                shrinking=True,
-                probability=False,
-                tol=0.001,
-                cache_size=200,
-                class_weight=None,
-                verbose=scikit_params["verbose"],
-                max_iter=-1,
-                decision_function_shape="ovr",
-                break_ties=False,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "SVC":
-            obj = svm.SVC(
-                C=1.0,
-                kernel="rbf",
-                degree=3,
-                gamma="scale",
-                coef0=0.0,
-                shrinking=True,
-                probability=False,
-                tol=0.001,
-                cache_size=200,
-                class_weight=None,
-                verbose=scikit_params["verbose"],
-                max_iter=-1,
-                decision_function_shape="ovr",
-                break_ties=False,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "Perceptron":
-            obj = linear_model.Perceptron(
-                penalty=None,
-                alpha=0.0001,
-                l1_ratio=0.15,
-                fit_intercept=True,
-                max_iter=1000,
-                tol=0.001,
-                shuffle=True,
-                verbose=scikit_params["verbose"],
-                eta0=1.0,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                early_stopping=False,
-                validation_fraction=0.1,
-                n_iter_no_change=5,
-                class_weight=None,
-                warm_start=False,
-            )
-        elif method == "SGD":
-            obj = linear_model.SGDClassifier(
-                loss="hinge",
-                penalty="l2",
-                alpha=0.0001,
-                l1_ratio=0.15,
-                fit_intercept=True,
-                max_iter=1000,
-                tol=0.001,
-                shuffle=True,
-                verbose=scikit_params["verbose"],
-                epsilon=0.1,
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                learning_rate="optimal",
-                eta0=0.0,
-                power_t=0.5,
-                early_stopping=False,
-                validation_fraction=0.1,
-                n_iter_no_change=5,
-                class_weight=None,
-                warm_start=False,
-                average=False,
-            )
-        elif method == "Ridge":
-            obj = linear_model.RidgeClassifier(
-                alpha=1.0,
-                fit_intercept=True,
-                normalize="deprecated",
-                copy_X=True,
-                max_iter=None,
-                tol=0.001,
-                class_weight=None,
-                solver="auto",
-                positive=False,
-                random_state=scikit_params["random_state"],
-            )
-        elif method == "RidgeCV":
-            obj = linear_model.RidgeClassifierCV(
-                alphas=(0.1, 1.0, 10.0),
-                fit_intercept=True,
-                normalize="deprecated",
-                scoring=None,
-                cv=None,
-                class_weight=None,
-                store_cv_values=False,
-            )
-        elif method == "PassiveAggressive":
-            obj = linear_model.PassiveAggressiveClassifier(
-                C=1.0,
-                fit_intercept=True,
-                max_iter=1000,
-                tol=0.001,
-                early_stopping=False,
-                validation_fraction=0.1,
-                n_iter_no_change=5,
-                shuffle=True,
-                verbose=scikit_params["verbose"],
-                loss="hinge",
-                n_jobs=scikit_params["n_jobs"],
-                random_state=scikit_params["random_state"],
-                warm_start=False,
-                class_weight=None,
-                average=False,
-            )
-        elif method == "LogisticRegression":
-            obj = linear_model.LogisticRegression(
-                penalty="l2",
-                dual=False,
-                tol=0.0001,
-                C=1.0,
-                fit_intercept=True,
-                intercept_scaling=1,
-                class_weight=None,
-                random_state=scikit_params["random_state"],
-                solver="lbfgs",
-                max_iter=100,
-                multi_class="auto",
-                verbose=scikit_params["verbose"],
-                warm_start=False,
-                n_jobs=scikit_params["n_jobs"],
-                l1_ratio=None,
-            )
-        elif method == "LogisticRegressionCV":
-            obj = linear_model.LogisticRegressionCV(
-                Cs=10,
-                fit_intercept=True,
-                cv=None,
-                dual=False,
-                penalty="l2",
-                scoring=None,
-                solver="lbfgs",
-                tol=0.0001,
-                max_iter=100,
-                class_weight=None,
-                n_jobs=scikit_params["n_jobs"],
-                verbose=scikit_params["verbose"],
-                refit=True,
-                intercept_scaling=1.0,
-                multi_class="auto",
-                random_state=scikit_params["random_state"],
-                l1_ratios=None,
-            )
-        elif method == "OneVsRest":
-            obj = multiclass.OneVsRestClassifier(
-                scikit_params["estimator"], n_jobs=scikit_params["n_jobs"]
-            )
-        elif method == "OneVsOne":
-            obj = multiclass.OneVsOneClassifier(
-                scikit_params["estimator"], n_jobs=scikit_params["n_jobs"]
-            )
-        elif method == "LogisticRegressionCV":
-            obj = multiclass.OutputCodeClassifier(
-                scikit_params["estimator"],
-                code_size=1.5,
-                random_state=scikit_params["random_state"],
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "BernoulliNB":
-            obj = naive_bayes.BernoulliNB(
-                alpha=1.0, binarize=0.0, fit_prior=True, class_prior=None
-            )
-        elif method == "CategoricalNB":
-            obj = naive_bayes.CategoricalNB(
-                alpha=1.0, fit_prior=True, class_prior=None, min_categories=None
-            )
-        elif method == "ComplementNB":
-            obj = naive_bayes.ComplementNB(
-                alpha=1.0, fit_prior=True, class_prior=None, norm=False
-            )
-        elif method == "GaussianNB":
-            obj = naive_bayes.GaussianNB(priors=None, var_smoothing=1e-09)
-        elif method == "MultinomialNB":
-            obj = naive_bayes.MultinomialNB(alpha=1.0, fit_prior=True, class_prior=None)
-
-        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "jaccard")
-
-    def _scikit_neural_network(
-        self, X_train, X_test, y_train, y_test, method, scikit_params
-    ):
-
-        if method == "BernoulliRBM":
-            obj = neural_network.BernoulliRBM(
-                n_components=256,
-                learning_rate=0.1,
-                batch_size=10,
-                n_iter=10,
-                verbose=scikit_params["verbose"],
-                random_state=scikit_params["random_state"],
-            )
-
-        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "score_samples")
-
-    def _scikit_semi_supervised(
-        self, X_train, X_test, y_train, y_test, method, scikit_params
-    ):
-
-        if method == "SelfTrainingClassifier":
-            obj = semi_supervised.SelfTrainingClassifier(
-                scikit_params["base_estimator"],
-                threshold=0.75,
-                criterion="threshold",
-                k_best=10,
-                max_iter=10,
-                verbose=scikit_params["verbose"],
-            )
-        elif method == "LabelPropagation":
-            obj = semi_supervised.LabelPropagation(
-                kernel="rbf",
-                gamma=20,
-                n_neighbors=7,
-                max_iter=1000,
-                tol=0.001,
-                n_jobs=scikit_params["n_jobs"],
-            )
-        elif method == "LabelSpreading":
-            obj = semi_supervised.LabelSpreading(
-                kernel="rbf",
-                gamma=20,
-                n_neighbors=7,
-                alpha=0.2,
-                max_iter=30,
-                tol=0.001,
-                n_jobs=scikit_params["n_jobs"],
-            )
-
-        return self.scikit_obj(obj, X_train, X_test, y_train, y_test, "score")
 
     @staticmethod
-    def scikit_obj(obj, X_train, X_test, y_train, y_test, score_type):
+    def return_score(obj, X_true=None, y_true=None, y_pred=None, metric="mape"):
 
-        obj_fit = obj.fit(X_train, y_train)
-        obj_predict = {"train": obj.predict(X_train), "test": obj.predict(X_test)}
+        try:
+            if metric in ["r2", "score"]:
+                return obj.score(X_true, y_true)
+            elif metric == "score_samples":
+                return obj.score_samples(X_true)
+            elif metric == "mape":
+                return metrics.mean_absolute_percentage_error(y_true, y_pred)
+            elif metric == "mae":
+                return metrics.mean_absolute_error(y_true, y_pred)
+            elif metric == "mse":
+                return metrics.mean_squared_error(y_true, y_pred)
+            elif metric == "jaccard":
+                return metrics.jaccard_score(y_true, y_pred)
+            elif metric == "adjusted_rand":
+                return metrics.cluster.adjusted_rand_score(y_true, y_pred)
+        except ValueError:
+            return False
 
-        if score_type == "mape":
-            obj_score = {
-                "train": metrics.mean_absolute_percentage_error(
-                    y_train, obj_predict["train"]
-                ),
-                "test": metrics.mean_absolute_percentage_error(
-                    y_test, obj_predict["test"]
-                ),
-            }
-        elif score_type == "jaccard":
-            obj_score = {
-                "train": metrics.jaccard_score(y_train, obj_predict["train"]),
-                "test": metrics.jaccard_score(y_test, obj_predict["test"]),
-            }
-        elif score_type == "rand":
-            obj_score = {
-                "train": metrics.cluster.rand_score(y_train, obj_predict["train"]),
-                "test": metrics.cluster.rand_score(y_test, obj_predict["test"]),
-            }
-        elif score_type == "score":
-            obj_score = {
-                "train": obj.score(X_train, y_train),
-                "test": obj.score(X_test, y_test),
-            }
-        elif score_type == "score_samples":
-            obj_score = {
-                "train": obj.score_samples(X_train),
-                "test": obj.score_samples(X_test),
-            }
+    def predict_score(self, select=False):
 
-        return obj_fit, obj_predict, obj_score
+        method, metric = self.pre_qualify_lists(
+            self.scikit_params["method"], self.scikit_params["score_metric"]
+        )
+
+        self.scikit_object[select]["scores"] = {}
+        self.scikit_object[select]["predictions"] = {}
+        if all(
+            map(
+                list(self.scikit_object[select].keys()).__contains__,
+                ["X_test", "y_test"],
+            )
+        ):
+            for meth in method:
+                if isinstance(meth, dict):
+                    for key in meth.keys():
+                        self.scikit_object[select]["scores"][key] = {}
+                        self.scikit_object[select]["predictions"][key] = {}
+                        for val in meth[key]:
+                            self.scikit_object[select]["scores"][key][val] = {}
+                            self.scikit_object[select]["predictions"][key][val] = {
+                                "train": self.scikit_object[select][key][val].predict(
+                                    self.scikit_object[select]["X_train"]
+                                ),
+                                "test": self.scikit_object[select][key][val].predict(
+                                    self.scikit_object[select]["X_test"]
+                                ),
+                            }
+                            if "X_predict" in self.scikit_object[select].keys():
+                                self.scikit_object[select]["predictions"][key][
+                                    val
+                                ].update(
+                                    {
+                                        "sample": self.scikit_object[select][key][
+                                            val
+                                        ].predict(
+                                            self.scikit_object[select]["X_predict"]
+                                        )
+                                    }
+                                )
+
+                            for metr in metric:
+                                self.scikit_object[select]["scores"][key][val][metr] = {
+                                    "train": self.return_score(
+                                        self.scikit_object[select][key][val],
+                                        X_true=self.scikit_object[select]["X_train"],
+                                        y_true=self.scikit_object[select]["y_train"],
+                                        y_pred=self.scikit_object[select][
+                                            "predictions"
+                                        ][key][val]["train"],
+                                        metric=metr,
+                                    ),
+                                    "test": self.return_score(
+                                        self.scikit_object[select][key][val],
+                                        X_true=self.scikit_object[select]["X_test"],
+                                        y_true=self.scikit_object[select]["y_test"],
+                                        y_pred=self.scikit_object[select][
+                                            "predictions"
+                                        ][key][val]["test"],
+                                        metric=metr,
+                                    ),
+                                }
+                                self.scores_dict["Var"].append(select)
+                                self.scores_dict["score"].append(
+                                    self.scikit_object[select]["scores"][key][val][metr]
+                                )
+                                self.scores_dict["method"].append(
+                                    "_".join([key, val, metr])
+                                )
+                                print(
+                                    f"{select} score: "
+                                    + str(
+                                        self.scikit_object[select]["scores"][key][val][
+                                            metr
+                                        ]
+                                    )
+                                    + " "
+                                    + key
+                                    + "_"
+                                    + val
+                                    + "_"
+                                    + metr
+                                )
+
+                elif meth in self.scikit_object[select].keys():
+                    self.scikit_object[select]["predictions"][meth] = {
+                        "train": self.scikit_object[select][meth].predict(
+                            self.scikit_object[select]["X_train"]
+                        ),
+                        "test": self.scikit_object[select][meth].predict(
+                            self.scikit_object[select]["X_test"]
+                        ),
+                    }
+                    if "X_predict" in self.scikit_object[select].keys():
+                        self.scikit_object[select]["predictions"][meth].update(
+                            {
+                                "sample": self.scikit_object[select][meth].predict(
+                                    self.scikit_object[select]["X_predict"]
+                                )
+                            }
+                        )
+                    self.scikit_object[select]["scores"][meth] = {}
+                    for metr in metric:
+                        self.scikit_object[select]["scores"][meth][metr] = {
+                            "train": self.return_score(
+                                self.scikit_object[select][meth],
+                                X_true=self.scikit_object[select]["X_train"],
+                                y_true=self.scikit_object[select]["y_train"],
+                                y_pred=self.scikit_object[select]["predictions"][meth][
+                                    "train"
+                                ],
+                                metric=metr,
+                            ),
+                            "test": self.return_score(
+                                self.scikit_object[select][meth],
+                                X_true=self.scikit_object[select]["X_test"],
+                                y_true=self.scikit_object[select]["y_test"],
+                                y_pred=self.scikit_object[select]["predictions"][meth][
+                                    "test"
+                                ],
+                                metric=metr,
+                            ),
+                        }
+                        self.scores_dict["Var"].append(select)
+                        self.scores_dict["score"].append(
+                            self.scikit_object[select]["scores"][meth][metr]
+                        )
+                        self.scores_dict["method"].append("_".join([meth, metr]))
+                        print(
+                            f"{select} score: "
+                            + str(self.scikit_object[select]["scores"][meth][metr])
+                            + " "
+                            + meth
+                            + "_"
+                            + metr
+                        )
+
+                else:
+                    sc = None
+                    mt = meth
+                    self.scikit_object[select]["scores"][meth] = None
+                    self.scikit_object[select]["y_predict"][meth] = None
+
+                    print(f"{select} score: {sc} {mt}")
+        else:
+            self.scikit_object[select]["scores"] = None
+            self.scikit_object[select]["y_predict"] = None
+            print(f"{select} None")
+
+        if self.scikit_params["decode"]:
+            if self.scikit_params["encode_X"]:
+                for x in ["X", "X_train", "X_test", "X_predict"]:
+                    if (
+                        x in self.scikit_object[select].keys()
+                        and self.scikit_object[select][x] is not None
+                    ):
+                        self.scikit_object[select][x] = utilities.decoder(
+                            self.scikit_object[select][x],
+                            self.scikit_object[select]["X_encoder"],
+                        )
+            if self.scikit_params["encode_y"]:
+                for y in ["y", "y_train", "y_test", "y_predict"]:
+                    if (
+                        y in self.scikit_object[select].keys()
+                        and self.scikit_object[select][y] is not None
+                    ):
+                        self.scikit_object[select][y] = utilities.decoder(
+                            self.scikit_object[select][y],
+                            self.scikit_object[select]["y_encoder"],
+                        )
+
+    def plot(self, select):
+
+        method, _ = self.pre_qualify_lists(self.scikit_params["method"], [])
+        if self.scikit_object[select]["predictions"] and all(
+            [x in self.scikit_object[select].keys() for x in ["y_test", "y_train"]]
+        ):
+            for meth in method:
+                if isinstance(meth, dict):
+                    for key in meth.keys():
+                        if key in self.scikit_object[select]["predictions"].keys():
+                            for val in meth[key]:
+                                if self.scikit_object[select]["predictions"][key] and (
+                                    val
+                                    in self.scikit_object[select]["predictions"][
+                                        key
+                                    ].keys()
+                                ):
+                                    plt.figure(figsize=(12, 6))
+                                    plt.subplot(121)
+                                    plt.plot(
+                                        range(
+                                            len(self.scikit_object[select]["y_train"])
+                                        ),
+                                        self.scikit_object[select]["y_train"],
+                                        "o",
+                                        label="Train points",
+                                    )
+                                    plt.plot(
+                                        range(
+                                            len(self.scikit_object[select]["y_train"])
+                                        ),
+                                        self.scikit_object[select]["predictions"][key][
+                                            val
+                                        ]["train"],
+                                        "x",
+                                        label="Predictions",
+                                    )
+                                    plt.title(
+                                        select
+                                        + ": "
+                                        + "_".join([key, val])
+                                        + " (Train)"
+                                    )
+                                    plt.legend()
+                                    plt.subplot(122)
+                                    plt.plot(
+                                        range(
+                                            len(self.scikit_object[select]["y_test"])
+                                        ),
+                                        self.scikit_object[select]["y_test"],
+                                        "o",
+                                        label="Test points",
+                                    )
+                                    plt.plot(
+                                        range(
+                                            len(self.scikit_object[select]["y_test"])
+                                        ),
+                                        self.scikit_object[select]["predictions"][key][
+                                            val
+                                        ]["test"],
+                                        "x",
+                                        label="Predictions",
+                                    )
+                                    plt.title(
+                                        select + ": " + "_".join([key, val]) + " (Test)"
+                                    )
+                                    plt.legend()
+                                    plt.show()
+                else:
+                    if meth in self.scikit_object[select]["predictions"].keys():
+                        plt.figure(figsize=(12, 6))
+                        plt.subplot(121)
+                        plt.plot(
+                            range(len(self.scikit_object[select]["y_train"])),
+                            self.scikit_object[select]["y_train"],
+                            "o",
+                            label="Train points",
+                        )
+                        plt.plot(
+                            range(len(self.scikit_object[select]["y_train"])),
+                            self.scikit_object[select]["predictions"][meth]["train"],
+                            "x",
+                            label="Predictions",
+                        )
+                        plt.title(select + ": " + meth + " (Train)")
+                        plt.legend()
+                        plt.subplot(122)
+                        plt.plot(
+                            range(len(self.scikit_object[select]["y_test"])),
+                            self.scikit_object[select]["y_test"],
+                            "o",
+                            label="Test points",
+                        )
+                        plt.plot(
+                            range(len(self.scikit_object[select]["y_test"])),
+                            self.scikit_object[select]["predictions"][meth]["test"],
+                            "x",
+                            label="Predictions",
+                        )
+                        plt.title(select + ": " + meth + " (Test)")
+                        plt.legend()
+                        plt.show()
+
+    def scatter(self, select):
+
+        method, _ = self.pre_qualify_lists(self.scikit_params["method"], [])
+        if self.scikit_object[select]["predictions"] and all(
+            [x in self.scikit_object[select].keys() for x in ["y_test", "y_train"]]
+        ):
+            for meth in method:
+                if isinstance(meth, dict):
+                    for key in meth.keys():
+                        if key in self.scikit_object[select]["predictions"].keys():
+                            for val in meth[key]:
+                                if self.scikit_object[select]["predictions"][key] and (
+                                    val
+                                    in self.scikit_object[select]["predictions"][
+                                        key
+                                    ].keys()
+                                ):
+                                    plt.figure(figsize=(12, 6))
+                                    plt.subplot(121)
+                                    plt.scatter(
+                                        self.scikit_object[select]["X_train"][
+                                            self.scikit_object[select][
+                                                "X_train"
+                                            ].columns[0]
+                                        ],
+                                        self.scikit_object[select]["y_train"],
+                                        label="Train points",
+                                    )
+                                    plt.scatter(
+                                        self.scikit_object[select]["X_train"][
+                                            self.scikit_object[select][
+                                                "X_train"
+                                            ].columns[0]
+                                        ],
+                                        self.scikit_object[select]["predictions"][key][
+                                            val
+                                        ]["train"],
+                                        label="Predictions",
+                                    )
+                                    plt.title(
+                                        select
+                                        + ": "
+                                        + "_".join([key, val])
+                                        + " (Train)"
+                                    )
+                                    plt.legend()
+                                    plt.subplot(122)
+                                    plt.scatter(
+                                        self.scikit_object[select]["X_test"][
+                                            self.scikit_object[select][
+                                                "X_test"
+                                            ].columns[0]
+                                        ],
+                                        self.scikit_object[select]["y_test"],
+                                        label="Test points",
+                                    )
+                                    plt.scatter(
+                                        self.scikit_object[select]["X_test"][
+                                            self.scikit_object[select][
+                                                "X_test"
+                                            ].columns[0]
+                                        ],
+                                        self.scikit_object[select]["predictions"][key][
+                                            val
+                                        ]["test"],
+                                        label="Predictions",
+                                    )
+                                    plt.title(
+                                        select + ": " + "_".join([key, val]) + " (Test)"
+                                    )
+                                    plt.legend()
+                                    plt.show()
+                else:
+                    if meth in self.scikit_object[select]["predictions"].keys():
+                        plt.figure(figsize=(12, 6))
+                        plt.subplot(121)
+                        plt.scatter(
+                            self.scikit_object[select]["X_train"][
+                                self.scikit_object[select]["X_train"].columns[0]
+                            ],
+                            self.scikit_object[select]["y_train"],
+                            label="Train points",
+                        )
+                        plt.scatter(
+                            self.scikit_object[select]["X_train"][
+                                self.scikit_object[select]["X_train"].columns[0]
+                            ],
+                            self.scikit_object[select]["predictions"][meth]["train"],
+                            label="Predictions",
+                        )
+                        plt.title(select + ": " + meth + " (Train)")
+                        plt.legend()
+                        plt.subplot(122)
+                        plt.scatter(
+                            self.scikit_object[select]["X_test"][
+                                self.scikit_object[select]["X_test"].columns[0]
+                            ],
+                            self.scikit_object[select]["y_test"],
+                            label="Test points",
+                        )
+                        plt.scatter(
+                            self.scikit_object[select]["X_test"][
+                                self.scikit_object[select]["X_test"].columns[0]
+                            ],
+                            self.scikit_object[select]["predictions"][meth]["test"],
+                            label="Predictions",
+                        )
+                        plt.title(select + ": " + meth + " (Test)")
+                        plt.legend()
+                        plt.show()
+
+    @staticmethod
+    def drop_uniform(df):
+
+        cols = []
+        for ix in df.columns.values:
+            if len(df.drop_duplicates([ix])[ix]) <= 1:
+                cols.append(ix)
+                df.drop(labels=[ix], axis=1, inplace=True)
+
+        return df, cols
+
+    @staticmethod
+    def train_predict_split(df=None, date_column="", cost_column=""):
+
+        predict_df_1 = df[df[date_column] <= 0]
+        predict_df_2 = df[df[cost_column] <= 0]
+        predict_df = predict_df_1.append(predict_df_2, ignore_index=True)
+
+        train_df = df[df[date_column] > 0]
+        train_df = train_df[train_df[cost_column] > 0]
+
+        return train_df.drop_duplicates(), predict_df.drop_duplicates()
+
+    @staticmethod
+    def pre_qualify_lists(method, metric):
+
+        if not isinstance(method, list):
+            method = [method]
+
+        for indx, meth in enumerate(method):
+            if isinstance(meth, dict):
+                for key in meth.keys():
+                    if not isinstance(meth[key], list):
+                        method[indx][key] = [meth[key]]
+
+        if not isinstance(metric, list):
+            metric = [metric]
+
+        return method, metric
+
+    def scores_to_df(self, save=False):
+
+        self.scores_df = pd.DataFrame(
+            {
+                "Var": self.scores_dict["Var"],
+                "train_score": [x["train"] for x in self.scores_dict["score"]],
+                "test_score": [x["test"] for x in self.scores_dict["score"]],
+            }
+        )
+
+        self.scores_df.sort_values(by="Var", ascending=False, inplace=True)
+        self.scores_df["metric"] = [
+            x.split("_")[-1] for x in self.scores_dict["method"]
+        ]
+
+        method_lst = []
+        base_est_lst = []
+        for x in self.scores_dict["method"]:
+            splt = x.split("_")
+            method_lst.append(splt[0])
+            if len(splt) > 2:
+                base_est_lst.append(splt[1])
+            else:
+                base_est_lst.append("")
+
+        self.scores_df["method"] = method_lst
+        self.scores_df["base_estimator"] = base_est_lst
+
+        self.scores_df.astype(
+            {
+                "Var": "str",
+                "train_score": "float64",
+                "test_score": "float64",
+                "metric": "str",
+                "method": "str",
+                "base_estimator": "str",
+            },
+            errors="ignore",
+        )
+
+        if save and isinstance(save, str):
+            self.scores_df.to_csv(save, index=False)

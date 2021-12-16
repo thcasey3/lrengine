@@ -102,10 +102,11 @@ class start:
 
         return lsdata
 
-    def adtk(self, time="", series="", method="OutlierDetector", adtk_args={}, plot=True):
+    def adtk(
+        self, time="", series="", method="OutlierDetector", adtk_args={}, plot=True
+    ):
 
         pass
-
 
     def drive(self, classifiers=None, function=None, function_args=None):
 

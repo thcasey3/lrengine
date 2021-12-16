@@ -1,6 +1,3 @@
-"""
-adtk module, for interacting with adtk
-"""
 from adtk import data, transformer, detector, pipe, visualization
 from sklearn.covariance import EllipticEnvelope
 from sklearn.cluster import KMeans
@@ -10,13 +7,6 @@ import matplotlib.pyplot as plt
 
 
 class adtk:
-    """
-    class for using adtk with the lsobject.frame
-
-    Args:
-    Returns:
-    """
-
     def __init__(
         self,
         df=None,
@@ -54,9 +44,8 @@ class adtk:
                 "you must give a df with column names for time and series, or lists for time and series"
             )
 
-        self.adtk_object = {}
-        self.adtk_object["method"] = method
-        self.adtk_object["df"] = ts_df
+        self.method = method
+        self.df = ts_df
 
         if "n_clusters" in adtk_args.keys():
             n_clus = adtk_args["n_clusters"]
@@ -99,7 +88,7 @@ class adtk:
             "contamination": 0.025,
             "target": "series",
             "n_clusters": 3,
-            "regressor": None,
+            "regressor": LinearRegression(),
             "min_periods": None,
             "agg": "median",
             "trend": False,
@@ -112,16 +101,23 @@ class adtk:
                 ("deseasonal", transformer.ClassicSeasonalDecomposition()),
                 ("quantile_ad", detector.QuantileAD(high=hi, low=lo)),
             ],
+            "ts_linewidth": 1,
+            "ts_markersize": 3,
+            "anomaly_markersize": 5,
+            "anomaly_color": "red",
+            "anomaly_tag": "marker",
+            "curve_group": "all",
+            "figsize": (12, 6),
         }
         a_args.update(adtk_args)
-        self.adtk_object["adtk_args"] = a_args
+        self.adtk_args = a_args
 
         self._adtk(ts_df, method, a_args, plot)
 
     def _adtk(self, df, method, a_args, plot):
 
         series_data = data.validate_series(df, check_categorical=True)
-        self.adtk_object["series"] = series_data.copy()
+        self.series = series_data.copy()
 
         if method == "Pipeline":
             AD = pipe.Pipeline(a_args["steps"])
@@ -182,7 +178,7 @@ class adtk:
             AD = detector.OutlierDetector(model=a_args["outlier_model"])
         elif method == "RegressionAD":
             AD = detector.RegressionAD(
-                regressor=LinearRegression(),
+                regressor=a_args["regressor"],
                 target=a_args["target"],
                 c=a_args["c"],
                 side=a_args["side"],
@@ -195,27 +191,36 @@ class adtk:
         else:
             anomalies = AD.fit_detect(series_data)
 
-        self.adtk_object["detector"] = AD
-        self.adtk_object["anomalies"] = anomalies
+        self.detector = AD
+        self.anomalies = anomalies
 
         if plot:
             self.plot()
 
-    def plot(self, series_data=None, anomalies=None):
+    def plot(
+        self,
+        a_args=None,
+        series_data=None,
+        anomalies=None,
+    ):
 
-        if series_data is None and anomalies is None:
-            series_data = self.adtk_object["series"]
-            anomalies = self.adtk_object["anomalies"]
+        if series_data is None:
+            series_data = self.series
+        if anomalies is None:
+            anomalies = self.anomalies
+        if a_args is None:
+            a_args = self.adtk_args
 
         visualization.plot(
             series_data,
             anomaly=anomalies,
-            ts_linewidth=1,
-            ts_markersize=3,
-            anomaly_markersize=5,
-            anomaly_color="red",
-            anomaly_tag="marker",
-            curve_group="all",
+            ts_linewidth=a_args["ts_linewidth"],
+            ts_markersize=a_args["ts_markersize"],
+            anomaly_markersize=a_args["anomaly_markersize"],
+            anomaly_color=a_args["anomaly_color"],
+            anomaly_tag=a_args["anomaly_tag"],
+            curve_group=a_args["curve_group"],
+            figsize=a_args["figsize"],
         )
 
         plt.show()

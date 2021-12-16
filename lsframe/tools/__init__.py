@@ -1,1 +1,1 @@
-from . import seaborn, anomalies, timeseries, scikit, utest, utest2
+from . import seaborn, anomalies, timeseries, scikit, scikit_models

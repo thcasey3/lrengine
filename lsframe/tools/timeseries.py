@@ -1,150 +1,252 @@
-"""
-statsmodels module, for using statsmodels with lsobject.frame
-"""
 from statsmodels import api, tsa
 import pandas as pd
 import matplotlib.pyplot as plt
 
+from . import utilities
+
 
 class statsmodels:
-    """
-    class for using statsmodels with lsobject.frame
-
-    Args:
-        series (list): columns from frame to include in series
-        exog (list): columns from frame to include in exog
-    Returns:
-         (object):  statsmodels_object
-    """
-
     def __init__(
         self,
-        formula=None,
         df=None,
+        formula=None,
         time=None,
-        freq=None,
-        endog=None,
+        group=False,
+        resample=False,
+        time_range=None,
         exog=None,
-        model="AutoReg",
+        endog=None,
+        freq="infer",
         stats_params={},
-        plot=True,
     ):
 
-        if isinstance(time, str) and isinstance(df, pd.DataFrame):
-            if not df[time].dtype == "datetime64[ns]":
-                try:
-                    df[time] = pd.to_datetime(
-                        df[time], infer_datetime_format=True, errors="coerce"
-                    )
-                except:
-                    pass
-            df.set_index(time, inplace=True)
-            if freq is None:
-                df.index = pd.DatetimeIndex(df.index, freq="infer")
-            else:
-                df.index = pd.DatetimeIndex(df.index, freq=freq)
-            df.dropna(inplace=True)
-        else:
-            raise ValueError("you must specify the time column using time")
-
-        if endog and not exog:
+        if formula:
             if isinstance(endog, str):
                 endog = [endog]
-            exog = list(set(df.columns) - set(endog))
-        elif not endog and not exog:
-            raise ValueError("need to give at least the endog column")
+            if isinstance(exog, str):
+                exog = [exog]
+            df = df[list(set(endog) + set(exog))]
+        else:
+            df = df[[time, endog]]
 
-        self.statsmodels_object = {}
-        self.statsmodels_object["model"] = model
-        self.statsmodels_object["endog"] = endog
-        self.statsmodels_object["exog"] = exog
-        self.statsmodels_object["df"] = df
+            if df[time].dtype != "datetime64[ns]":
+                df[time] = pd.to_datetime(
+                    df[time], infer_datetime_format=True
+                ).sort_values(ascending=True)
+
+            if time_range:
+                df = utilities.time_filter(df, time, (time_range[0], time_range[1]))
+            if group:
+                df, group_indx = utilities.group(df, endog, time, kind=group)
+            if resample:
+                new_df, df_indx = utilities.datetime_index(df, time, freq="infer")
+                df, resamp_indx = utilities.resample(
+                    new_df, endog, time, freq, kind=resample
+                )
+
+            try:
+                new_df, df_indx = utilities.datetime_index(df, time, freq=freq)
+                if not df_indx.freq:
+                    try:
+                        df, resamp_indx = utilities.resample(
+                            new_df, endog, time, freq, kind=resample
+                        )
+                        df, df_indx = utilities.datetime_index(df, time, freq=freq)
+                    except:
+                        pass
+                    if not df_indx.freq:
+                        print("not able to assign freq to DatetimeIndex")
+                else:
+                    df = new_df.copy()
+            except:
+                df, df_indx = utilities.datetime_index(df, time, freq="infer")
+                if not df_indx.freq:
+                    print("not able to assign freq to DatetimeIndex")
+
+            df.drop(time, axis=1, inplace=True)
+
+        self.df = df.copy()
 
         s_params = {
-            "order": (0, 0, 0),
-            "forecast_steps": 1,
+            "order": (3, 2, 1),
             "lags": 3,
-            "exog": df[exog].iloc[0],
-            "exog_oos": df[exog].iloc[0],
+            "exog": None,
+            "exog_oos": None,
+            "model": "additive",
+            "filt": None,
+            "period": None,
+            "two_sided": True,
+            "extrapolate_trend": 0,
+            "model_kwargs": None,
+            "seasonal": 7,
+            "trend": None,
+            "low_pass": None,
+            "seasonal_deg": 1,
+            "trend_deg": 1,
+            "low_pass_deg": 1,
+            "robust": False,
+            "seasonal_jump": 1,
+            "trend_jump": 1,
+            "low_pass_jump": 1,
+            "steps": 1,
         }
         s_params.update(stats_params)
-        self.statsmodels_object["statsmodels_params"] = s_params
+        self.statsmodels_params = s_params
 
         if formula is not None:
-            self.statsmodels_object["formula"] = formula
-            self._stats_timeseries(formula, df, endog, exog, model, s_params, plot)
+            if formula == "build":
+                formula = self.build_formula(endog[0], exog)
+            self.formula = formula
+
+    def fit_formula(self, model="AutoReg", plot=False):
+
+        self._stats_timeseries_formula(
+            self.df, self.formula, model, self.statsmodels_params, plot
+        )
+
+    def fit(self, model="ARIMA", target="data", plot=False, s_params={}):
+
+        if hasattr(self, "statsmodels_params"):
+            self.statsmodels_params.update(s_params)
         else:
-            self._stats_timeseries(df, endog, exog, model, s_params, plot)
+            self.statsmodels_params = s_params
 
-    def _stats_timeseries(self, df, endog, exog, model, s_params, plot):
+        self.seasonal_decomposition = self.make_seasonal_decomp(
+            self.df, self.statsmodels_params
+        )
+        self._stats_timeseries(self.df, model, target, self.statsmodels_params, plot)
 
-        if model == "AutoReg":
-            smod = tsa.ar_model.AutoReg(df[endog], s_params["lags"], exog=df[exog])
+    def forecast(
+        self, target="data", type="STLForecast", model="ARIMA", s_params={}, plot=False
+    ):
 
-        elif model == "SARIMAX":
-            smod = api.tsa.statespace.SARIMAX(
-                df[endog], df[exog], order=s_params["order"]
+        if hasattr(self, "statsmodels_params"):
+            self.statsmodels_params.update(s_params)
+        else:
+            self.statsmodels_params = s_params
+
+        self.seasonal_decomposition = self.make_seasonal_decomp(
+            self.df, self.statsmodels_params
+        )
+        if target == "seasonal":
+            df = self.seasonal_decomposition.seasonal
+        elif target == "trend":
+            df = self.seasonal_decomposition.trend
+        elif target == "resid":
+            df = self.seasonal_decomposition.resid
+        else:
+            df = self.df
+
+        if type == "predict":
+            if hasattr(self, "fit"):
+                self.forecast = self.fit.forecast(
+                    steps=self.statsmodels_params["steps"]
+                )
+
+        elif type == "STLForecast":
+            if model == "ARIMA":
+                mod = tsa.arima.model.ARIMA
+
+            fcast = tsa.api.STLForecast(
+                df,
+                mod,
+                model_kwargs=self.statsmodels_params["model_kwargs"],
+                period=self.statsmodels_params["period"],
+                seasonal=self.statsmodels_params["seasonal"],
+                trend=self.statsmodels_params["trend"],
+                low_pass=self.statsmodels_params["low_pass"],
+                seasonal_deg=self.statsmodels_params["seasonal_deg"],
+                trend_deg=self.statsmodels_params["trend_deg"],
+                low_pass_deg=self.statsmodels_params["low_pass_deg"],
+                robust=self.statsmodels_params["robust"],
+                seasonal_jump=self.statsmodels_params["seasonal_jump"],
+                trend_jump=self.statsmodels_params["trend_jump"],
+                low_pass_jump=self.statsmodels_params["low_pass_jump"],
             )
 
-        elif model == "ARIMA":
-            smod = tsa.arima.model.ARIMA(df[endog], df[exog], order=s_params["order"])
+            self.forecast_fit = fcast.fit()
+            self.forecast = self.forecast_fit.forecast(
+                steps=self.statsmodels_params["steps"]
+            )
 
-        # elif model == "ThetaModel":
-        #     smod = tsa.forecasting.theta.ThetaModel(data)
+            if plot:
+                plt.plot(df, color="g", label="Data")
+                plt.plot(self.forecast, color="r", label="Forecast")
+                plt.legend()
+                plt.show()
+
+    @staticmethod
+    def make_seasonal_decomp(df, s_params):
+
+        return tsa.seasonal.seasonal_decompose(
+            df,
+            model=s_params["model"],
+            filt=s_params["filt"],
+            period=s_params["period"],
+            two_sided=s_params["two_sided"],
+            extrapolate_trend=s_params["extrapolate_trend"],
+        )
+
+    @staticmethod
+    def build_formula(endog, exog):
+        return "".join([endog, " ~ ", " ".join([f"{x} +" for x in exog]).strip(" +")])
+
+    def _stats_timeseries_formula(self, df, formula, model, s_params, plot):
+
+        if model == "AutoReg":
+            smod = tsa.ar_model.AutoReg.from_formula(formula=formula, data=df)
+
+        elif model == "ARIMA":
+            smod = tsa.arima_model.ARIMA.from_formula(formula=formula, data=df)
 
         self._fit_predict(smod, s_params, plot)
 
-    def _stats_timeseries_formula(
-        self, formula, data, endog, exog, model, s_params, plot
-    ):
-        pass
+    def _stats_timeseries(self, df, model, target, s_params, plot):
+
+        if target == "seasonal":
+            df = self.seasonal_decomposition.seasonal
+        elif target == "trend":
+            df = self.seasonal_decomposition.trend
+        elif target == "resid":
+            df = self.seasonal_decomposition.resid
+
+        if model == "AutoReg":
+            smod = tsa.ar_model.AutoReg(df, s_params["lags"])
+
+        elif model == "SARIMAX":
+            smod = api.tsa.statespace.SARIMAX(df, order=s_params["order"])
+
+        elif model == "ARIMA":
+            smod = tsa.arima.model.ARIMA(df, order=s_params["order"])
+
+        self._fit_predict(smod, s_params, plot)
 
     def _fit_predict(self, smod, s_params, plot):
 
-        self.statsmodels_object["fit"] = smod.fit()
-        self.statsmodels_object["summary"] = self.statsmodels_object["fit"].summary()
-        if s_params["exog_oos"] is not None:
-            self.statsmodels_object["prediction"] = self.statsmodels_object[
-                "fit"
-            ].predict(exog_oos=s_params["exog_oos"])
-        if s_params["exog"] is not None:
-            self.statsmodels_object["forecast"] = self.statsmodels_object[
-                "fit"
-            ].forecast(steps=s_params["forecast_steps"], exog=s_params["exog"])
+        self.fit = smod.fit()
+        self.predict = self.fit.predict()
+        self.summary = self.fit.summary()
 
         if plot:
             self.plot()
 
-    def plot(self, x=None, y=None, label=None):
+    def plot(self, df=None, label=None):
 
-        if x is None and y is None:
-            plt.plot(
-                self.statsmodels_object["df"].index,
-                self.statsmodels_object["df"][self.statsmodels_object["endog"]],
-                label="series",
-                color="b",
-            )
-            if "prediction" in self.statsmodels_object.keys():
-                plt.plot(
-                    self.statsmodels_object["prediction"].index,
-                    self.statsmodels_object["prediction"].values,
-                    label="prediction",
-                    color="r",
-                )
-            if "forecast" in self.statsmodels_object.keys():
-                plt.plot(
-                    self.statsmodels_object["forecast"].index,
-                    self.statsmodels_object["forecast"].values,
-                    label="forecast",
-                    marker="x",
-                    color="g",
-                )
+        plt.figure(figsize=(10, 6))
+        if df is None:
+            plt.plot(self.df, label="Data")
+            plt.plot(self.predict, label="Prediction")
         else:
-            if isinstance(y, dict):
-                for key, val in y.items():
-                    plt.plot(val.index, val.values, label=key)
+            if isinstance(df, (list, tuple)):
+                for ind, x in enumerate(df):
+                    plt.plot(x, label=label[ind])
             else:
-                plt.plot(x, y, label=label)
-
+                plt.plot(df, label=label)
         plt.legend()
         plt.show()
+
+        if hasattr(self, "seasonal_decomposition"):
+            plt.rc("figure", figsize=(10, 6))
+            plt.rc("font", size=12)
+            self.seasonal_decomposition.plot()
+            plt.show()
