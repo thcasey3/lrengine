@@ -1,3 +1,6 @@
+"""
+timeseries module, for calling statsmodels
+"""
 from statsmodels import api, tsa, stats, graphics
 from scipy.optimize import brute
 import pandas as pd
@@ -8,6 +11,21 @@ from . import config, utilities
 
 
 class statsmodels:
+    """
+    Creates object for calling statsmodels (https://www.statsmodels.org/stable/index.html)
+
+    Args:
+        df (pd.DataFrame):  DataFrame of data to analyze
+        forecast_df (pd.DataFrame), optional: DataFrame of exogenous variables used to forecast out-of-sample
+        time (str or list-like): frame column name for the time index
+        endog (stror list-like): frame column name for the endogenous variable
+        exog (str), optional: frame column name for the exogenous variable(s)
+        update_config (dict), optional: {'arg': value} to change from the defaults for the model given to forecast
+
+    Returns:
+        Instantiates statsmodels object
+    """
+
     def __init__(
         self,
         df=None,
@@ -42,6 +60,20 @@ class statsmodels:
         survey=False,
         plots=False,
     ):
+        """
+        Calls statsmodels
+
+        Args:
+            select (dict), optional: {'column': list(values)} to subset and analyze individually from the frame, default is 'all'
+            model (str), optional: 'ARIMA' is default, 'SARIMAX' is the only other option
+            steps (int), optional: forecast steps
+            append_object (bool), optional: True means collect selections or False means purge them when select is used
+            survey (dict), optional: {'select': {'column': list(values)}, 'survey parameter': list(value range)}, survey['select'] can be 'all' to use entire frame
+            plot (bool), optional: True means raise plot after analysis
+
+        Returns:
+            Populates statsmodels object with results
+        """
 
         self.scores_dict = {"subject": [], "score": [], "method": []}
 

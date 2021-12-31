@@ -37,7 +37,7 @@ TIMESERIES_PARAMS = {
     "target": "log",
     "order": (1, 1, 1),
     "opt_order": True,
-    "pdq_limits": ((0, 2), (0, 2), (0, 2)),
+    "pdq_limits": ((0, 3), (0, 2), (0, 3)),
     "seasonal_order": (0, 0, 0, 0),
     "opt_seasonal_order": False,
     "PDQs_limits": ((0, 1), (0, 1), (0, 1), (2, 52)),
@@ -67,7 +67,6 @@ TIMESERIES_PARAMS = {
 }
 
 LEARNING_PARAMS = {
-    "model_selection": "regress",
     "Xcolumns": [],
     "ycolumn": [],
     "split_column": {},
@@ -87,7 +86,6 @@ LEARNING_PARAMS = {
 }
 
 REGRESSING_PARAMS = {
-    "method": ["RandomForest"],
     "encode_y": False,
     "loss_a": "square",
     "loss_g": "squared_error",
@@ -160,7 +158,6 @@ REGRESSING_PARAMS = {
 }
 
 CLASSIFYING_PARAMS = {
-    "method": ["RandomForest"],
     "encode_y": True,
     "loss_a": "square",
     "loss_g": "deviance",
@@ -207,7 +204,6 @@ CLASSIFYING_PARAMS = {
 }
 
 CLUSTERING_PARAMS = {
-    "method": ["Kmeans"],
     "encode_y": False,
     "eigen_solver": None,
     "n_clusters": 8,
@@ -267,7 +263,6 @@ CLUSTERING_PARAMS = {
 }
 
 SEMI_SUPERVISED_PARAMS = {
-    "method": ["LabelPropagation"],
     "base_estimator": None,
     "threshold": 0.75,
     "criterion": "threshold",

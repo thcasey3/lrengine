@@ -1,3 +1,6 @@
+"""
+anomalies module, for calling adtk
+"""
 from adtk import data, transformer, detector, pipe, visualization
 from sklearn.covariance import EllipticEnvelope
 from sklearn.cluster import KMeans
@@ -9,6 +12,19 @@ from . import config, utilities
 
 
 class adtk:
+    """
+    Creates object for calling adtk (https://adtk.readthedocs.io/en/stable/index.html)
+
+    Args:
+        df (pd.DataFrame): DataFrame with data to analyze
+        time (str or list-like): df column name or time index for series
+        series (stror list-like): df column name or series to analyze
+        update_config (dict), optional: {'arg': value} to change from the defaults for the method given to detect
+
+    Returns:
+        Instantiates adtk object
+    """
+
     def __init__(
         self,
         df=None,
@@ -57,7 +73,18 @@ class adtk:
         survey=False,
         plot=True,
     ):
+        """
+        Calls adtk detector
 
+        Args:
+            select (dict), optional: {'column': list(values)} to subset and analyze individually from the frame, default is 'all'
+            append_object (bool), optional: True means collect selections or False means purge them when select is used
+            survey (dict), optional: {'select': {'column': list(values)}, 'survey parameter': list(value range)}, survey['select'] can be 'all' to use entire frame
+            plot (bool), optional: True means raise plot after analysis
+
+        Returns:
+            Populates adtk object with results
+        """
         if survey:
             survey_par = [x for x in list(survey.keys()) if x != "select"][0]
             if survey["select"] == "all":

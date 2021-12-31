@@ -1,3 +1,6 @@
+"""
+mlearn module, for calling scikit-learn
+"""
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -7,24 +10,34 @@ from . import config, utilities, scikit_models
 
 
 class scikit:
-    def __init__(self, df, update_config=False):
+    """
+    Create scikit object (https://scikit-learn.org/stable/index.html)
 
-        if "model_selection" in update_config.keys():
-            model_select = update_config["model_selection"]
-        else:
-            model_select = config.LEARNING_PARAMS["model_selection"]
+    Args:
+        df (pd.DataFrame): DataFrame with data to analyze
+        method (str), optional: 'regress', 'classify', 'cluster', 'semi_supervised'
+        model (str or list), optional: model used to learn default is 'RandomForest'
+        update_config (dict), optional: {'arg': value} to change from the defaults for the chosen model
 
-        if model_select == "classify":
+    Returns:
+        Instantiates scikit object
+    """
+
+    def __init__(self, df, method="regress", model="RandomForest", update_config=False):
+
+        if method == "classify":
             self.scikit_params = {**config.LEARNING_PARAMS, **config.CLASSIFYING_PARAMS}
-        elif model_select == "regress":
+        elif method == "regress":
             self.scikit_params = {**config.LEARNING_PARAMS, **config.REGRESSING_PARAMS}
-        elif model_select == "cluster":
+        elif method == "cluster":
             self.scikit_params = {**config.LEARNING_PARAMS, **config.CLUSTERING_PARAMS}
-        elif model_select == "semi_supervised":
+        elif method == "semi_supervised":
             self.scikit_params = {
                 **config.LEARNING_PARAMS,
                 **config.SEMI_SUPERVISED_PARAMS,
             }
+
+        self.scikit_params.update({"model": model, "method": method})
 
         if update_config:
             self.scikit_params.update(update_config)
@@ -32,8 +45,19 @@ class scikit:
         self.df = df
 
     def learn(self, select="all", append_object=False, survey=False, plots=False):
+        """
+        Calls scikit-learn
 
-        self.scores_dict = {"subject": [], "score": [], "method": []}
+        Args:
+            select (dict), optional: {'column': list(values)} to subset and analyze individually from the frame, default is 'all'
+            append_object (bool), optional: True means collect selections or False means purge them when select is used
+            survey (dict), optional: {'select': {'column': list(values)}, 'survey parameter': list(value range)}, survey['select'] can be 'all' to use entire frame
+            plot (bool), optional: True means raise plot after analysis
+
+        Returns:
+            Populates scikit object with results
+        """
+        self.scores_dict = {"subject": [], "score": [], "model": []}
 
         if survey:
             survey_par = [x for x in list(survey.keys()) if x != "select"][0]
@@ -190,7 +214,7 @@ class scikit:
 
     def train(self, select=False):
 
-        method, _ = self.pre_qualify_lists(self.scikit_params["method"], [])
+        model, _ = self.pre_qualify_lists(self.scikit_params["model"], [])
         if all(map(list(self.scikit_object[select].keys()).__contains__, ["X", "y"])):
             if len(self.scikit_object[select]["X"]) > 10:
                 (
@@ -211,7 +235,7 @@ class scikit:
                 self.scikit_object[select]["X_train"] = self.scikit_object[select]["X"]
                 self.scikit_object[select]["y_train"] = self.scikit_object[select]["y"]
 
-            for meth in method:
+            for meth in model:
                 if isinstance(meth, dict):
                     for key in meth.keys():
                         self.scikit_object[select][key] = {}
@@ -229,38 +253,38 @@ class scikit:
                         meth,
                     )
 
-    def scikit_fit(self, X_train, y_train, method, base_estimator=False):
+    def scikit_fit(self, X_train, y_train, model, base_estimator=False):
 
-        if self.scikit_params["model_selection"] == "regress":
+        if self.scikit_params["method"] == "regress":
             return scikit_models.regression_methods.scikit_regression(
                 X_train,
                 y_train,
-                method,
+                model,
                 self.scikit_params,
                 base_estimator=base_estimator,
             )
-        elif self.scikit_params["model_selection"] == "classify":
+        elif self.scikit_params["method"] == "classify":
             return scikit_models.classification_methods.scikit_classification(
                 X_train,
                 y_train,
-                method,
+                model,
                 self.scikit_params,
                 base_estimator=base_estimator,
             )
-        elif self.scikit_params["model_selection"] == "cluster":
+        elif self.scikit_params["method"] == "cluster":
             return scikit_models.clustering_methods.scikit_clustering(
-                X_train, y_train, method, self.scikit_params
+                X_train, y_train, model, self.scikit_params
             )
 
-        elif self.scikit_params["model_selection"] == "semi_supervised":
+        elif self.scikit_params["method"] == "semi_supervised":
             return scikit_models.semi_supervised_methods.scikit_semi_supervised(
-                X_train, y_train, method, self.scikit_params
+                X_train, y_train, model, self.scikit_params
             )
 
     def predict_score(self, select=False):
 
-        method, metric = self.pre_qualify_lists(
-            self.scikit_params["method"], self.scikit_params["metric"]
+        model, metric = self.pre_qualify_lists(
+            self.scikit_params["model"], self.scikit_params["metric"]
         )
 
         self.scikit_object[select]["scores"] = {}
@@ -271,7 +295,7 @@ class scikit:
                 ["X_test", "y_test"],
             )
         ):
-            for meth in method:
+            for meth in model:
                 if isinstance(meth, dict):
                     for key in meth.keys():
                         self.scikit_object[select]["scores"][key] = {}
@@ -324,7 +348,7 @@ class scikit:
                                 self.scores_dict["score"].append(
                                     self.scikit_object[select]["scores"][key][val][metr]
                                 )
-                                self.scores_dict["method"].append(
+                                self.scores_dict["model"].append(
                                     "_".join([key, val, metr])
                                 )
                                 print(
@@ -385,7 +409,7 @@ class scikit:
                         self.scores_dict["score"].append(
                             self.scikit_object[select]["scores"][meth][metr]
                         )
-                        self.scores_dict["method"].append("_".join([meth, metr]))
+                        self.scores_dict["model"].append("_".join([meth, metr]))
                         print(
                             f"{select} score: "
                             + str(self.scikit_object[select]["scores"][meth][metr])
@@ -431,11 +455,11 @@ class scikit:
 
     def plots(self, select):
 
-        method, _ = self.pre_qualify_lists(self.scikit_params["method"], [])
+        model, _ = self.pre_qualify_lists(self.scikit_params["model"], [])
         if self.scikit_object[select]["predictions"] and all(
             [x in self.scikit_object[select].keys() for x in ["y_test", "y_train"]]
         ):
-            for meth in method:
+            for meth in model:
                 if isinstance(meth, dict):
                     for key in meth.keys():
                         if key in self.scikit_object[select]["predictions"].keys():
@@ -555,33 +579,31 @@ class scikit:
         return train_df.drop_duplicates(), predict_df.drop_duplicates()
 
     @staticmethod
-    def pre_qualify_lists(method, metric):
+    def pre_qualify_lists(model, metric):
 
-        if not isinstance(method, list):
-            method = [method]
+        if not isinstance(model, list):
+            model = [model]
 
-        for indx, meth in enumerate(method):
+        for indx, meth in enumerate(model):
             if isinstance(meth, dict):
                 for key in meth.keys():
                     if not isinstance(meth[key], list):
-                        method[indx][key] = [meth[key]]
+                        model[indx][key] = [meth[key]]
 
         if not isinstance(metric, list):
             metric = [metric]
 
-        return method, metric
+        return model, metric
 
     def scores_to_df(self, save=False):
 
         self.scores_df = utilities.scores_dict_to_df(self.scores_dict)
 
-        self.scores_df["metric"] = [
-            x.split("_")[-1] for x in self.scores_dict["method"]
-        ]
+        self.scores_df["metric"] = [x.split("_")[-1] for x in self.scores_dict["model"]]
 
         method_lst = []
         base_est_lst = []
-        for x in self.scores_dict["method"]:
+        for x in self.scores_dict["model"]:
             splt = x.split("_")
             method_lst.append(splt[0])
             if len(splt) > 2:
@@ -589,7 +611,7 @@ class scikit:
             else:
                 base_est_lst.append("")
 
-        self.scores_df["method"] = method_lst
+        self.scores_df["model"] = method_lst
         self.scores_df["base_estimator"] = base_est_lst
 
         self.scores_df.sort_values(by="subject", ascending=False, inplace=True)

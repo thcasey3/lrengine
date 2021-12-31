@@ -1,17 +1,17 @@
 """
-sea_born module, for making a relplot with seaborn
+seaborn module, for making a relplot with seaborn
 """
 import seaborn as sns
 
 
 class sea:
     """
-    class for interacting with seaborn
+    Calls seaborn relplot (https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot)
 
     Args:
-        df (DataFrame): "frame" from start object
-        kind (str): type of plot (currently only relplot is allowed)
-        seaborn_args (dict): dict keys are the seaborn.relplot arguments and their allowed values are according to seaborn documentation for relplot
+        df (pd.DataFrame): df with data to visualize
+        kind (str): type of plot (currently only relplot is supported)
+        seaborn_args (dict): {'arg': value} for updating seaborn.relplot arguments from default
     Returns:
         seaborn relplot
     """
@@ -19,14 +19,13 @@ class sea:
     def __init__(self, df=None, kind="relplot", seaborn_args={}):
 
         if kind == "relplot":
-            self.plt_relplot(df=df, kind=kind, seaborn_args=seaborn_args)
+            self.plt_relplot(df=df, seaborn_args=seaborn_args)
         else:
             raise ValueError("only relplot is currently supported")
 
     def plt_relplot(
         self,
         df,
-        kind,
         seaborn_args,
     ):
         sea_args = {

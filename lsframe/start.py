@@ -103,10 +103,157 @@ class start:
         return lsdata
 
     def adtk(
-        self, time="", series="", method="OutlierDetector", adtk_args={}, plot=True
+        self,
+        time=None,
+        series=None,
+        method="OutlierDetector",
+        adtk_args={},
+        select="all",
+        append_object=True,
+        survey=False,
+        plot=True,
     ):
+        """
+        Use adtk to detect anomalies in frame (https://adtk.readthedocs.io/en/stable/index.html)
 
-        pass
+        Args:
+            time (str or list-like): frame column name or time index for series
+            series (stror list-like): frame column name or series to analyze
+            method (str), optional: see adtk docs for available Detectors, enter Detector function name as str
+            adtk_args (dict), optional: {'arg': value} to change from the defaults for the given method
+            select (dict), optional: {'column': list(values)} to subset and analyze individually from the frame, default is 'all'
+            append_object (bool), optional: True means collect selections or False means purge them when select is used
+            survey (dict), optional: {'select': {'column': list(values)}, 'survey parameter': list(value range)}, survey['select'] can be 'all' to use entire frame
+            plot (bool), optional: True means raise plot after analysis
+
+        Returns:
+            Adds adtk_object to the start object
+        """
+        if time is None or series is None:
+            raise KeyError(
+                "you must at least give values for the arguments time and series. see documentation"
+            )
+        else:
+            self.adtk_object = tools.utilities.anomalies(
+                df=self.frame, time=time, series=series, update_config=adtk_args
+            )
+            self.adtk_object.detect(
+                select=select,
+                append_object=append_object,
+                method=method,
+                survey=survey,
+                plot=plot,
+            )
+
+    def statsmodels(
+        self,
+        forecast_df=None,
+        time=None,
+        endog=None,
+        exog=None,
+        statsmodels_args={},
+        select="all",
+        model="ARIMA",
+        steps=3,
+        append_object=True,
+        survey=False,
+        plots=False,
+    ):
+        """
+        Use statsmodels to analyze a given series from frame as a timeseries (https://www.statsmodels.org/stable/index.html)
+
+        Args:
+            forecast_df (pd.DataFrame), optional: DataFrame of exogenous variables used to forecast out-of-sample
+            time (str or list-like): frame column name for the time index
+            endog (stror list-like): frame column name for the endogenous variable
+            exog (str), optional: frame column name for the exogenous variable(s)
+            statsmodels_args (dict), optional: {'arg': value} to change from the defaults for the given model
+            select (dict), optional: {'column': list(values)} to subset and analyze individually from the frame, default is 'all'
+            model (str), optional: 'ARIMA' is default, 'SARIMAX' is the only other option
+            steps (int), optional: forecast steps
+            append_object (bool), optional: True means collect selections or False means purge them when select is used
+            survey (dict), optional: {'select': {'column': list(values)}, 'survey parameter': list(value range)}, survey['select'] can be 'all' to use entire frame
+            plot (bool), optional: True means raise plot after analysis
+
+        Returns:
+            Adds statsmodels_object to the start object
+        """
+        if time is None or endog is None:
+            raise KeyError(
+                "you must at least give values for the arguments time and endog. see documentation"
+            )
+        else:
+            self.statsmodels_object = tools.timeseries.statsmodels(
+                df=self.frame,
+                forecast_df=forecast_df,
+                time=time,
+                endog=endog,
+                exog=exog,
+                update_config=statsmodels_args,
+            )
+            self.statsmodels_object.forecast(
+                select=select,
+                model=model,
+                steps=steps,
+                append_object=append_object,
+                survey=survey,
+                plots=plots,
+            )
+
+    def scikit(
+        self,
+        method="regress",
+        model="RandomForest",
+        scikit_args={},
+        select="all",
+        append_object=True,
+        survey=False,
+        plots=False,
+    ):
+        """
+        Use scikit-learn to perform machine learning using frame (https://scikit-learn.org/stable/index.html)
+
+        Args:
+            method (str), optional: 'regress', 'classify', 'cluster', 'semi_supervised'
+            model (str or list), optional: model used to learn default is 'RandomForest'
+            scikit_args (dict), optional: {'arg': value} to change from the defaults for the method given in scikit_args
+            select (dict), optional: {'column': list(values)} to subset and analyze individually from the frame, default is 'all'
+            append_object (bool), optional: True means collect selections or False means purge them when select is used
+            survey (dict), optional: {'select': {'column': list(values)}, 'survey parameter': list(value range)}, survey['select'] can be 'all' to use entire frame
+            plot (bool), optional: True means raise plot after analysis
+
+        Returns:
+            Adds scikit_object to the start object
+        """
+        if not all(map(scikit_args.keys().__contains__, ["Xcolumns", "ycolumn"])):
+            raise KeyError(
+                "you must specify at least 'Xcolumns' and 'ycolumn' in your scikit_args dictionary. see documentation"
+            )
+        else:
+            self.scikit_object = tools.mlearn.scikit(
+                df=self.frame, method=method, model=model, update_config=scikit_args
+            )
+            self.scikit_object.learn(
+                select=select, append_object=append_object, survey=survey, plots=plots
+            )
+
+    def seaborn(self, kind="relplot", seaborn_args={}):
+        """
+        Use seaborn relplot to visualize individual series of frame (https://seaborn.pydata.org/generated/seaborn.relplot.html#seaborn.relplot)
+
+        Args:
+            seaborn_args (dict): {'arg': value} for seaborn.relplot, 'y', 'x', and 'hue' are required.
+        Returns:
+            raises seaborn relplot
+        """
+        if not all(map(seaborn_args.keys().__contains__, ["x", "y"])):
+            raise KeyError(
+                "you must specify at least 'x', 'y', and 'hue' in your seaborn_args dictionary. see documentation"
+            )
+        else:
+            return tools.seaborn.sea(
+                df=self.frame, kind=kind, seaborn_args=seaborn_args
+            )
 
     def drive(self, classifiers=None, function=None, function_args=None):
 
@@ -273,17 +420,6 @@ class start:
         else:
             raise TypeError(
                 "You must map_directory() first in order to use the map_to_frame() method"
-            )
-
-    def sea(self, kind="relplot", seaborn_args={}):
-
-        if not all(map(seaborn_args.keys().__contains__, ["x", "y"])):
-            raise KeyError(
-                "you must specify at least 'x', 'y', and 'hue' in your options dictionary. see seaborn documentation"
-            )
-        else:
-            return tools.sea_born.sea(
-                df=self.frame, kind=kind, seaborn_args=seaborn_args
             )
 
     def save(self, filename=None, header=True):
