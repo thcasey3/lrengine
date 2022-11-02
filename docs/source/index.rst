@@ -26,6 +26,7 @@ Features
 * Find possible dates in arbitrarily formatted file and folder names 
 * Construct DataFrames from a function that processes files and folders
 * Visualize correlations between dates or language and function outputs
+* Use machine learning, time series analysis, and anomaly detection
 
 
 Guide
@@ -34,21 +35,15 @@ Guide
 .. toctree::
    :maxdepth: 1
 
-   install
    introduction
-   create
-   define_patterns
-   reduce_names
-   find_dates
-   reduce_dates
-   narrow_dates
-   drive
-   map_directory
-   map_to_frame
-   sea
-   save
-   classes
-   auto_examples/index
+   user_guide
+   examples
+   simple class
+   ls operations
+   sklearn interface
+   statsmodels interface
+   adtk interface
+   Using pipeline
    version_history
 
 

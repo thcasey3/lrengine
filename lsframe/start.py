@@ -1,5 +1,5 @@
 """
-start module, checks and packages the inputs and sends them to intake
+start module, creates the core object of lsframe
 """
 
 import os
@@ -102,6 +102,95 @@ class start:
 
         return lsdata
 
+    def pipeline(self, pipe):
+        """
+        Apply adtk, statsmodels, scikit, and custom functions sequentially to use the results across methods
+
+        Args:
+            pipe (list or tuple of list-like): See examples for
+
+        Returns:
+            Adds adtk_object and/or statsmodels_object and/or scikit_object to the start object
+        """
+        if not isinstance(pipe, (list, tuple)):
+            raise TypeError(
+                "you must give a list or tuple of lists(s) or tuple(s), e.g. [('adtk', {'time': column1, 'series': column2}), etc.]"
+            )
+        adtk_inputs = {
+            "time": None,
+            "series": None,
+            "method": "OutlierDetector",
+            "adtk_args": {},
+            "select": "all",
+            "append_object": True,
+            "survey": False,
+            "plot": False,
+        }
+        stats_inputs = {
+            "forecast_df": None,
+            "time": None,
+            "endog": None,
+            "exog": None,
+            "statsmodels_args": {},
+            "model": "ARIMA",
+            "steps": 3,
+            "select": "all",
+            "append_object": True,
+            "survey": False,
+            "plot": False,
+        }
+        scikit_inputs = {
+            "method": "regress",
+            "model": "RandomForest",
+            "scikit_args": {},
+            "select": "all",
+            "append_object": True,
+            "survey": False,
+            "plot": False,
+        }
+
+        for items in pipe:
+            if items[0] == "adtk":
+                adtk_inputs.update(items[1])
+                self.adtk(
+                    time=adtk_inputs["time"],
+                    series=adtk_inputs["series"],
+                    method=adtk_inputs["series"],
+                    adtk_args=adtk_inputs["adtk_args"],
+                    select=adtk_inputs["select"],
+                    append_object=adtk_inputs["append_object"],
+                    survey=adtk_inputs["survey"],
+                    plot=adtk_inputs["plot"],
+                )
+            if items[0] == "statsmodels":
+                stats_inputs.update(items[1])
+                self.statsmodels(
+                    forecast_df=stats_inputs["forecast_df"],
+                    time=stats_inputs["time"],
+                    endog=stats_inputs["endog"],
+                    exog=stats_inputs["exog"],
+                    statsmodels_args=stats_inputs["statsmodels_args"],
+                    model=stats_inputs["model"],
+                    steps=stats_inputs["steps"],
+                    select=stats_inputs["select"],
+                    append_object=stats_inputs["append_object"],
+                    survey=stats_inputs["survey"],
+                    plot=stats_inputs["plot"],
+                )
+            if items[0] == "scikit":
+                scikit_inputs.update(items[1])
+                self.scikit(
+                    method=scikit_inputs["method"],
+                    model=scikit_inputs["model"],
+                    scikit_args=scikit_inputs["scikit_args"],
+                    select=scikit_inputs["select"],
+                    append_object=scikit_inputs["append_object"],
+                    survey=scikit_inputs["survey"],
+                    plot=scikit_inputs["plot"],
+                )
+            if items[0] == "function":
+                self.frame = items[1](items[2])
+
     def adtk(
         self,
         time=None,
@@ -152,12 +241,12 @@ class start:
         endog=None,
         exog=None,
         statsmodels_args={},
-        select="all",
         model="ARIMA",
         steps=3,
+        select="all",
         append_object=True,
         survey=False,
-        plots=False,
+        plots=True,
     ):
         """
         Use statsmodels to analyze a given series from frame as a timeseries (https://www.statsmodels.org/stable/index.html)
@@ -208,7 +297,7 @@ class start:
         select="all",
         append_object=True,
         survey=False,
-        plots=False,
+        plots=True,
     ):
         """
         Use scikit-learn to perform machine learning using frame (https://scikit-learn.org/stable/index.html)
